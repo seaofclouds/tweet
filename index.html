@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Tweet! Put Twitter on your site with jQuery widget</title>
+    <link href="stylesheets/application.css" media="all" rel="stylesheet" type="text/css"/><link href="stylesheets/jquery.tweet.css" media="all" rel="stylesheet" type="text/css"/>
+    <script language="javascript" src="javascripts/jquery.js" type="text/javascript"></script><script language="javascript" src="javascripts/jquery.tweet.js" type="text/javascript"></script>
+    <script type='text/javascript'>
+      $(document).ready(function(){
+        $(".tweet").tweet({
+          join_text: " we were ",
+          count: 5,
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <div class='container'>
+      <h1>tweet!</h1>
+      <h2>put <a href="http://twitter.com">Twitter</a> on your website with <em>tweet!</em>, an unobtrusive javascript plugin for jquery.</h2>
+      <h3>Demo</h3>
+      <div class='tweet'></div>
+      <h3>Download</h3>
+      <ul>
+        <li><a href="http://github.com/seaofclouds/pop/tarball/master">Tar</a></li>
+        <li><a href="http://github.com/seaofclouds/pop/tree/master%2Fjavascripts%2Fjquery.pop.js?raw=true">Source</a></li>
+      </ul>
+      <h3>Contribute</h3>
+      <p>Bring your code slinging skills to <a href="http://github.com/seaofclouds/tweet/">Github</a> and help us develop new features for tweet!</p>
+      <code>
+        git clone git@github.com:seaofclouds/tweet.git
+      </code>
+      <h3>Licensed under the MIT</h3>
+      <code>
+        <a href="http://www.opensource.org/licenses/mit-license.php">http://www.opensource.org/licenses/mit-license.php</a>
+      </code>
+      <p class='copyright'>something nifty from <a href="http://seaofclouds.com">seaofclouds</a> | &copy; 2008 seaofclouds</p>
+    </div>
+  </body>
+</html>

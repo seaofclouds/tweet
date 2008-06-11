@@ -1,0 +1,33 @@
+body {
+  background-color: #018A37;
+  color: #fff;
+  font-size: 11pt;
+  font-family: arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  text-align: center; }
+  body .container {
+    padding: 2em;
+    width: 32em;
+    margin: 0 auto;
+    text-align: left; }
+    body .container h1 {
+      font-size: 240%;
+      margin-bottom: -.5em; }
+    body .container h2, body .container h3, body .container p, body .container ul, body .container code {
+      margin-bottom: 1em; }
+    body .container code {
+      background-color: #0C5E1F;
+      font-size: 85%; }
+    body .container a {
+      color: #fff; }
+    body .container .copyright {
+      font-family: verdana, sans-serif;
+      font-size: 75%;
+      margin-top: 8em; }
+    body .container .menu {
+      margin-bottom: 2em;
+      margin-top: 2em; }
+      body .container .menu h3 {
+        display: inline;
+        margin-right: 3em; }

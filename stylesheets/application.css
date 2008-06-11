@@ -16,9 +16,10 @@ body {
       margin-bottom: -.5em; }
     body .container h2, body .container h3, body .container p, body .container ul, body .container code {
       margin-bottom: 1em; }
-    body .container code {
+    body .container code, body .container .code {
       background-color: #0C5E1F;
-      font-size: 85%; }
+      font-size: 85%;
+      font-family: courier, monospace; }
     body .container a {
       color: #fff; }
     body .container .copyright {

@@ -23,8 +23,30 @@
       <h3>Download</h3>
       <ul>
         <li><a href="http://github.com/seaofclouds/tweet/tarball/master">Tar</a></li>
-        <li><a href="http://github.com/seaofclouds/tweet/tree/master%2Fjavascripts%2Fjquery.pop.js?raw=true">Source</a></li>
+        <li><a href="http://github.com/seaofclouds/tweet/tree/master%2Fjavascripts%2Fjquery.tweet.js?raw=true">Source</a></li>
       </ul>
+      <h3>Usage</h3>
+      <p>Include jQuery and tweet in your <span class="code">&lt;head&gt;</span></p>
+      <code>
+        &lt;script language=&quot;javascript&quot; src=&quot;/tweet/javascripts/jquery.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;<br />
+        &lt;script language=&quot;javascript&quot; src=&quot;/tweet/javascripts/jquery.tweet.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+      </code>
+      <p>Initialize tweet! on page load with your Username and other options</p>
+      <code>
+        &lt;script type=&apos;text/javascript&apos;&gt;<br />
+        &nbsp; &nbsp; $(document).ready(function(){<br />
+        &nbsp; &nbsp; &nbsp; &nbsp; $(&quot;.tweet&quot;).tweet({<br />
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; username: &quot;seaofclouds&quot;,<br />
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; join_text: &quot; we were &quot;,<br />
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; count: 5,<br />
+        &nbsp; &nbsp; &nbsp; &nbsp; });<br />
+        &nbsp; &nbsp; });<br />
+        &lt;/script&gt;
+      </code>
+      <p>Include a placeholder for tweets to appear on your site</p>
+      <code>
+        &lt;div class=&quot;tweet&quot;&gt;&lt;/div&gt;
+      </code>
       <h3>Contribute</h3>
       <p>Bring your code slinging skills to <a href="http://github.com/seaofclouds/tweet/">Github</a> and help us develop new features for tweet!</p>
       <code>

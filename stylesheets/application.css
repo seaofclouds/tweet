@@ -1,6 +1,6 @@
 body {
-  background-color: #018A37;
-  color: #fff;
+  background-color: #8ADEE2;
+  color: #005D65;
   font-size: 11pt;
   font-family: arial, sans-serif;
   margin: 0;
@@ -16,12 +16,15 @@ body {
       margin-bottom: -.5em; }
     body .container h2, body .container h3, body .container p, body .container ul, body .container code {
       margin-bottom: 1em; }
+    body .container a {
+      color: #005D65; }
     body .container code, body .container .code {
-      background-color: #0C5E1F;
+      background-color: #008D99;
+      color: #fff;
       font-size: 85%;
       font-family: courier, monospace; }
-    body .container a {
-      color: #fff; }
+      body .container code a,       body .container .code a {
+        color: #fff; }
     body .container .copyright {
       font-family: verdana, sans-serif;
       font-size: 75%;

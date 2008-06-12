@@ -16,6 +16,8 @@ body {
       margin-bottom: -.5em; }
     body .container h2, body .container p, body .container ul, body .container code {
       margin-bottom: 1em; }
+    body .container h2 a {
+      color: #fff; }
     body .container h3 {
       font-size: 140%;
       margin-bottom: .4em; }

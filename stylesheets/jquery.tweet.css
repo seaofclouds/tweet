@@ -1,17 +1,15 @@
 .tweet {
   font-family: Georgia, serif;
   font-size: 120%;
-  color: #fff;
-  padding: 10px;
-  background-color: #fff; }
+  color: #085258; }
   .tweet .tweet_list {
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
     list-style-type: none;
     margin: 0;
-    padding: 0; }
+    padding: 0;
+    background-color: #8ADEE2; }
     .tweet .tweet_list li {
-      background-color: #399DC5;
       padding: .5em; }
       .tweet .tweet_list li a {
-        color: #E2FFAE; }
-      .tweet .tweet_list li .tweet_join {
-        color: #DBFFFC; }
+        color: #0C717A; }

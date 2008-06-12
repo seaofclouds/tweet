@@ -1,6 +1,6 @@
 body {
-  background-color: #8ADEE2;
-  color: #005D65;
+  background-color: #008D99;
+  color: #fff;
   font-size: 11pt;
   font-family: arial, sans-serif;
   margin: 0;
@@ -14,12 +14,15 @@ body {
     body .container h1 {
       font-size: 240%;
       margin-bottom: -.5em; }
-    body .container h2, body .container h3, body .container p, body .container ul, body .container code {
+    body .container h2, body .container p, body .container ul, body .container code {
       margin-bottom: 1em; }
+    body .container h3 {
+      font-size: 140%;
+      margin-bottom: .4em; }
     body .container a {
-      color: #005D65; }
+      color: #8ADEE2; }
     body .container code, body .container .code {
-      background-color: #008D99;
+      background-color: #0C717A;
       color: #fff;
       font-size: 85%;
       font-family: courier, monospace; }
@@ -29,9 +32,7 @@ body {
       font-family: verdana, sans-serif;
       font-size: 75%;
       margin-top: 8em; }
-    body .container .menu {
-      margin-bottom: 2em;
-      margin-top: 2em; }
-      body .container .menu h3 {
-        display: inline;
-        margin-right: 3em; }
+    body .container .download h4 {
+      font-size: 120%;
+      margin-top: -.5em;
+      color: #8ADEE2; }

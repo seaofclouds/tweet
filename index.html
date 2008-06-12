@@ -9,29 +9,28 @@
       $(document).ready(function(){
         $(".tweet").tweet({
           join_text: " we were ",
-          count: 5,
+          count: 3,
         });
       });
     </script>
   </head>
   <body>
     <div class='container'>
-      <h1>tweet!</h1>
+      <h1>Tweet!</h1>
       <h2>put <a href="http://twitter.com">Twitter</a> on your website with <em>tweet!</em>, an unobtrusive javascript plugin for jquery.</h2>
       <h3>Demo</h3>
       <div class='tweet'></div>
-      <h3>Download</h3>
-      <ul>
-        <li><a href="http://github.com/seaofclouds/tweet/tarball/master">Tar</a></li>
-        <li><a href="http://github.com/seaofclouds/tweet/tree/master%2Fjavascripts%2Fjquery.tweet.js?raw=true">Source</a></li>
-      </ul>
+      <div class='download'>
+        <h3>Download</h3>
+        <h4><a href="http://github.com/seaofclouds/tweet/tarball/master">Tar</a> <small>or</small> <a href="http://github.com/seaofclouds/tweet/tree/master%2Fjavascripts%2Fjquery.tweet.js?raw=true">Source</a></h4>
+      </div>
       <h3>Usage</h3>
-      <p>Include jQuery and tweet in your <span class="code">&lt;head&gt;</span></p>
+      <p>In your template's <span class="code">&lt;head&gt;</span>, <strong>include jQuery and tweet javascript files</strong></p>
       <code>
         &lt;script language=&quot;javascript&quot; src=&quot;/tweet/javascripts/jquery.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;<br />
         &lt;script language=&quot;javascript&quot; src=&quot;/tweet/javascripts/jquery.tweet.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
       </code>
-      <p>Initialize tweet! on page load with your Username and other options</p>
+      <p>Also in <span class="code">&lt;head&gt;</span>, <strong>Initialize tweet!</strong> on page load with your Username and other options</p>
       <code>
         &lt;script type=&apos;text/javascript&apos;&gt;<br />
         &nbsp; &nbsp; $(document).ready(function(){<br />
@@ -43,7 +42,7 @@
         &nbsp; &nbsp; });<br />
         &lt;/script&gt;
       </code>
-      <p>Include a placeholder for tweets to appear on your site</p>
+      <p>In <span class="code">&lt;body&gt;</span>, <strong>include a placeholder for your tweets.</strong> They'll get loaded in via JSON. How fancy!</p>
       <code>
         &lt;div class=&quot;tweet&quot;&gt;&lt;/div&gt;
       </code>

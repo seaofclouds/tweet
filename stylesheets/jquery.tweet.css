@@ -3,8 +3,7 @@
   font-size: 120%;
   color: #085258; }
   .tweet .tweet_list {
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
+    -webkit-border-radius: .5em;
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -13,3 +12,5 @@
       padding: .5em; }
       .tweet .tweet_list li a {
         color: #0C717A; }
+    .tweet .tweet_list .tweet_even {
+      background-color: #91E5E7; }

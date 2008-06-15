@@ -19,9 +19,11 @@
         if (s.intro_text) list.before(intro); 
         $.each(data, function(i, item) { 
           list.append('<li><a href="http://twitter.com/'+s.username+'/statuses/'+item.id+'" title="view tweet on twitter">'+relative_time(item.created_at)+'</a>'+ join + '<span class="tweet_text">' + item.text.linkify().linkuser().linktag() + '</span></li>');
-          $('li:odd').addClass('tweet_even');
-          $('li:even').addClass('tweet_odd');
         });
+        $('.tweet_list li:odd').addClass('tweet_even');
+        $('.tweet_list li:even').addClass('tweet_odd');
+        $('.tweet_list li:first').addClass('tweet_first');
+        $('.tweet_list li:last').addClass('tweet_last');
         if (s.outro_text) list.after(outro); 
       });
     });

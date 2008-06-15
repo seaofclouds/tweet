@@ -19,6 +19,8 @@
         if (s.intro_text) list.before(intro); 
         $.each(data, function(i, item) { 
           list.append('<li><a href="http://twitter.com/'+s.username+'/statuses/'+item.id+'" title="view tweet on twitter">'+relative_time(item.created_at)+'</a>'+ join + '<span class="tweet_text">' + item.text.linkify().linkuser().linktag() + '</span></li>');
+          $('li:odd').addClass('tweet_even');
+          $('li:even').addClass('tweet_odd');
         });
         if (s.outro_text) list.after(outro); 
       });

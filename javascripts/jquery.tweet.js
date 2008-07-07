@@ -27,45 +27,46 @@
         if (s.outro_text) list.after(outro); 
       });
     });
-    function relative_time(time_value) {
-      var values = time_value.split(" ");
-      time_value = values[1] + " " + values[2] + ", " + values[5] + " " + values[3];
-      var parsed_date = Date.parse(time_value);
-      var relative_to = (arguments.length > 1) ? arguments[1] : new Date();
-      var delta = parseInt((relative_to.getTime() - parsed_date) / 1000);
-      delta = delta + (relative_to.getTimezoneOffset() * 60);
-      if (delta < 60) {
-        return 'less than a minute ago';
-      } else if(delta < 120) {
-        return 'about a minute ago';
-      } else if(delta < (45*60)) {
-        return (parseInt(delta / 60)).toString() + ' minutes ago';
-      } else if(delta < (90*60)) {
-        return 'about an hour ago';
-      } else if(delta < (24*60*60)) {
-        return 'about ' + (parseInt(delta / 3600)).toString() + ' hours ago';
-      } else if(delta < (48*60*60)) {
-        return '1 day ago';
-      } else {
-        return (parseInt(delta / 86400)).toString() + ' days ago';
-      }
-    }
-  };
-  $.fn.tweet.linkify = function() {
-    return this.replace(/[A-Za-z]+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&\?\/.=]+/, function(m) {
-    return m.link(m);
-    });
-  };
-  $.fn.tweet.linkuser = function() {
-    return this.replace(/[@]+[A-Za-z0-9-_]+/, function(u) {
-      var username = u.replace("@","")
-      return u.link("http://twitter.com/"+username);
-    });
-  };
-  $.fn.tweet.linktag = function() {
-    return this.replace(/[#]+[A-Za-z0-9-_]+/, function(t) {
-      var tag = t.replace("#","%23")
-      return t.link("http://summize.com/search?q="+tag);
-    });
   };
 })(jQuery);
+
+String.prototype.linkify = function() {
+  return this.replace(/[A-Za-z]+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&\?\/.=]+/, function(m) {
+  return m.link(m);
+  });
+};
+String.prototype.linkuser = function() {
+  return this.replace(/[@]+[A-Za-z0-9-_]+/, function(u) {
+    var username = u.replace("@","")
+    return u.link("http://twitter.com/"+username);
+  });
+};
+String.prototype.linktag = function() {
+  return this.replace(/[#]+[A-Za-z0-9-_]+/, function(t) {
+    var tag = t.replace("#","%23")
+    return t.link("http://summize.com/search?q="+tag);
+  });
+};
+function relative_time(time_value) {
+  var values = time_value.split(" ");
+  time_value = values[1] + " " + values[2] + ", " + values[5] + " " + values[3];
+  var parsed_date = Date.parse(time_value);
+  var relative_to = (arguments.length > 1) ? arguments[1] : new Date();
+  var delta = parseInt((relative_to.getTime() - parsed_date) / 1000);
+  delta = delta + (relative_to.getTimezoneOffset() * 60);
+  if (delta < 60) {
+    return 'less than a minute ago';
+  } else if(delta < 120) {
+    return 'about a minute ago';
+  } else if(delta < (45*60)) {
+    return (parseInt(delta / 60)).toString() + ' minutes ago';
+  } else if(delta < (90*60)) {
+    return 'about an hour ago';
+  } else if(delta < (24*60*60)) {
+    return 'about ' + (parseInt(delta / 3600)).toString() + ' hours ago';
+  } else if(delta < (48*60*60)) {
+    return '1 day ago';
+  } else {
+    return (parseInt(delta / 86400)).toString() + ' days ago';
+  }
+}

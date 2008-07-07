@@ -6,12 +6,12 @@
     <link href="stylesheets/application.css" media="all" rel="stylesheet" type="text/css"/><link href="stylesheets/jquery.tweet.css" media="all" rel="stylesheet" type="text/css"/>
     <script language="javascript" src="javascripts/jquery.js" type="text/javascript"></script><script language="javascript" src="javascripts/jquery.tweet.js" type="text/javascript"></script>
     <script type='text/javascript'>
-      $(document).ready(function(){
+      jQuery(document).ready(function($) {
         $(".tweet").tweet({
           join_text: " we were ",
           count: 3,
         });
-      });
+      })
     </script>
   </head>
   <body>
@@ -65,7 +65,7 @@
       <code>
         <a href="http://www.opensource.org/licenses/mit-license.php">http://www.opensource.org/licenses/mit-license.php</a>
       </code>
-      <p class='copyright'>something nifty from <a href="http://seaofclouds.com">seaofclouds</a> | &copy; 2008 seaofclouds</p>
+      <p class='copyright'>something nifty from <a href="http://seaofclouds.com">seaofclouds</a><span class="trade">&trade;</span> | <a href="http://github.com/seaofclouds/tweet/">Contribute</a></p>
     </div>
   </body>
 </html>

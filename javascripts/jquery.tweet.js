@@ -18,7 +18,7 @@
       $.getJSON(url, function(data){
         if (s.intro_text) list.before(intro); 
         $.each(data, function(i, item) { 
-          list.append('<li><a href="http://twitter.com/'+s.username+'/statuses/'+item.id+'" title="view tweet on twitter">'+relative_time(item.created_at)+'</a>'+ join + '<span class="tweet_text">' + item.text.linkify().linkuser().linktag() + '</span></li>');
+          list.append('<li><a href="http://twitter.com/'+s.username+'/statuses/'+item.id+'" title="view tweet on twitter">'+relative_time(item.created_at)+'</a>'+ join + '<span class="tweet_text">' + item.text.linkify().linkuser().linktag().hearts() + '</span></li>');
         });
         $('.tweet_list li:odd').addClass('tweet_even');
         $('.tweet_list li:even').addClass('tweet_odd');
@@ -46,6 +46,9 @@ String.prototype.linktag = function() {
     var tag = t.replace("#","%23")
     return t.link("http://summize.com/search?q="+tag);
   });
+};
+String.prototype.hearts = function() {
+  return this.replace(/[&lt;]+[3]/, "<tt class='heart'>&#x2665;</tt>")
 };
 function relative_time(time_value) {
   var values = time_value.split(" ");

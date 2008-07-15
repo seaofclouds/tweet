@@ -1,17 +1,17 @@
 (function($) {
   $.fn.tweet = function(o){
     var s = {
-      username: "seaofclouds",   // livercake lilaa babycloud twitter laughingsquid seaofclouds _why jeangwang Wertle // [string]   required, unless you want to display our tweets. :)
-      count: "1",                  // [integer]  how many tweets to display?
+      username: "seaofclouds",   // [string]   required, unless you want to display our tweets. :)
+      count: 1,                  // [integer]  how many tweets to display?
       intro_text: null,          // [string]   do you want text BEFORE your your tweets?
       outro_text: null,          // [string]   do you want text AFTER your tweets?
-      join_text:  null          // [string]   the text in between the date stamp and tweet
+      join_text:  null           // [string]   the text in between the date stamp and tweet
     };
     if(o) $.extend(s, o);
     return this.each(function(){
       var list = $('<ul class="tweet_list">').appendTo(this);
       var url =
-       'http://twitter.com/status/user_timeline/'+s.username+'.json?count='+s.count+'&callback=?';
+       'http://twitter.com/statuses/user_timeline/'+s.username+'.json?count='+s.count+'&callback=?';
       var intro = '<p class="tweet_intro">'+s.intro_text+'</p>'
       var join = '<span class="tweet_join">'+s.join_text+'</span>'
       var outro = '<p class="tweet_outro">'+s.outro_text+'</p>'

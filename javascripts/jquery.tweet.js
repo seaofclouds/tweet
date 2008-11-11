@@ -7,26 +7,7 @@
       outro_text: null,          // [string]   do you want text AFTER your tweets?
       join_text:  null           // [string]   the text in between the date stamp and tweet
     };
-    if(o) $.extend(s, o);
-    return this.each(function(){
-      var list = $('<ul class="tweet_list">').appendTo(this);
-      var url =
-       'http://twitter.com/statuses/user_timeline/'+s.username+'.json?count='+s.count+'&callback=?';
-      var intro = '<p class="tweet_intro">'+s.intro_text+'</p>'
-      var join = '<span class="tweet_join">'+s.join_text+'</span>'
-      var outro = '<p class="tweet_outro">'+s.outro_text+'</p>'
-      $.getJSON(url, function(data){
-        if (s.intro_text) list.before(intro); 
-        $.each(data, function(i, item) { 
-          list.append('<li><a href="http://twitter.com/'+s.username+'/statuses/'+item.id+'" title="view tweet on twitter">'+relative_time(item.created_at)+'</a>'+ join + '<span class="tweet_text">' + item.text.replace(/(\w+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&\?\/.=]+)/, '<a href="$1">$1</a>').replace(/[\@]+([A-Za-z0-9-_]+)/, '<a href="http://twitter.com/$1">@$1</a>').replace(/[\#]+([A-Za-z0-9-_]+)/, '<a href="http://search.twitter.com/search?q=&tag=$1&lang=all&from='+s.username+'">#$1</a>').replace(/[&lt;]+[3]/, "<tt class='heart'>&#x2665;</tt>") + '</span></li>');
-        });
-        $('.tweet_list li:odd').addClass('tweet_even');
-        $('.tweet_list li:even').addClass('tweet_odd');
-        $('.tweet_list li:first').addClass('tweet_first');
-        $('.tweet_list li:last').addClass('tweet_last');
-        if (s.outro_text) list.after(outro); 
-      });
-    });
+    
     function relative_time(time_value) {
       var values = time_value.split(" ");
       time_value = values[1] + " " + values[2] + ", " + values[5] + " " + values[3];
@@ -50,5 +31,29 @@
         return (parseInt(delta / 86400)).toString() + ' days ago';
       }
     };
+    
+    if(o) $.extend(s, o);
+    return this.each(function(){
+      var list = $('<ul class="tweet_list">').appendTo(this);
+      var intro = '<p class="tweet_intro">'+s.intro_text+'</p>'
+      var join = '<span class="tweet_join">'+s.join_text+'</span>'
+      var outro = '<p class="tweet_outro">'+s.outro_text+'</p>'
+      var url = 'http://search.twitter.com/search.json?q=from%3A'+s.username+'&rpp='+s.count+'&callback=?'
+      
+      $.getJSON(url,  function(data){
+        if (s.intro_text) list.before(intro);
+        $.each(data.results, function(i,item){
+          list.append('<li><a href="http://twitter.com/'+s.username+'/statuses/'+item.id+'" title="view tweet on twitter">'+relative_time(item.created_at)+'</a>'+ join + '<span class="tweet_text">' + item.text.replace(/(\w+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&\?\/.=]+)/im, '<a href="$1">$1</a>').replace(/[\@]+([A-Za-z0-9-_]+)/im, '<a href="http://twitter.com/$1">@$1</a>').replace(/[\#]+([A-Za-z0-9-_]+)/im, '<a href="http://search.twitter.com/search?q=&tag=$1&lang=all&from='+s.username+'">#$1</a>').replace(/[&lt;]+[3]/im, "<tt class='heart'>&#x2665;</tt>") + '</span></li>');
+        });
+        $('.tweet_list li:odd').addClass('tweet_even');
+        $('.tweet_list li:even').addClass('tweet_odd');
+        $('.tweet_list li:first').addClass('tweet_first');
+        $('.tweet_list li:last').addClass('tweet_last');
+        if (s.outro_text) list.after(outro);
+      });
+
+      
+    });
+
   };
 })(jQuery);

@@ -43,7 +43,7 @@
       $.getJSON(url,  function(data){
         if (s.intro_text) list.before(intro);
         $.each(data.results, function(i,item){
-          list.append('<li><a href="http://twitter.com/'+s.username+'/statuses/'+item.id+'" title="view tweet on twitter">'+relative_time(item.created_at)+'</a>'+ join + '<span class="tweet_text">' + item.text.replace(/(\w+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&\?\/.=]+)/im, '<a href="$1">$1</a>').replace(/[\@]+([A-Za-z0-9-_]+)/im, '<a href="http://twitter.com/$1">@$1</a>').replace(/[\#]+([A-Za-z0-9-_]+)/im, '<a href="http://search.twitter.com/search?q=&tag=$1&lang=all&from='+s.username+'">#$1</a>').replace(/[&lt;]+[3]/im, "<tt class='heart'>&#x2665;</tt>") + '</span></li>');
+          list.append('<li><a href="http://twitter.com/'+s.username+'/statuses/'+item.id+'" title="view tweet on twitter">'+relative_time(item.created_at)+'</a>'+ ((s.join_text) ? join : ' ') + '<span class="tweet_text">' + item.text.replace(/(\w+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&\?\/.=]+)/im, '<a href="$1">$1</a>').replace(/[\@]+([A-Za-z0-9-_]+)/im, '<a href="http://twitter.com/$1">@$1</a>').replace(/[\#]+([A-Za-z0-9-_]+)/im, '<a href="http://search.twitter.com/search?q=&tag=$1&lang=all&from='+s.username+'">#$1</a>').replace(/[&lt;]+[3]/im, "<tt class='heart'>&#x2665;</tt>") + '</span></li>');
         });
         $('.tweet_list li:odd').addClass('tweet_even');
         $('.tweet_list li:even').addClass('tweet_odd');

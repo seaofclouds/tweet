@@ -1,15 +1,61 @@
-put twitter on your website with tweet, an unobtrusive javascript plugin for jquery
-http://tweet.seaofclouds.com
+Tweet!
+put twitter on your website with tweet!, an unobtrusive javascript plugin for jquery.
+
+=== Demo ===
+
+  http://tweet.seaofclouds.com/ and http://seaofclouds.com/
 
 === Download ===
 
-http://github.com/seaofclouds/tweet/tarball/master
+  Tar http://github.com/seaofclouds/tweet/tarball/master
 
-=== Contribute === 
+=== Features ===
 
-get the code and contribute at http://github.com/seaofclouds/tweet/
-report bugs at http://seaofclouds.lighthouseapp.com/projects/14179-tweet/overview
+  * small size and fast download time
+  * will not slow down or pause your page while tweets are loading
+  * display up to 100 tweets, as permitted by the twitter search api
+  * automatic linking of @replies to users’ twitter page
+  * automatic linking of URLs
+  * automatic linking of #hashtags, to a twitter search of all your tags
+  * converts <3 to a css styleable ♥ (we ♥ hearts)
+  * customize the style with your own stylesheet or with other jquery plugins
 
-=== Licensed under the MIT license === 
+=== Usage ===
+
+  In your template's <head>, include jQuery and tweet javascript files
+
+  <script language="javascript" src="/tweet/javascripts/jquery.js" type="text/javascript"></script>
+  <script language="javascript" src="/tweet/javascripts/jquery.tweet.js" type="text/javascript"></script>
+
+  Also in <head>, Initialize tweet! on page load with your Username and other options
+
+  <script type='text/javascript'>
+      $(document).ready(function(){
+          $(".tweet").tweet({
+              username: "seaofclouds",
+              join_text: " we were ",
+              count: 5,
+          });
+      });
+  </script>
+
+  In <body>, include a placeholder for your tweets. They'll get loaded in via JSON. How fancy!
+
+  <div class="tweet"></div>
+
+=== Contribute ===
+
+  Bring your code slinging skills to Github and help us develop new features for tweet!
+  
+  http://github.com/seaofclouds/tweet/
+
+  git clone git@github.com:seaofclouds/tweet.git
+
+  Report bugs at http://seaofclouds.lighthouseapp.com/projects/14179-tweet/overview
+
+=== Licensed under the MIT ===
 
 http://www.opensource.org/licenses/mit-license.php
+
+If you like Tweet, check out Twoot!
+Twoot is a miniature Twitter client based on Tweet that allows you to post tweets and see what your friends are up to. Thanks, Peter Krantz!

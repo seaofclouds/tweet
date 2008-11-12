@@ -14,6 +14,7 @@ put twitter on your website with tweet!, an unobtrusive javascript plugin for jq
   * small size and fast download time
   * will not slow down or pause your page while tweets are loading
   * display up to 100 tweets, as permitted by the twitter search api
+  * optional verb tense matching, for human readable tweets
   * automatic linking of @replies to users’ twitter page
   * automatic linking of URLs
   * automatic linking of #hashtags, to a twitter search of all your tags

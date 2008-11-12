@@ -1,11 +1,17 @@
 (function($) {
   $.fn.tweet = function(o){
     var s = {
-      username: "seaofclouds",   // [string]   required, unless you want to display our tweets. :)
-      count: 1,                  // [integer]  how many tweets to display?
-      intro_text: null,          // [string]   do you want text BEFORE your your tweets?
-      outro_text: null,          // [string]   do you want text AFTER your tweets?
-      join_text:  null           // [string]   the text in between the date stamp and tweet
+      username: "seaofclouds",                // [string]   required, unless you want to display our tweets. :)
+      count: 1,                               // [integer]  how many tweets to display?
+      intro_text: null,                       // [string]   do you want text BEFORE your your tweets?
+      outro_text: null,                       // [string]   do you want text AFTER your tweets?
+      join_text:  null,                       // [string]   optional text in between date and tweet, try setting to "auto"
+      auto_join_text_default: "i said,",      // [string]   auto text for non verb: "i said" bullocks
+      auto_join_text_ed: "i",                 // [string]   auto text for past tense: "i" surfed
+      auto_join_text_ing: "i am",             // [string]   auto tense for present tense: "i was" surfing
+      auto_join_text_reply: "i replied to",   // [string]   auto tense for replies: "i replied to" @someone "with"
+      auto_join_text_url: "i was looking at", // [string]   auto tense for urls: "i was looking at" http:...
+      loading_text: null                      // [string]   optional loading text, displayed while tweets load
     };
     
     function relative_time(time_value) {
@@ -33,14 +39,33 @@
     return this.each(function(){
       var list = $('<ul class="tweet_list">').appendTo(this);
       var intro = '<p class="tweet_intro">'+s.intro_text+'</p>'
-      var join = '<span class="tweet_join">'+s.join_text+'</span>'
       var outro = '<p class="tweet_outro">'+s.outro_text+'</p>'
+      var loading = $('<p class="loading">'+s.loading_text+'</p>');
       var url = 'http://search.twitter.com/search.json?q=from%3A'+s.username+'&rpp='+s.count+'&callback=?'
-      
+      if (s.loading_text) $(this).append(loading);
       $.getJSON(url,  function(data){
+        if (s.loading_text) loading.remove();
         if (s.intro_text) list.before(intro);
         $.each(data.results, function(i,item){
-          list.append('<li><a href="http://twitter.com/'+s.username+'/statuses/'+item.id+'" title="view tweet on twitter">'+relative_time(item.created_at)+'</a>'+ ((s.join_text) ? join : ' ') + '<span class="tweet_text">' + item.text.replace(/(\w+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&\?\/.=]+)/gi, '<a href="$1">$1</a>').replace(/[\@]+([A-Za-z0-9-_]+)/gi, '<a href="http://twitter.com/$1">@$1</a>').replace(/[\#]+([A-Za-z0-9-_]+)/gi, '<a href="http://search.twitter.com/search?q=&tag=$1&lang=all&from='+s.username+'">#$1</a>').replace(/[&lt;]+[3]/gi, "<tt class='heart'>&#x2665;</tt>") + '</span></li>');
+          // audo join text based on verb tense and content
+          if (s.join_text == "auto") {
+            if (item.text.match(/^(@.*) .*/i)) {
+              var join_text = s.auto_join_text_reply;
+            } else if (item.text.match(/(^\w+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&\?\/.=]+) .*/i)) {
+              var join_text = s.auto_join_text_url;
+            } else if (item.text.match(/^(.+ed) .*/im)) {
+              var join_text = s.auto_join_text_ed;
+            } else if (item.text.match(/^(.*ing) .*/i)) {
+              var join_text = s.auto_join_text_ing;
+            } else {
+              var join_text = s.auto_join_text_default;
+            }
+          } else {
+            var join_text = s.join_text
+          };
+          var join = '<span class="tweet_join"> '+join_text+' </span>'
+          
+          list.append('<li><a href="http://twitter.com/'+s.username+'/statuses/'+item.id+'" title="view tweet on twitter">'+relative_time(item.created_at)+'</a>'+ ((s.join_text) ? join : ' ') + '<span class="tweet_text">' + item.text.replace(/(\w+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&\?\/.=]+)/gi, '<a href="$1">$1</a>').replace(/[\@]+([A-Za-z0-9-_]+)/gi, (s.join_text == "auto") ? '<a href="http://twitter.com/$1">@$1</a> with ' : ' ').replace(/[\#]+([A-Za-z0-9-_]+)/gi, '<a href="http://search.twitter.com/search?q=&tag=$1&lang=all&from='+s.username+'">#$1</a>').replace(/[&lt;]+[3]/gi, "<tt class='heart'>&#x2665;</tt>") + '</span></li>');
         });
         $('.tweet_list li:odd').addClass('tweet_even');
         $('.tweet_list li:even').addClass('tweet_odd');

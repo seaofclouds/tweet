@@ -2,6 +2,8 @@
   $.fn.tweet = function(o){
     var s = {
       username: "seaofclouds",                // [string]   required, unless you want to display our tweets. :)
+			show_user: false,									  		// [Boolean]  show user name in tweet?
+			avatar_size: 32,												// [integer]  height and width of avatar if displayed
       count: 1,                               // [integer]  how many tweets to display?
       intro_text: null,                       // [string]   do you want text BEFORE your your tweets?
       outro_text: null,                       // [string]   do you want text AFTER your tweets?
@@ -41,7 +43,10 @@
       var intro = '<p class="tweet_intro">'+s.intro_text+'</p>'
       var outro = '<p class="tweet_outro">'+s.outro_text+'</p>'
       var loading = $('<p class="loading">'+s.loading_text+'</p>');
-      var url = 'http://search.twitter.com/search.json?q=from%3A'+s.username+'&rpp='+s.count+'&callback=?'
+			if(typeof(s.username) == "string"){
+				s.username = [s.username];
+			}
+      var url = 'http://search.twitter.com/search.json?q=from:'+s.username.join('%20OR%20')+'&rpp='+s.count+'&callback=?';
       if (s.loading_text) $(this).append(loading);
       $.getJSON(url,  function(data){
         if (s.loading_text) loading.remove();
@@ -61,11 +66,11 @@
               var join_text = s.auto_join_text_default;
             }
           } else {
-            var join_text = s.join_text
+            var join_text = s.join_text;
           };
-          var join = '<span class="tweet_join"> '+join_text+' </span>'
-          
-          list.append('<li><a href="http://twitter.com/'+s.username+'/statuses/'+item.id+'" title="view tweet on twitter">'+relative_time(item.created_at)+'</a>'+ ((s.join_text) ? join : ' ') + '<span class="tweet_text">' + item.text.replace(/(\w+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&\?\/.=]+)/gi, '<a href="$1">$1</a>').replace(/[\@]+([A-Za-z0-9-_]+)/gi, (s.join_text == "auto") ? '<a href="http://twitter.com/$1">@$1</a> with ' : ' ').replace(/[\#]+([A-Za-z0-9-_]+)/gi, '<a href="http://search.twitter.com/search?q=&tag=$1&lang=all&from='+s.username+'">#$1</a>').replace(/[&lt;]+[3]/gi, "<tt class='heart'>&#x2665;</tt>") + '</span></li>');
+          var join = '<span class="tweet_join"> '+join_text+' </span>';
+
+          list.append('<li>'+(s.show_user ? '<a href="http://twitter.com/'+ item.from_user+'"><img class="tweet_avatar" src="'+item.profile_image_url+'" height="'+s.avatar_size+'" width="'+s.avatar_size+'" alt="avatar"/></a>' : '')+'<a href="http://twitter.com/'+item.from_user+'/statuses/'+item.id+'" title="view tweet on twitter">'+relative_time(item.created_at)+'</a>'+ ((s.join_text) ? join : ' ') + '<span class="tweet_text">' + item.text.replace(/(\w+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&\?\/.=]+)/gi, '<a href="$1">$1</a>').replace(/[\@]+([A-Za-z0-9-_]+)/gi, (s.join_text == "auto") ? '<a href="http://twitter.com/$1">@$1</a> with ' : '<a href="http://twitter.com/$1">@$1</a>').replace(/[\#]+([A-Za-z0-9-_]+)/gi, '<a href="http://search.twitter.com/search?q=&tag=$1&lang=all&from='+s.username.join("%2BOR%2B")+'">#$1</a>').replace(/[&lt;]+[3]/gi, "<tt class='heart'>&#x2665;</tt>") + '</span></li>');
         });
         $('.tweet_list li:odd').addClass('tweet_even');
         $('.tweet_list li:even').addClass('tweet_odd');

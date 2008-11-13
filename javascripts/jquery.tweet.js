@@ -49,13 +49,13 @@
         $.each(data.results, function(i,item){
           // audo join text based on verb tense and content
           if (s.join_text == "auto") {
-            if (item.text.match(/^(@.*) .*/i)) {
+            if (item.text.match(/^(@([A-Za-z0-9-_]+)) .*/i)) {
               var join_text = s.auto_join_text_reply;
             } else if (item.text.match(/(^\w+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&\?\/.=]+) .*/i)) {
               var join_text = s.auto_join_text_url;
-            } else if (item.text.match(/^(.+ed) .*/im)) {
+            } else if (item.text.match(/^((\w+ed)|just) .*/im)) {
               var join_text = s.auto_join_text_ed;
-            } else if (item.text.match(/^(.*ing) .*/i)) {
+            } else if (item.text.match(/^(\w*ing) .*/i)) {
               var join_text = s.auto_join_text_ing;
             } else {
               var join_text = s.auto_join_text_default;

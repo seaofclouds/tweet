@@ -9,6 +9,7 @@
       jQuery(document).ready(function($) {
         $(".tweet").tweet({
           join_text: "auto",
+          avatar_size: 32,
           count: 3,
           auto_join_text_default: "we said,", 
           auto_join_text_ed: "we",
@@ -55,10 +56,16 @@
       <code>
         &lt;script type=&apos;text/javascript&apos;&gt;<br />
         &nbsp; &nbsp; $(document).ready(function(){<br />
-        &nbsp; &nbsp; &nbsp; &nbsp; $(&quot;.tweet&quot;).tweet({<br />
-        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; username: &quot;seaofclouds&quot;,<br />
-        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; join_text: &quot; we were &quot;,<br />
-        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; count: 5,<br />
+        &nbsp; &nbsp; &nbsp; &nbsp; $(".tweet").tweet({<br />
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; join_text: "auto",<br />
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; avatar_size: 32,<br />
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; count: 3,<br />
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; auto_join_text_default: "we said,", <br />
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; auto_join_text_ed: "we",<br />
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; auto_join_text_ing: "we were",<br />
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; auto_join_text_reply: "we replied to",<br />
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; auto_join_text_url: "we were checking out",<br />
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; loading_text: "loading tweets..."<br />
         &nbsp; &nbsp; &nbsp; &nbsp; });<br />
         &nbsp; &nbsp; });<br />
         &lt;/script&gt;

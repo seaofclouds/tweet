@@ -14,3 +14,7 @@
         color: #0C717A; }
     .tweet .tweet_list .tweet_even {
       background-color: #91E5E7; }
+    .tweet .tweet_list .tweet_avatar {
+      padding-right: .5em; }
+      .tweet .tweet_list .tweet_avatar img {
+        vertical-align: middle; }

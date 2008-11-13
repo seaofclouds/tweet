@@ -46,7 +46,7 @@
 			if(typeof(s.username) == "string"){
 				s.username = [s.username];
 			}
-      var url = 'http://search.twitter.com/search.json?q=from:'+s.username.join('%20OR%20')+'&rpp='+s.count+'&callback=?';
+      var url = 'http://search.twitter.com/search.json?q=from:'+s.username.join('%20OR%20from:')+'&rpp='+s.count+'&callback=?';
       if (s.loading_text) $(this).append(loading);
       $.getJSON(url,  function(data){
         if (s.loading_text) loading.remove();

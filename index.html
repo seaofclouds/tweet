@@ -9,12 +9,13 @@
       jQuery(document).ready(function($) {
         $(".tweet").tweet({
           join_text: "auto",
+          username: "seaofclouds",
           avatar_size: 32,
           count: 3,
           auto_join_text_default: "we said,", 
           auto_join_text_ed: "we",
           auto_join_text_ing: "we were",
-          auto_join_text_reply: "we replied to",
+          auto_join_text_reply: "we replied",
           auto_join_text_url: "we were checking out",
           loading_text: "loading tweets..."
         });
@@ -28,6 +29,7 @@
       <h3>Demo</h3>
       <p>displaying three tweets from the <a href="http://twitter.com/seaofclouds">seaofclouds twitter feed</a>. you can also see the script in action at <a href="http://seaofclouds.com">seaofclouds.com</a></p>
       <div class='tweet'></div>
+      <div class='query'></div>
       <div class='download'>
         <h3>Download</h3>
         <h4><a href="http://github.com/seaofclouds/tweet/tarball/master">Tar</a> <small>or</small> <a href="http://github.com/seaofclouds/tweet/tree/master%2Fjavascripts%2Fjquery.tweet.js?raw=true">Source</a> <small>or</small> <a href="http://github.com/seaofclouds/tweet/">Github</a></h4>

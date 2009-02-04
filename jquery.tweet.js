@@ -53,7 +53,6 @@
       query += '&q=from:'+s.username.join('%20OR%20from:');
       var url = 'http://search.twitter.com/search.json?&'+query+'&rpp='+s.count+'&callback=?';
       if (s.loading_text) $(this).append(loading);
-      console.log(url);
       $.getJSON(url,  function(data){
         if (s.loading_text) loading.remove();
         if (s.intro_text) list.before(intro);

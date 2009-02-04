@@ -3,7 +3,7 @@
     var s = {
       username: ["seaofclouds"],              // [string]   required, unless you want to display our tweets. :) it can be an array, just do ["username1","username2","etc"]
       avatar_size: null,                      // [integer]  height and width of avatar if displayed (48px max)
-      count: 1,                               // [integer]  how many tweets to display?
+      count: 3,                               // [integer]  how many tweets to display?
       intro_text: null,                       // [string]   do you want text BEFORE your your tweets?
       outro_text: null,                       // [string]   do you want text AFTER your tweets?
       join_text:  null,                       // [string]   optional text in between date and tweet, try setting to "auto"
@@ -13,7 +13,7 @@
       auto_join_text_reply: "i replied to",   // [string]   auto tense for replies: "i replied to" @someone "with"
       auto_join_text_url: "i was looking at", // [string]   auto tense for urls: "i was looking at" http:...
       loading_text: null,                     // [string]   optional loading text, displayed while tweets load
-			query: null															// [string]   optional search query
+      query: null                             // [string]   optional search query
     };
     
     function relative_time(time_value) {
@@ -46,14 +46,14 @@
       if(typeof(s.username) == "string"){
         s.username = [s.username];
       }
-			var query = '';
-			if(s.query) {
-				query += 'q='+s.query;
-			}
-			query += '&q=from:'+s.username.join('%20OR%20from:');
+      var query = '';
+      if(s.query) {
+        query += 'q='+s.query;
+      }
+      query += '&q=from:'+s.username.join('%20OR%20from:');
       var url = 'http://search.twitter.com/search.json?&'+query+'&rpp='+s.count+'&callback=?';
       if (s.loading_text) $(this).append(loading);
-			console.log(url);
+      console.log(url);
       $.getJSON(url,  function(data){
         if (s.loading_text) loading.remove();
         if (s.intro_text) list.before(intro);

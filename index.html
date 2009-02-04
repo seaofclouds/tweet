@@ -3,8 +3,11 @@
 <html>
   <head>
     <title>Tweet! Put Twitter on your site with this simple, unobtrusive jQuery widget</title>
-    <link href="stylesheets/application.css" media="all" rel="stylesheet" type="text/css"/><link href="stylesheets/jquery.tweet.css" media="all" rel="stylesheet" type="text/css"/>
-    <script language="javascript" src="javascripts/jquery.js" type="text/javascript"></script><script language="javascript" src="javascripts/jquery.tweet.js" type="text/javascript"></script>
+    <link href="stylesheets/application.css" media="all" rel="stylesheet" type="text/css"/>
+    <link href="stylesheets/jquery.tweet.css" media="all" rel="stylesheet" type="text/css"/>
+    <link href="stylesheets/jquery.tweet.query.css" media="all" rel="stylesheet" type="text/css"/>
+    <script language="javascript" src="javascripts/jquery.js" type="text/javascript"></script>
+    <script language="javascript" src="javascripts/jquery.tweet.js" type="text/javascript"></script>
     <script type='text/javascript'>
       jQuery(document).ready(function($) {
         $(".tweet").tweet({
@@ -19,6 +22,12 @@
           auto_join_text_url: "we were checking out",
           loading_text: "loading tweets..."
         });
+        $(".query").tweet({
+          avatar_size: 32,
+          count: 4,
+          query: "tweet.seaofclouds.com",
+          loading_text: "loading tweets..."
+        });
       })
     </script>
   </head>
@@ -27,26 +36,33 @@
       <h1>Tweet!</h1>
       <h2>put <a href="http://twitter.com">twitter</a> on your website with <em>tweet!</em>, an unobtrusive javascript plugin for jquery.</h2>
       <h3>Demo</h3>
-      <p>displaying three tweets from the <a href="http://twitter.com/seaofclouds">seaofclouds twitter feed</a>. you can also see the script in action at <a href="http://seaofclouds.com">seaofclouds.com</a></p>
+      <p>displaying three tweets from the <a href="http://twitter.com/seaofclouds">seaofclouds twitter feed</a>, or check the script in action at <a href="http://seaofclouds.com">seaofclouds.com</a></p>
       <div class='tweet'></div>
+      <p>displaying four tweets from the query "<a href="http://search.twitter.com/search?q=tweet.seaofclouds.com">tweet.seaofclouds.com</a>".</p>
       <div class='query'></div>
       <div class='download'>
         <h3>Download</h3>
-        <h4><a href="http://github.com/seaofclouds/tweet/tarball/master">Tar</a> <small>or</small> <a href="http://github.com/seaofclouds/tweet/tree/master%2Fjavascripts%2Fjquery.tweet.js?raw=true">Source</a> <small>or</small> <a href="http://github.com/seaofclouds/tweet/">Github</a></h4>
+        <p>
+          <a href="http://github.com/seaofclouds/tweet/zipball/master">
+            <img border="0" width="90" src="http://github.com/images/modules/download/zip.png"></a>
+          <a href="http://github.com/seaofclouds/tweet/tarball/master">
+            <img border="0" width="90" src="http://github.com/images/modules/download/tar.png"></a>
+        </p>
       </div>
       <h3>Features</h3>
       <ul>
-      	<li>small size and fast download time</li>
-      	<li>will not slow down or pause your page while tweets are loading</li>
-      	<li>display up to 100 tweets, as permitted by the twitter search api</li>
-      	<li>optional verb tense matching, for human readable tweets</li>
-      	<li>optionally display your avatar</li>
-      	<li>optionally display tweets from multiple accounts!</li>
-      	<li>automatic linking of  @replies to users&#8217; twitter page</li>
-      	<li>automatic linking of URLs</li>
-      	<li>automatic linking of <a href="http://search.twitter.com/search?q=&amp;tag=hashtags">#hashtags</a>, to a twitter search of all your tags</li>
-      	<li>converts &lt;3 to a css styleable <tt class='heart'>♥</tt> (we ♥ hearts)</li>
-      	<li>customize the style with your own stylesheet or with other jquery plugins</li>
+        <li>small size and fast download time</li>
+        <li>will not slow down or pause your page while tweets are loading</li>
+        <li>display up to 100 tweets, as permitted by the twitter search api</li>
+        <li>display tweets from a twitter search, or from your own feed</li>
+        <li>optional verb tense matching, for human readable tweets</li>
+        <li>optionally display your avatar</li>
+        <li>optionally display tweets from multiple accounts!</li>
+        <li>automatic linking of  @replies to users&#8217; twitter page</li>
+        <li>automatic linking of URLs</li>
+        <li>automatic linking of <a href="http://search.twitter.com/search?q=&amp;tag=hashtags">#hashtags</a>, to a twitter search of all your tags</li>
+        <li>converts &lt;3 to a css styleable <tt class='heart'>♥</tt> (we ♥ hearts)</li>
+        <li>customize the style with your own stylesheet or with other jquery plugins</li>
       </ul>
       <h3>Usage</h3>
       <p>In your template's <span class="code">&lt;head&gt;</span>, <strong>include jQuery and tweet javascript files</strong></p>
@@ -81,6 +97,7 @@
       <code>
         git clone git://github.com/seaofclouds/tweet.git
       </code>
+      <a href="http://github.com/seaofclouds/tweet"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png" alt="Fork me on GitHub" /></a>
       <p>
         <strong>Report bugs</strong> in our <a href="http://seaofclouds.lighthouseapp.com/projects/14179-tweet/overview">lighthouse tracker</a>
       </p>

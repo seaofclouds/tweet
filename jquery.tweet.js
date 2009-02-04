@@ -84,9 +84,7 @@
         $('.tweet_list li:last').addClass('tweet_last');
         if (s.outro_text) list.after(outro);
       });
-
-      
+  
     });
-
   };
 })(jQuery);

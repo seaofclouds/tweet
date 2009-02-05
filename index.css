@@ -23,12 +23,17 @@ body {
       margin-bottom: .4em; }
     body .container a {
       color: #8ADEE2; }
+    body .container code {
+      margin-left: 1em;
+      padding: .5em;
+      display: block;
+    }
     body .container code, body .container .code {
       background-color: #0C717A;
       color: #fff;
       font-size: 85%;
       font-family: courier, monospace; }
-      body .container code a,       body .container .code a {
+      body .container code a, body .container .code a {
         color: #fff; }
     body .container .copyright {
       font-family: verdana, sans-serif;

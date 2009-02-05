@@ -57,7 +57,7 @@
         if (s.loading_text) loading.remove();
         if (s.intro_text) list.before(intro);
         $.each(data.results, function(i,item){
-          // audo join text based on verb tense and content
+          // auto join text based on verb tense and content
           if (s.join_text == "auto") {
             if (item.text.match(/^(@([A-Za-z0-9-_]+)) .*/i)) {
               var join_text = s.auto_join_text_reply;
@@ -76,14 +76,15 @@
           var join_template = '<span class="tweet_join"> '+join_text+' </span>';
           var avatar_template = '<a class="tweet_avatar" href="http://twitter.com/'+ item.from_user+'"><img src="'+item.profile_image_url+'" height="'+s.avatar_size+'" width="'+s.avatar_size+'" alt="'+item.from_user+'\'s avatar" border="0"/></a>';
           var date_template = '<a href="http://twitter.com/'+item.from_user+'/statuses/'+item.id+'" title="view tweet on twitter">'+relative_time(item.created_at)+'</a>';
-          var tweet_template = '<span class="tweet_text">' + item.text.replace(/(\w+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&#\?\/.=]+)/gi, '<a href="$1">$1</a>').replace(/[\@]+([A-Za-z0-9-_]+)/gi, '<a href="http://twitter.com/$1">@$1</a>').replace(/ [\#]+([A-Za-z0-9-_]+) /gi, ' <a href="http://search.twitter.com/search?q=&tag=$1&lang=all&from='+s.username.join("%2BOR%2B")+'">#$1</a> ').replace(/[&lt;]+[3]/gi, "<tt class='heart'>&#x2665;</tt>") + '</span>';
+          var tweet_template = '<span class="tweet_text">' + item.text.replace(/(\w+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&#\?\/.=]+)/gi, '<a href="$1">$1</a>').replace(/[\@]+([A-Za-z0-9-_]+)/gi, '<a href="http://twitter.com/$1">@$1</a>').replace(/ [\#]+([A-Za-z0-9-_]+) /gi, ' <a href="http://search.twitter.com/search?q=&tag=$1&lang=all&from='+s.username.join("%2BOR%2B")+'">#$1</a> ').replace(/[&lt;]+[3]/gi, "<tt class='heart'>&#x2665;</tt>").replace(/(a|A)wesome/, 'AWESOME' ).replace(/(e|E)pic/, 'EPIC' ) + '</span>';
           
           list.append('<li>'+(s.avatar_size ? avatar_template : '')+date_template+ ((s.join_text) ? join_template : ' ') +tweet_template+'</li>');
+          
+          list.children('li:odd').addClass('tweet_even');
+          list.children('li:even').addClass('tweet_odd');
+          list.children('li:first').addClass('tweet_first');
+          list.children('li:last').addClass('tweet_last');
         });
-        $('.tweet_list li:odd').addClass('tweet_even');
-        $('.tweet_list li:even').addClass('tweet_odd');
-        $('.tweet_list li:first').addClass('tweet_first');
-        $('.tweet_list li:last').addClass('tweet_last');
         if (s.outro_text) list.after(outro);
       });
   

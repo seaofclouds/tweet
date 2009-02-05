@@ -1,4 +1,5 @@
 (function($) {
+ 
   $.fn.tweet = function(o){
     var s = {
       username: ["seaofclouds"],              // [string]   required, unless you want to display our tweets. :) it can be an array, just do ["username1","username2","etc"]
@@ -15,7 +16,55 @@
       loading_text: null,                     // [string]   optional loading text, displayed while tweets load
       query: null                             // [string]   optional search query
     };
-    
+
+    $.fn.extend({
+      linkUrl: function() {
+        var returning = [];
+        var regexp = /((ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?)/gi;
+        this.each(function() {
+          returning.push(this.replace(regexp,"<a href=\"$1\">$1</a>"))
+        });
+        return $(returning);
+      },
+      linkUser: function() {
+        var returning = [];
+        var regexp = /[\@]+([A-Za-z0-9-_]+)/gi;
+        this.each(function() {
+          returning.push(this.replace(regexp,"<a href=\"http://twitter.com/$1\">@$1</a>"))
+        });
+        return $(returning);
+      },
+      linkHash: function() {
+        var returning = [];
+        var regexp = / [\#]+([A-Za-z0-9-_]+) /gi;
+        this.each(function() {
+          returning.push(this.replace(regexp, ' <a href="http://search.twitter.com/search?q=&tag=$1&lang=all&from='+s.username.join("%2BOR%2B")+'">#$1</a> '))
+        });
+        return $(returning);
+      },
+      capAwesome: function() {
+        var returning = [];
+        this.each(function() {
+          returning.push(this.replace(/(a|A)wesome/gi, 'AWESOME'))
+        });
+        return $(returning);
+      },
+      capEpic: function() {
+        var returning = [];
+        this.each(function() {
+          returning.push(this.replace(/(e|E)pic/gi, 'EPIC'))
+        });
+        return $(returning);
+      },
+      makeHeart: function() {
+        var returning = [];
+        this.each(function() {
+          returning.push(this.replace(/[&lt;]+[3]/gi, "<tt class='heart'>&#x2665;</tt>"))
+        });
+        return $(returning);
+      }
+    });
+
     function relative_time(time_value) {
       var parsed_date = Date.parse(time_value);
       var relative_to = (arguments.length > 1) ? arguments[1] : new Date();
@@ -36,7 +85,7 @@
       return (parseInt(delta / 86400)).toString() + ' days ago';
       }
     }
-    
+
     if(o) $.extend(s, o);
     return this.each(function(){
       var list = $('<ul class="tweet_list">').appendTo(this);
@@ -53,7 +102,7 @@
       query += '&q=from:'+s.username.join('%20OR%20from:');
       var url = 'http://search.twitter.com/search.json?&'+query+'&rpp='+s.count+'&callback=?';
       if (s.loading_text) $(this).append(loading);
-      $.getJSON(url,  function(data){
+      $.getJSON(url, function(data){
         if (s.loading_text) loading.remove();
         if (s.intro_text) list.before(intro);
         $.each(data.results, function(i,item){
@@ -73,13 +122,14 @@
           } else {
             var join_text = s.join_text;
           };
+
           var join_template = '<span class="tweet_join"> '+join_text+' </span>';
           var avatar_template = '<a class="tweet_avatar" href="http://twitter.com/'+ item.from_user+'"><img src="'+item.profile_image_url+'" height="'+s.avatar_size+'" width="'+s.avatar_size+'" alt="'+item.from_user+'\'s avatar" border="0"/></a>';
           var date_template = '<a href="http://twitter.com/'+item.from_user+'/statuses/'+item.id+'" title="view tweet on twitter">'+relative_time(item.created_at)+'</a>';
-          var tweet_template = '<span class="tweet_text">' + item.text.replace(/(\w+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&#\?\/.=]+)/gi, '<a href="$1">$1</a>').replace(/[\@]+([A-Za-z0-9-_]+)/gi, '<a href="http://twitter.com/$1">@$1</a>').replace(/ [\#]+([A-Za-z0-9-_]+) /gi, ' <a href="http://search.twitter.com/search?q=&tag=$1&lang=all&from='+s.username.join("%2BOR%2B")+'">#$1</a> ').replace(/[&lt;]+[3]/gi, "<tt class='heart'>&#x2665;</tt>").replace(/(a|A)wesome/, 'AWESOME' ).replace(/(e|E)pic/, 'EPIC' ) + '</span>';
-          
+          var tweet_template = '<span class="tweet_text">' +$([item.text]).linkUrl().linkUser().linkHash().makeHeart().capAwesome().capEpic()[0]+ '</span>';
+
           list.append('<li>'+(s.avatar_size ? avatar_template : '')+date_template+ ((s.join_text) ? join_template : ' ') +tweet_template+'</li>');
-          
+
           list.children('li:odd').addClass('tweet_even');
           list.children('li:even').addClass('tweet_odd');
           list.children('li:first').addClass('tweet_first');
@@ -87,7 +137,7 @@
         });
         if (s.outro_text) list.after(outro);
       });
-  
+
     });
   };
 })(jQuery);

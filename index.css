@@ -21,6 +21,11 @@ body {
     body .container h3 {
       font-size: 140%;
       margin-bottom: .4em; }
+    body .container ul {
+      padding-left: 2em; }
+      body .container ul li {
+        list-style-type: square; 
+        margin-left: 0;}
     body .container a {
       color: #8ADEE2; }
     body .container code {

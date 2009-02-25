@@ -36,7 +36,7 @@
       },
       linkHash: function() {
         var returning = [];
-        var regexp = / [\#]+([A-Za-z0-9-_]+) /gi;
+        var regexp = / [\#]+([A-Za-z0-9-_]+)/gi;
         this.each(function() {
           returning.push(this.replace(regexp, ' <a href="http://search.twitter.com/search?q=&tag=$1&lang=all&from='+s.username.join("%2BOR%2B")+'">#$1</a> '))
         });

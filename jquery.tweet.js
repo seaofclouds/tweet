@@ -133,10 +133,9 @@
           // until we create a template option, arrange the items below to alter a tweet's display.
           list.append('<li>' + avatar + date + join + text + '</li>');
 
+          list.children('li:first').addClass('tweet_first');
           list.children('li:odd').addClass('tweet_even');
           list.children('li:even').addClass('tweet_odd');
-          list.children('li:first').addClass('tweet_first');
-          list.children('li:last').addClass('tweet_last');
         });
         if (s.outro_text) list.after(outro);
       });

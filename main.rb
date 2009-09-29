@@ -1,4 +1,5 @@
 require 'rubygems'
 require 'sinatra'
 
-set :public, Sinatra::Application.root
+set :root, File.dirname(__FILE__)
+set :public, Proc.new { File.join(root, "tweet") }

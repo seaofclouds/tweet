@@ -16,7 +16,9 @@
       loading_text: null,                     // [string]   optional loading text, displayed while tweets load
       query: null                             // [string]   optional search query
     };
-
+    
+    if(o) $.extend(s, o);
+    
     $.fn.extend({
       linkUrl: function() {
         var returning = [];
@@ -59,7 +61,7 @@
       makeHeart: function() {
         var returning = [];
         this.each(function() {
-          returning.push(this.replace(/[&lt;]+[3]/gi, "<tt class='heart'>&#x2665;</tt>"))
+          returning.push(this.replace(/(&lt;)+[3]/gi, "<tt class='heart'>&#x2665;</tt>"))
         });
         return $(returning);
       }
@@ -86,7 +88,6 @@
       }
     }
 
-    if(o) $.extend(s, o);
     return this.each(function(){
       var list = $('<ul class="tweet_list">').appendTo(this);
       var intro = '<p class="tweet_intro">'+s.intro_text+'</p>'
@@ -125,7 +126,7 @@
 
           var join_template = '<span class="tweet_join"> '+join_text+' </span>';
           var join = ((s.join_text) ? join_template : ' ')
-          var avatar_template = '<a class="tweet_avatar" href="http://twitter.com/'+ item.from_user+'"><img src="'+item.profile_image_url+'" height="'+s.avatar_size+'" width="'+s.avatar_size+'" alt="'+item.from_user+'\'s avatar" border="0"/></a>';
+          var avatar_template = '<a class="tweet_avatar" href="http://twitter.com/'+ item.from_user+'"><img src="'+item.profile_image_url+'" height="'+s.avatar_size+'" width="'+s.avatar_size+'" alt="'+item.from_user+'\'s avatar" title="'+item.from_user+'\'s avatar" border="0"/></a>';
           var avatar = (s.avatar_size ? avatar_template : '')
           var date = '<a href="http://twitter.com/'+item.from_user+'/statuses/'+item.id+'" title="view tweet on twitter">'+relative_time(item.created_at)+'</a>';
           var text = '<span class="tweet_text">' +$([item.text]).linkUrl().linkUser().linkHash().makeHeart().capAwesome().capEpic()[0]+ '</span>';

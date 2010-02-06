@@ -3,6 +3,7 @@
   $.fn.tweet = function(o){
     var s = {
       username: ["seaofclouds"],              // [string]   required, unless you want to display our tweets. :) it can be an array, just do ["username1","username2","etc"]
+      list: null,                              //[string]   optional name of list belonging to username
       avatar_size: null,                      // [integer]  height and width of avatar if displayed (48px max)
       count: 3,                               // [integer]  how many tweets to display?
       intro_text: null,                       // [string]   do you want text BEFORE your your tweets?
@@ -93,20 +94,22 @@
       var intro = '<p class="tweet_intro">'+s.intro_text+'</p>'
       var outro = '<p class="tweet_outro">'+s.outro_text+'</p>'
       var loading = $('<p class="loading">'+s.loading_text+'</p>');
+
       if(typeof(s.username) == "string"){
         s.username = [s.username];
       }
-      var query = '';
-      if(s.query) {
-        query += 'q='+s.query;
+      if (s.list) {
+        var url = "http://api.twitter.com/1/"+s.username[0]+"/lists/"+s.list+"/statuses.json?per_page="+s.count+"&callback=?";
+      } else {
+        var query = (s.query || 'from:'+s.username.join('%20OR%20from:'));
+        var url = 'http://search.twitter.com/search.json?&q='+query+'&rpp='+s.count+'&callback=?';
       }
-      query += '&q=from:'+s.username.join('%20OR%20from:');
-      var url = 'http://search.twitter.com/search.json?&'+query+'&rpp='+s.count+'&callback=?';
+
       if (s.loading_text) $(this).append(loading);
       $.getJSON(url, function(data){
         if (s.loading_text) loading.remove();
         if (s.intro_text) list.before(intro);
-        $.each(data.results, function(i,item){
+        $.each((data.results || data), function(i,item){
           // auto join text based on verb tense and content
           if (s.join_text == "auto") {
             if (item.text.match(/^(@([A-Za-z0-9-_]+)) .*/i)) {
@@ -124,13 +127,15 @@
             var join_text = s.join_text;
           };
 
+          var from_user = item.from_user || item.user.screen_name;
+          var profile_image_url = item.profile_image_url || item.user.profile_image_url;
           var join_template = '<span class="tweet_join"> '+join_text+' </span>';
           var join = ((s.join_text) ? join_template : ' ')
-          var avatar_template = '<a class="tweet_avatar" href="http://twitter.com/'+ item.from_user+'"><img src="'+item.profile_image_url+'" height="'+s.avatar_size+'" width="'+s.avatar_size+'" alt="'+item.from_user+'\'s avatar" title="'+item.from_user+'\'s avatar" border="0"/></a>';
+          var avatar_template = '<a class="tweet_avatar" href="http://twitter.com/'+from_user+'"><img src="'+profile_image_url+'" height="'+s.avatar_size+'" width="'+s.avatar_size+'" alt="'+from_user+'\'s avatar" title="'+from_user+'\'s avatar" border="0"/></a>';
           var avatar = (s.avatar_size ? avatar_template : '')
-          var date = '<a href="http://twitter.com/'+item.from_user+'/statuses/'+item.id+'" title="view tweet on twitter">'+relative_time(item.created_at)+'</a>';
+          var date = '<a href="http://twitter.com/'+from_user+'/statuses/'+item.id+'" title="view tweet on twitter">'+relative_time(item.created_at)+'</a>';
           var text = '<span class="tweet_text">' +$([item.text]).linkUrl().linkUser().linkHash().makeHeart().capAwesome().capEpic()[0]+ '</span>';
-          
+
           // until we create a template option, arrange the items below to alter a tweet's display.
           list.append('<li>' + avatar + date + join + text + '</li>');
 

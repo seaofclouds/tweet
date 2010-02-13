@@ -25,7 +25,7 @@
         var returning = [];
         var regexp = /((ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?)/gi;
         this.each(function() {
-          returning.push(this.replace(regexp,"<a href=\"$1\">$1</a>"))
+          returning.push(this.replace(regexp,"<a href=\"$1\">$1</a>"));
         });
         return $(returning);
       },
@@ -33,7 +33,7 @@
         var returning = [];
         var regexp = /[\@]+([A-Za-z0-9-_]+)/gi;
         this.each(function() {
-          returning.push(this.replace(regexp,"<a href=\"http://twitter.com/$1\">@$1</a>"))
+          returning.push(this.replace(regexp,"<a href=\"http://twitter.com/$1\">@$1</a>"));
         });
         return $(returning);
       },
@@ -41,28 +41,28 @@
         var returning = [];
         var regexp = / [\#]+([A-Za-z0-9-_]+)/gi;
         this.each(function() {
-          returning.push(this.replace(regexp, ' <a href="http://search.twitter.com/search?q=&tag=$1&lang=all&from='+s.username.join("%2BOR%2B")+'">#$1</a>'))
+          returning.push(this.replace(regexp, ' <a href="http://search.twitter.com/search?q=&tag=$1&lang=all&from='+s.username.join("%2BOR%2B")+'">#$1</a>'));
         });
         return $(returning);
       },
       capAwesome: function() {
         var returning = [];
         this.each(function() {
-          returning.push(this.replace(/(a|A)wesome/gi, 'AWESOME'))
+          returning.push(this.replace(/\b(awesome)\b/gi, '<span class="awesome">$1</span>'));
         });
         return $(returning);
       },
       capEpic: function() {
         var returning = [];
         this.each(function() {
-          returning.push(this.replace(/(e|E)pic/gi, 'EPIC'))
+          returning.push(this.replace(/\b(epic)\b/gi, '<span class="epic">$1</span>'));
         });
         return $(returning);
       },
       makeHeart: function() {
         var returning = [];
         this.each(function() {
-          returning.push(this.replace(/(&lt;)+[3]/gi, "<tt class='heart'>&#x2665;</tt>"))
+          returning.push(this.replace(/(&lt;)+[3]/gi, "<tt class='heart'>&#x2665;</tt>"));
         });
         return $(returning);
       }
@@ -91,8 +91,8 @@
 
     return this.each(function(){
       var list = $('<ul class="tweet_list">').appendTo(this);
-      var intro = '<p class="tweet_intro">'+s.intro_text+'</p>'
-      var outro = '<p class="tweet_outro">'+s.outro_text+'</p>'
+      var intro = '<p class="tweet_intro">'+s.intro_text+'</p>';
+      var outro = '<p class="tweet_outro">'+s.outro_text+'</p>';
       var loading = $('<p class="loading">'+s.loading_text+'</p>');
 
       if(typeof(s.username) == "string"){
@@ -130,9 +130,9 @@
           var from_user = item.from_user || item.user.screen_name;
           var profile_image_url = item.profile_image_url || item.user.profile_image_url;
           var join_template = '<span class="tweet_join"> '+join_text+' </span>';
-          var join = ((s.join_text) ? join_template : ' ')
+          var join = ((s.join_text) ? join_template : ' ');
           var avatar_template = '<a class="tweet_avatar" href="http://twitter.com/'+from_user+'"><img src="'+profile_image_url+'" height="'+s.avatar_size+'" width="'+s.avatar_size+'" alt="'+from_user+'\'s avatar" title="'+from_user+'\'s avatar" border="0"/></a>';
-          var avatar = (s.avatar_size ? avatar_template : '')
+          var avatar = (s.avatar_size ? avatar_template : '');
           var date = '<a href="http://twitter.com/'+from_user+'/statuses/'+item.id+'" title="view tweet on twitter">'+relative_time(item.created_at)+'</a>';
           var text = '<span class="tweet_text">' +$([item.text]).linkUrl().linkUser().linkHash().makeHeart().capAwesome().capEpic()[0]+ '</span>';
 

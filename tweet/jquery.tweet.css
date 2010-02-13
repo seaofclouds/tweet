@@ -8,6 +8,8 @@
     margin: 0;
     padding: 0;
     background-color: #8ADEE2; }
+    .tweet_list .awesome, .tweet_list .epic {
+      text-transform: uppercase; }
     .tweet .tweet_list li {
       overflow: auto;
       padding: .5em; }

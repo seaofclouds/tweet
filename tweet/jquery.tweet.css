@@ -11,7 +11,8 @@
     .tweet_list .awesome, .tweet_list .epic {
       text-transform: uppercase; }
     .tweet .tweet_list li {
-      overflow: auto;
+      overflow-y: auto;
+      overflow-x: hidden;
       padding: .5em; }
       .tweet .tweet_list li a {
         color: #0C717A; }

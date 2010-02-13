@@ -100,6 +100,8 @@
       }
       if (s.list) {
         var url = "http://api.twitter.com/1/"+s.username[0]+"/lists/"+s.list+"/statuses.json?per_page="+s.count+"&callback=?";
+      } else if (s.query == null && s.username.length == 1) {
+        var url = 'http://twitter.com/status/user_timeline/'+s.username[0]+'.json?count='+s.count+'&callback=?';
       } else {
         var query = (s.query || 'from:'+s.username.join('%20OR%20from:'));
         var url = 'http://search.twitter.com/search.json?&q='+query+'&rpp='+s.count+'&callback=?';

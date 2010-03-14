@@ -86,6 +86,18 @@
       }
     }
 
+    function build_url() {
+      var proto = ('https:' == document.location.protocol ? 'https:' : 'http:');
+      if (s.list) {
+        return proto+"//api.twitter.com/1/"+s.username[0]+"/lists/"+s.list+"/statuses.json?per_page="+s.count+"&callback=?";
+      } else if (s.query == null && s.username.length == 1) {
+        return proto+'//twitter.com/status/user_timeline/'+s.username[0]+'.json?count='+s.count+'&callback=?';
+      } else {
+        var query = (s.query || 'from:'+s.username.join('%20OR%20from:'));
+        return proto+'//search.twitter.com/search.json?&q='+query+'&rpp='+s.count+'&callback=?';
+      }
+    }
+
     return this.each(function(){
       var list = $('<ul class="tweet_list">').appendTo(this);
       var intro = '<p class="tweet_intro">'+s.intro_text+'</p>';
@@ -95,17 +107,9 @@
       if(typeof(s.username) == "string"){
         s.username = [s.username];
       }
-      if (s.list) {
-        var url = "http://api.twitter.com/1/"+s.username[0]+"/lists/"+s.list+"/statuses.json?per_page="+s.count+"&callback=?";
-      } else if (s.query == null && s.username.length == 1) {
-        var url = 'http://twitter.com/status/user_timeline/'+s.username[0]+'.json?count='+s.count+'&callback=?';
-      } else {
-        var query = (s.query || 'from:'+s.username.join('%20OR%20from:'));
-        var url = 'http://search.twitter.com/search.json?&q='+query+'&rpp='+s.count+'&callback=?';
-      }
 
       if (s.loading_text) $(this).append(loading);
-      $.getJSON(url, function(data){
+      $.getJSON(build_url(), function(data){
         if (s.loading_text) loading.remove();
         if (s.intro_text) list.before(intro);
         $.each((data.results || data), function(i,item){

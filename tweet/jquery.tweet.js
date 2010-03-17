@@ -77,7 +77,7 @@
       };
       if(delta < 60) {
       return 'less than a minute ago';
-      } else if(delta < (45*60)) {
+      } else if(delta < (60*60)) {
       return 'about ' + pluralize("minute", parseInt(delta / 60)) + ' ago';
       } else if(delta < (24*60*60)) {
       return 'about ' + pluralize("hour", parseInt(delta / 3600)) + ' ago';

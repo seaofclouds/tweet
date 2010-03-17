@@ -1,2 +1,2 @@
-require 'main'
-run Sinatra::Application
+use Rack::Static, :urls => ['/index.css', '/jquery.tweet.css', '/jquery.tweet.js'], :root => "tweet"
+run lambda { |env| [200, { 'Content-Type' => 'text/html', 'Cache-Control' => 'public, max-age=86400' }, File.open('tweet/index.html', File::RDONLY)] }

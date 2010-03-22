@@ -91,7 +91,7 @@
       if (s.list) {
         return proto+"//api.twitter.com/1/"+s.username[0]+"/lists/"+s.list+"/statuses.json?per_page="+s.count+"&callback=?";
       } else if (s.query == null && s.username.length == 1) {
-        return proto+'//twitter.com/status/user_timeline/'+s.username[0]+'.json?count='+s.count+'&callback=?';
+        return proto+'//api.twitter.com/1/statuses/user_timeline.json?screen_name='+s.username[0]+'&count='+s.count+'&callback=?';
       } else {
         var query = (s.query || 'from:'+s.username.join('%20OR%20from:'));
         return proto+'//search.twitter.com/search.json?&q='+query+'&rpp='+s.count+'&callback=?';

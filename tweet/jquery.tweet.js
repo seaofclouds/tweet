@@ -68,8 +68,15 @@
       }
     });
 
+    function parse_date(date_str) {
+      // The non-search twitter APIs return inconsistently-formatted dates, which Date.parse
+      // cannot handle in IE. We therefore perform the following transformation:
+      // "Wed Apr 29 08:53:31 +0000 2009" => "Wed, Apr 29 2009 08:53:31 +0000"
+      return Date.parse(date_str.replace(/^([a-z]{3})( [a-z]{3} \d\d?)(.*)( \d{4})$/i, '$1,$2$4$3'));
+    }
+
     function relative_time(time_value) {
-      var parsed_date = Date.parse(time_value);
+      var parsed_date = parse_date(time_value);
       var relative_to = (arguments.length > 1) ? arguments[1] : new Date();
       var delta = parseInt((relative_to.getTime() - parsed_date) / 1000);
       var pluralize = function (singular, n) {

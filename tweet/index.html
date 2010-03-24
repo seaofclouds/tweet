@@ -30,13 +30,13 @@
         });
         $("#userandquery").tweet({
           count: 3,
-          query: "from:seaofclouds&phrase=http",
+          query: "from:seaofclouds http",
           loading_text: "searching twitter..."
         });
         $("#fromtwo").tweet({
           avatar_size: 32,
           count: 4,
-          query: "from%3Aseaofclouds+OR+from%3Alaughingsquid",
+          username: ["seaofclouds", "laughingsquid"],
           loading_text: "searching twitter..."
         });
         $("#list").tweet({
@@ -61,10 +61,10 @@
       <p>displaying four tweets from the query "<a href="http://search.twitter.com/search?q=tweet.seaofclouds.com">tweet.seaofclouds.com</a>".</p>
       <div id="query" class='query'></div>
       
-      <p>displaying up to three links with the query "<a href="http://search.twitter.com/search?q=from%3seaofclouds&phrase=http">from:seaofclouds and the phrase 'http'</a>".</p>
+      <p>displaying up to three links with the search query "<a href="http://search.twitter.com/search?q=from%3Aseaofclouds%20http">from:seaofclouds http</a>".</p>
       <div id='userandquery' class="query"></div>
       
-      <p>displaying four tweets from two users with the query "<a href="http://search.twitter.com/search?q=from%3Aseaofclouds+OR+from%3Alaughingsquid">from:seaofclouds OR from:laughingsquid</a>".</p>
+      <p>displaying four tweets from the two users "seaofclouds" and "laughingsquid".</p>
       <div id='fromtwo' class="query"></div>
       
       <p>displaying tweets from users on the 'rackers' list of 'laughingsquid'.</p>

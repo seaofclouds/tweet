@@ -100,8 +100,8 @@
       } else if (s.query == null && s.username.length == 1) {
         return proto+'//api.twitter.com/1/statuses/user_timeline.json?screen_name='+s.username[0]+'&count='+s.count+'&callback=?';
       } else {
-        var query = (s.query || 'from:'+s.username.join('%20OR%20from:'));
-        return proto+'//search.twitter.com/search.json?&q='+query+'&rpp='+s.count+'&callback=?';
+        var query = (s.query || 'from:'+s.username.join(' OR from:'));
+        return proto+'//search.twitter.com/search.json?&q='+escape(query)+'&rpp='+s.count+'&callback=?';
       }
     }
 

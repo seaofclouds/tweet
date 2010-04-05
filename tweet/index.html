@@ -46,7 +46,13 @@
           list: "rackers",
           loading_text: "loading list..."
         });
-      })      
+        $("#empty").tweet({
+          avatar_size: 32,
+          count: 4,
+          query: "cieR8oog",
+          loading_text: "searching twitter..."
+        }).bind("empty", function() { $(this).append("No matching tweets found"); });
+      })
     </script>
   </head>
   <body>
@@ -69,6 +75,9 @@
       
       <p>displaying tweets from users on the 'rackers' list of 'laughingsquid'.</p>
       <div id='list' class="query"></div>
+      
+      <p>adding a message when no tweets matching 'cieR8oog' are found.</p>
+      <div id='empty' class="query"></div>
       
       <h3>Features</h3>
       <ul>

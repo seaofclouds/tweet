@@ -105,8 +105,8 @@
       }
     }
 
-    return this.each(function(){
-      var list = $('<ul class="tweet_list">').appendTo(this);
+    return this.each(function(i, widget){
+      var list = $('<ul class="tweet_list">').appendTo(widget);
       var intro = '<p class="tweet_intro">'+s.intro_text+'</p>';
       var outro = '<p class="tweet_outro">'+s.outro_text+'</p>';
       var loading = $('<p class="loading">'+s.loading_text+'</p>');
@@ -115,11 +115,12 @@
         s.username = [s.username];
       }
 
-      if (s.loading_text) $(this).append(loading);
+      if (s.loading_text) $(widget).append(loading);
       $.getJSON(build_url(), function(data){
         if (s.loading_text) loading.remove();
         if (s.intro_text) list.before(intro);
-        $.each((data.results || data), function(i,item){
+        var tweets = (data.results || data);
+        $.each(tweets, function(i,item){
           // auto join text based on verb tense and content
           if (s.join_text == "auto") {
             if (item.text.match(/^(@([A-Za-z0-9-_]+)) .*/i)) {
@@ -154,6 +155,7 @@
           list.children('li:even').addClass('tweet_odd');
         });
         if (s.outro_text) list.after(outro);
+        $(widget).trigger("loaded").trigger((tweets.length == 0 ? "empty" : "full"));
       });
 
     });

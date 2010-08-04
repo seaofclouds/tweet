@@ -101,7 +101,7 @@
         return proto+'//api.twitter.com/1/statuses/user_timeline.json?screen_name='+s.username[0]+'&count='+s.count+'&callback=?';
       } else {
         var query = (s.query || 'from:'+s.username.join(' OR from:'));
-        return proto+'//search.twitter.com/search.json?&q='+escape(query)+'&rpp='+s.count+'&callback=?';
+        return proto+'//search.twitter.com/search.json?&q='+encodeURIComponent(query)+'&rpp='+s.count+'&callback=?';
       }
     }
 

@@ -1,15 +1,15 @@
-Tweet!
-put twitter on your website with tweet!, an unobtrusive javascript plugin for jquery.
+# Tweet!
+#### Put twitter on your website with tweet!, an unobtrusive javascript plugin for jquery.
 
-=== Demo ===
+## Demo
 
-  http://tweet.seaofclouds.com/ and http://seaofclouds.com/
+http://tweet.seaofclouds.com/ and http://seaofclouds.com/
 
-=== Download ===
+## Source
 
-  Tar http://github.com/seaofclouds/tweet/tarball/master
+http://github.com/seaofclouds/tweet/tarball/master
 
-=== Features ===
+## Features
 
   * small size and fast download time
   * will not slow down or pause your page while tweets are loading
@@ -24,19 +24,21 @@ put twitter on your website with tweet!, an unobtrusive javascript plugin for jq
   * converts <3 to a css styleable ♥ (we ♥ hearts)
   * customize the style with your own stylesheet or with other jquery plugins
 
-=== Usage ===
+## Usage
 
-  1. Get JQuery. In these examples, we use Google's AJAX Libraries API.
-  - http://code.google.com/apis/ajaxlibs/
-  - http://jquery.com/
+1. Get JQuery. In these examples, we use Google's AJAX Libraries API.
+- http://code.google.com/apis/ajaxlibs/
+- http://jquery.com/
   
-  2. include jQuery and jquery.tweet.js files in your template's <head>.
-    <script language="javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js" type="text/javascript"></script>
-    <script language="javascript" src="/tweet/jquery.tweet.js" type="text/javascript"></script>
+2. include jQuery and jquery.tweet.js files in your template's <head>.
+	
+	<script language="javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js" type="text/javascript"></script>
+	<script language="javascript" src="/tweet/jquery.tweet.js" type="text/javascript"></script>
   
-  3. Also in <head>, Initialize tweet! on page load with your Username and other options
-    <script type='text/javascript'>
-        $(document).ready(function(){
+3. Also in <head>, Initialize tweet! on page load with your Username and other options
+	
+	<script type='text/javascript'>
+		$(document).ready(function(){
             $(".tweet").tweet({
                 join_text: "auto",
                 avatar_size: 32,
@@ -51,24 +53,26 @@ put twitter on your website with tweet!, an unobtrusive javascript plugin for jq
         });
     </script>
     
-  4. In <body>, include a placeholder for your tweets. They'll get loaded in via JSON. How fancy!
-    <div class="tweet"></div>
+4. In <body>, include a placeholder for your tweets. They'll get loaded in via JSON. How fancy!
+	
+	<div class="tweet"></div>
   
-  5. Style with our stylesheet in <head>, or modify as you like!
-    <link href="jquery.tweet.css" media="all" rel="stylesheet" type="text/css"/>
+5. Style with our stylesheet in <head>, or modify as you like!
+
+	<link href="jquery.tweet.css" media="all" rel="stylesheet" type="text/css"/>
 
 
-=== Contribute ===
+### Contribute
 
-  Bring your code slinging skills to Github and help us develop new features for tweet!
+Bring your code slinging skills to Github and help us develop new features for tweet!
   
-  http://github.com/seaofclouds/tweet/
+http://github.com/seaofclouds/tweet/
 
-  git clone git://github.com/seaofclouds/tweet.git
+	git clone git://github.com/seaofclouds/tweet.git
 
-  Report bugs at http://seaofclouds.lighthouseapp.com/projects/14179-tweet/overview
+Report bugs at http://seaofclouds.lighthouseapp.com/projects/14179-tweet/overview
 
-=== Licensed under the MIT ===
+### Licensed under the MIT
 
 http://www.opensource.org/licenses/mit-license.php
 

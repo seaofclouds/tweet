@@ -27,8 +27,8 @@ http://github.com/seaofclouds/tweet/tarball/master
 ## Usage
 
 1. Get JQuery. In these examples, we use Google's AJAX Libraries API.
-- http://code.google.com/apis/ajaxlibs/
-- http://jquery.com/
+http://code.google.com/apis/ajaxlibs/
+http://jquery.com/
   
 2. include jQuery and jquery.tweet.js files in your template's <head>.
 	

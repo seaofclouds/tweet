@@ -15,7 +15,8 @@
       auto_join_text_reply: "i replied to",   // [string]   auto tense for replies: "i replied to" @someone "with"
       auto_join_text_url: "i was looking at", // [string]   auto tense for urls: "i was looking at" http:...
       loading_text: null,                     // [string]   optional loading text, displayed while tweets load
-      query: null                             // [string]   optional search query
+      query: null,                            // [string]   optional search query
+      refresh_interval: null                  // [integer]  optional number of seconds after which to reload tweets
     };
     
     if(o) $.extend(s, o);
@@ -121,48 +122,53 @@
       }
 
       if (s.loading_text) $(widget).append(loading);
-      $.getJSON(build_url(), function(data){
-        if (s.loading_text) loading.remove();
-        if (s.intro_text) list.before(intro);
-        var tweets = (data.results || data);
-        $.each(tweets, function(i,item){
-          // auto join text based on verb tense and content
-          if (s.join_text == "auto") {
-            if (item.text.match(/^(@([A-Za-z0-9-_]+)) .*/i)) {
-              var join_text = s.auto_join_text_reply;
-            } else if (item.text.match(/(^\w+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&\?\/.=]+) .*/i)) {
-              var join_text = s.auto_join_text_url;
-            } else if (item.text.match(/^((\w+ed)|just) .*/im)) {
-              var join_text = s.auto_join_text_ed;
-            } else if (item.text.match(/^(\w*ing) .*/i)) {
-              var join_text = s.auto_join_text_ing;
+      $(widget).bind("load", function(){
+        $.getJSON(build_url(), function(data){
+          if (s.loading_text) loading.remove();
+          if (s.intro_text) list.before(intro);
+          list.empty();
+          var tweets = (data.results || data);
+          $.each(tweets, function(i,item){
+            // auto join text based on verb tense and content
+            if (s.join_text == "auto") {
+              if (item.text.match(/^(@([A-Za-z0-9-_]+)) .*/i)) {
+                var join_text = s.auto_join_text_reply;
+              } else if (item.text.match(/(^\w+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&\?\/.=]+) .*/i)) {
+                var join_text = s.auto_join_text_url;
+              } else if (item.text.match(/^((\w+ed)|just) .*/im)) {
+                var join_text = s.auto_join_text_ed;
+              } else if (item.text.match(/^(\w*ing) .*/i)) {
+                var join_text = s.auto_join_text_ing;
+              } else {
+                var join_text = s.auto_join_text_default;
+              }
             } else {
-              var join_text = s.auto_join_text_default;
-            }
-          } else {
-            var join_text = s.join_text;
+              var join_text = s.join_text;
+            };
+   
+            var from_user = item.from_user || item.user.screen_name;
+            var profile_image_url = item.profile_image_url || item.user.profile_image_url;
+            var join_template = '<span class="tweet_join"> '+join_text+' </span>';
+            var join = ((s.join_text) ? join_template : ' ');
+            var avatar_template = '<a class="tweet_avatar" href="http://twitter.com/'+from_user+'"><img src="'+profile_image_url+'" height="'+s.avatar_size+'" width="'+s.avatar_size+'" alt="'+from_user+'\'s avatar" title="'+from_user+'\'s avatar" border="0"/></a>';
+            var avatar = (s.avatar_size ? avatar_template : '');
+            var date = '<span class="tweet_time"><a href="http://twitter.com/'+from_user+'/statuses/'+item.id+'" title="view tweet on twitter">'+relative_time(item.created_at)+'</a></span>';
+            var text = '<span class="tweet_text">' +$([item.text]).linkUrl().linkUser().linkHash().makeHeart().capAwesome().capEpic()[0]+ '</span>';
+   
+            // until we create a template option, arrange the items below to alter a tweet's display.
+            list.append('<li>' + avatar + date + join + text + '</li>');
+   
+            list.children('li:first').addClass('tweet_first');
+            list.children('li:odd').addClass('tweet_even');
+            list.children('li:even').addClass('tweet_odd');
+          });
+          if (s.outro_text) list.after(outro);
+          $(widget).trigger("loaded").trigger((tweets.length == 0 ? "empty" : "full"));
+          if (s.refresh_interval) {
+            window.setTimeout(function() { $(widget).trigger("load"); }, 1000 * s.refresh_interval);
           };
-
-          var from_user = item.from_user || item.user.screen_name;
-          var profile_image_url = item.profile_image_url || item.user.profile_image_url;
-          var join_template = '<span class="tweet_join"> '+join_text+' </span>';
-          var join = ((s.join_text) ? join_template : ' ');
-          var avatar_template = '<a class="tweet_avatar" href="http://twitter.com/'+from_user+'"><img src="'+profile_image_url+'" height="'+s.avatar_size+'" width="'+s.avatar_size+'" alt="'+from_user+'\'s avatar" title="'+from_user+'\'s avatar" border="0"/></a>';
-          var avatar = (s.avatar_size ? avatar_template : '');
-          var date = '<span class="tweet_time"><a href="http://twitter.com/'+from_user+'/statuses/'+item.id+'" title="view tweet on twitter">'+relative_time(item.created_at)+'</a></span>';
-          var text = '<span class="tweet_text">' +$([item.text]).linkUrl().linkUser().linkHash().makeHeart().capAwesome().capEpic()[0]+ '</span>';
-
-          // until we create a template option, arrange the items below to alter a tweet's display.
-          list.append('<li>' + avatar + date + join + text + '</li>');
-
-          list.children('li:first').addClass('tweet_first');
-          list.children('li:odd').addClass('tweet_even');
-          list.children('li:even').addClass('tweet_odd');
         });
-        if (s.outro_text) list.after(outro);
-        $(widget).trigger("loaded").trigger((tweets.length == 0 ? "empty" : "full"));
-      });
-
+      }).trigger("load");
     });
   };
 })(jQuery);

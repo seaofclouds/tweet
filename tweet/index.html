@@ -36,7 +36,8 @@
         avatar_size: 32,
         count: 4,
         username: ["seaofclouds", "laughingsquid"],
-        loading_text: "searching twitter..."
+        loading_text: "searching twitter...",
+        refresh_interval: 10
       });
       $("#list").tweet({
         avatar_size: 32,
@@ -68,7 +69,7 @@
   <p>displaying up to three links with the search query "<a href="http://search.twitter.com/search?q=from%3Aseaofclouds%20http">from:seaofclouds http</a>".</p>
   <div id='userandquery' class="query"></div>
   
-  <p>displaying four tweets from the two users "seaofclouds" and "laughingsquid".</p>
+  <p>displaying four tweets from the two users "seaofclouds" and "laughingsquid", refreshing every 10 seconds.</p>
   <div id='fromtwo' class="query"></div>
   
   <p>displaying tweets from users on the 'rackers' list of 'laughingsquid'.</p>
@@ -86,6 +87,7 @@
     <li>optional verb tense matching, for human readable tweets</li>
     <li>optionally display your avatar</li>
     <li>optionally display tweets from multiple accounts!</li>
+    <li>optional reloading after a specified delay</li>
     <li>automatic linking of  @replies to users&#8217; twitter page</li>
     <li>automatic linking of URLs</li>
     <li>uses <a href="http://apiwiki.twitter.com/Twitter-Search-API-Method%3A-search">Twitter's Search API</a>, so you can display any tweets you like</li>

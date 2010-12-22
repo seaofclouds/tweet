@@ -2,21 +2,24 @@
  
   $.fn.tweet = function(o){
     var s = {
-      username: ["seaofclouds"],              // [string]   required, unless you want to display our tweets. :) it can be an array, just do ["username1","username2","etc"]
-      list: null,                              //[string]   optional name of list belonging to username
-      avatar_size: null,                      // [integer]  height and width of avatar if displayed (48px max)
-      count: 3,                               // [integer]  how many tweets to display?
-      intro_text: null,                       // [string]   do you want text BEFORE your your tweets?
-      outro_text: null,                       // [string]   do you want text AFTER your tweets?
-      join_text:  null,                       // [string]   optional text in between date and tweet, try setting to "auto"
-      auto_join_text_default: "i said,",      // [string]   auto text for non verb: "i said" bullocks
-      auto_join_text_ed: "i",                 // [string]   auto text for past tense: "i" surfed
-      auto_join_text_ing: "i am",             // [string]   auto tense for present tense: "i was" surfing
-      auto_join_text_reply: "i replied to",   // [string]   auto tense for replies: "i replied to" @someone "with"
-      auto_join_text_url: "i was looking at", // [string]   auto tense for urls: "i was looking at" http:...
-      loading_text: null,                     // [string]   optional loading text, displayed while tweets load
-      query: null,                            // [string]   optional search query
-      refresh_interval: null                  // [integer]  optional number of seconds after which to reload tweets
+      username: ["seaofclouds"],                // [string]   required, unless you want to display our tweets. :) it can be an array, just do ["username1","username2","etc"]
+      list: null,                               // [string]   optional name of list belonging to username
+      avatar_size: null,                        // [integer]  height and width of avatar if displayed (48px max)
+      count: 3,                                 // [integer]  how many tweets to display?
+      intro_text: null,                         // [string]   do you want text BEFORE your your tweets?
+      outro_text: null,                         // [string]   do you want text AFTER your tweets?
+      join_text:  null,                         // [string]   optional text in between date and tweet, try setting to "auto"
+      auto_join_text_default: "i said,",        // [string]   auto text for non verb: "i said" bullocks
+      auto_join_text_ed: "i",                   // [string]   auto text for past tense: "i" surfed
+      auto_join_text_ing: "i am",               // [string]   auto tense for present tense: "i was" surfing
+      auto_join_text_reply: "i replied to",     // [string]   auto tense for replies: "i replied to" @someone "with"
+      auto_join_text_url: "i was looking at",   // [string]   auto tense for urls: "i was looking at" http:...
+      loading_text: null,                       // [string]   optional loading text, displayed while tweets load
+      query: null,                              // [string]   optional search query
+      refresh_interval: null ,                  // [integer]  optional number of seconds after which to reload tweets
+      twitter_url: "twitter.com",               // [string]   custom twitter url, if any (apigee, etc.)
+      twitter_api_url: "api.twitter.com",       // [string]   custom twitter api url, if any (apigee, etc.)
+      twitter_search_url: "search.twitter.com"  // [string]   custom twitter search url, if any (apigee, etc.)
     };
     
     if(o) $.extend(s, o);
@@ -34,15 +37,14 @@
         var returning = [];
         var regexp = /[\@]+([A-Za-z0-9-_]+)/gi;
         this.each(function() {
-          returning.push(this.replace(regexp,"<a href=\"http://twitter.com/$1\">@$1</a>"));
-        });
+          returning.push(this.replace(regexp,"<a href=\"http://"+s.twitter_url+"/$1\">@$1</a>"));        });
         return $(returning);
       },
       linkHash: function() {
         var returning = [];
         var regexp = /(?:^| )[\#]+([A-Za-z0-9-_]+)/gi;
         this.each(function() {
-          returning.push(this.replace(regexp, ' <a href="http://search.twitter.com/search?q=&tag=$1&lang=all&from='+s.username.join("%2BOR%2B")+'">#$1</a>'));
+          returning.push(this.replace(regexp, ' <a href="http://'+s.twitter_search_url+'/search?q=&tag=$1&lang=all&from='+s.username.join("%2BOR%2B")+'">#$1</a>'));
         });
         return $(returning);
       },
@@ -102,12 +104,12 @@
     function build_url() {
       var proto = ('https:' == document.location.protocol ? 'https:' : 'http:');
       if (s.list) {
-        return proto+"//api.twitter.com/1/"+s.username[0]+"/lists/"+s.list+"/statuses.json?per_page="+s.count+"&callback=?";
+        return proto+"//"+s.twitter_api_url+"/1/"+s.username[0]+"/lists/"+s.list+"/statuses.json?per_page="+s.count+"&callback=?";
       } else if (s.query == null && s.username.length == 1) {
-        return proto+'//api.twitter.com/1/statuses/user_timeline.json?screen_name='+s.username[0]+'&count='+s.count+'&include_rts=1&callback=?';
+        return proto+'//'+s.twitter_api_url+'/1/statuses/user_timeline.json?screen_name='+s.username[0]+'&count='+s.count+'&include_rts=1&callback=?';
       } else {
         var query = (s.query || 'from:'+s.username.join(' OR from:'));
-        return proto+'//search.twitter.com/search.json?&q='+encodeURIComponent(query)+'&rpp='+s.count+'&callback=?';
+        return proto+'//'+s.twitter_search_url+'/search.json?&q='+encodeURIComponent(query)+'&rpp='+s.count+'&callback=?';
       }
     }
 
@@ -150,9 +152,9 @@
             var profile_image_url = item.profile_image_url || item.user.profile_image_url;
             var join_template = '<span class="tweet_join"> '+join_text+' </span>';
             var join = ((s.join_text) ? join_template : ' ');
-            var avatar_template = '<a class="tweet_avatar" href="http://twitter.com/'+from_user+'"><img src="'+profile_image_url+'" height="'+s.avatar_size+'" width="'+s.avatar_size+'" alt="'+from_user+'\'s avatar" title="'+from_user+'\'s avatar" border="0"/></a>';
+            var avatar_template = '<a class="tweet_avatar" href="http://'+s.twitter_url+'/'+from_user+'"><img src="'+profile_image_url+'" height="'+s.avatar_size+'" width="'+s.avatar_size+'" alt="'+from_user+'\'s avatar" title="'+from_user+'\'s avatar" border="0"/></a>';
             var avatar = (s.avatar_size ? avatar_template : '');
-            var date = '<span class="tweet_time"><a href="http://twitter.com/'+from_user+'/statuses/'+item.id_str+'" title="view tweet on twitter">'+relative_time(item.created_at)+'</a></span>';
+            var date = '<span class="tweet_time"><a href="http://'+s.twitter_url+'/'+from_user+'/statuses/'+item.id_str+'" title="view tweet on twitter">'+relative_time(item.created_at)+'</a></span>';
             var text = '<span class="tweet_text">' +$([item.text]).linkUrl().linkUser().linkHash().makeHeart().capAwesome().capEpic()[0]+ '</span>';
    
             // until we create a template option, arrange the items below to alter a tweet's display.

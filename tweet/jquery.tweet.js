@@ -30,7 +30,11 @@
         // See http://daringfireball.net/2010/07/improved_regex_for_matching_urls
         var regexp = /\b((?:[a-z][\w-]+:(?:\/{1,3}|[a-z0-9%])|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))/gi;
         this.each(function() {
-          returning.push(this.replace(regexp,"<a href=\"$1\">$1</a>"));
+          returning.push(this.replace(regexp,
+                                      function(match) {
+                                        var url = (/^[a-z]+:/i).test(match) ? match : "http://"+match;
+                                        return "<a href=\""+url+"\">"+match+"</a>";
+                                      }));
         });
         return $(returning);
       },

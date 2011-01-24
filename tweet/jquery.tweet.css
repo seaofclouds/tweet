@@ -7,6 +7,7 @@
     list-style-type: none;
     margin: 0;
     padding: 0;
+    overflow-y: hidden;
     background-color: #8ADEE2; }
     .tweet .tweet_list .awesome, .tweet .tweet_list .epic, .query .tweet_list .awesome, .query .tweet_list .epic {
       text-transform: uppercase; }

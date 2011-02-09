@@ -1,13 +1,13 @@
 # Tweet!
 #### Put twitter on your website with tweet!, an unobtrusive javascript plugin for jquery.
 
-## Demo
+## Demos & examples
 
-http://tweet.seaofclouds.com/ and http://seaofclouds.com/
+See [tweet.seaofclouds.com](http://tweet.seaofclouds.com/), or the bundled `index.html` file.
 
 ## Source
 
-http://github.com/seaofclouds/tweet/tarball/master
+[Download tarball](http://github.com/seaofclouds/tweet/tarball/master)
 
 ## Features
 
@@ -23,21 +23,21 @@ http://github.com/seaofclouds/tweet/tarball/master
   * automatic linking of #hashtags, to a twitter search of all your tags
   * converts <3 to a css styleable ♥ (we ♥ hearts)
   * customize the style with your own stylesheet or with other jquery plugins
+  * customize the layout with a user-defined temmplate function
 
 ## Usage
 
-1. Get JQuery. In these examples, we use Google's AJAX Libraries API.
-http://code.google.com/apis/ajaxlibs/
-http://jquery.com/
+1. Get [JQuery](http://jquery.com/). In these examples, we use [Google's AJAX Libraries API](http://code.google.com/apis/ajaxlibs/).
+
   
 2. include jQuery and jquery.tweet.js files in your template's <head>.
 	
-	<script language="javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js" type="text/javascript"></script>
-	<script language="javascript" src="/tweet/jquery.tweet.js" type="text/javascript"></script>
+	&lt;script language="javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js" type="text/javascript"&gt;&lt;/script&gt;
+	&lt;script language="javascript" src="/tweet/jquery.tweet.js" type="text/javascript"&gt;&lt;/script&gt;
   
-3. Also in <head>, Initialize tweet! on page load with your Username and other options
+3. Also in &lt;head&gt;, Initialize tweet! on page load with your Username and other options
 	
-	<script type='text/javascript'>
+	&lt;script type='text/javascript'&gt;
 		$(document).ready(function(){
             $(".tweet").tweet({
                 join_text: "auto",
@@ -51,22 +51,22 @@ http://jquery.com/
                 loading_text: "loading tweets..."
             });
         });
-    </script>
+    &lt;/script&gt;
     
-4. In <body>, include a placeholder for your tweets. They'll get loaded in via JSON. How fancy!
+4. In &lt;body&gt;, include a placeholder for your tweets. They'll get loaded in via JSON. How fancy!
 	
-	<div class="tweet"></div>
+	&lt;div class="tweet"&gt;&lt;/div&gt;
   
-5. Style with our stylesheet in <head>, or modify as you like!
+5. Style with our stylesheet in &lt;head&gt;, or modify as you like!
 
-	<link href="jquery.tweet.css" media="all" rel="stylesheet" type="text/css"/>
+	&lt;link href="jquery.tweet.css" media="all" rel="stylesheet" type="text/css"/&gt;
 
 
 ### Contribute
 
 Bring your code slinging skills to Github and help us develop new features for tweet!
   
-http://github.com/seaofclouds/tweet/
+[Github project page](http://github.com/seaofclouds/tweet/)
 
 	git clone git://github.com/seaofclouds/tweet.git
 
@@ -74,7 +74,7 @@ Report bugs at http://seaofclouds.lighthouseapp.com/projects/14179-tweet/overvie
 
 ### Licensed under the MIT
 
-http://www.opensource.org/licenses/mit-license.php
+[License text](http://www.opensource.org/licenses/mit-license.php)
 
 If you like Tweet, check out Twoot!
 Twoot is a miniature Twitter client based on Tweet that allows you to post tweets and see what your friends are up to. Thanks, Peter Krantz!

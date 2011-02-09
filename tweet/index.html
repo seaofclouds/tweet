@@ -8,6 +8,16 @@
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
   <script src="jquery.tweet.js" charset="utf-8"></script>
   <script>
+    function randomString(length) {
+      var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz'.split('');
+      var str = '';
+      for (var i = 0; i < length; i++) {
+        str += chars[Math.floor(Math.random() * chars.length)];
+      }
+      return str;
+    }
+    var rnd = randomString(8);
+
     jQuery(document).ready(function($) {
       $(".tweet").tweet({
         join_text: "auto",
@@ -55,9 +65,10 @@
       $("#empty").tweet({
         avatar_size: 32,
         count: 4,
-        query: "cieR8oog",
+        query: rnd,
         loading_text: "searching twitter..."
       }).bind("empty", function() { $(this).append("No matching tweets found"); });
+      $(".rnd").replaceWith(rnd);
     })
   </script>
 </head>
@@ -84,7 +95,7 @@
   <p>customize the layout to eliminate the date stamps and avatars.</p>
   <div id='custom' class="query"></div>
   
-  <p>adding a message when no tweets matching 'cieR8oog' are found.</p>
+  <p>adding a message when no tweets matching '<span class="rnd">somerandomstring</span>' are found.</p>
   <div id='empty' class="query"></div>
   
   <h3>Features</h3>

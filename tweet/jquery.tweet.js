@@ -164,8 +164,8 @@
             var tweet_url = "http://"+s.twitter_url+"/"+from_user+"/statuses/"+item.id_str;
             var tweet_time = item.created_at;
             var tweet_relative_time = relative_time(tweet_time);
-            var tweet_raw_text = $([item.text]);
-            var tweet_text = tweet_raw_text.linkUrl().linkUser().linkHash();
+            var tweet_raw_text = item.text;
+            var tweet_text = $([tweet_raw_text]).linkUrl().linkUser().linkHash()[0];
 
             // Default spans
             var join = ((s.join_text) ? ('<span class="tweet_join"> '+join_text+' </span>') : ' ');
@@ -174,7 +174,7 @@
                            '" height="'+avatar_size+'" width="'+avatar_size+
                            '" alt="'+from_user+'\'s avatar" title="'+from_user+'\'s avatar" border="0"/></a>') : '');
             var time = '<span class="tweet_time"><a href="'+tweet_url+'" title="view tweet on twitter">'+tweet_relative_time+'</a></span>';
-            var text = '<span class="tweet_text">'+tweet_text.makeHeart().capAwesome().capEpic()[0]+ '</span>';
+            var text = '<span class="tweet_text">'+$([tweet_text]).makeHeart().capAwesome().capEpic()[0]+ '</span>';
 
             list.append("<li>"+
                         s.template({

@@ -1,5 +1,5 @@
 (function($) {
- 
+
   $.fn.tweet = function(o){
     var s = {
       username: ["seaofclouds"],                // [string]   required, unless you want to display our tweets. :) it can be an array, just do ["username1","username2","etc"]
@@ -24,9 +24,9 @@
         return info["avatar"] + info["time"] + info["join"] + info["text"];
       }
     };
-    
+
     if(o) $.extend(s, o);
-    
+
     $.fn.extend({
       linkUrl: function() {
         var returning = [];
@@ -92,19 +92,19 @@
       var delta = parseInt((relative_to.getTime() - parsed_date) / 1000);
       var r = '';
       if (delta < 60) {
-	r = delta + ' seconds ago';
+        r = delta + ' seconds ago';
       } else if(delta < 120) {
-	r = 'a minute ago';
+        r = 'a minute ago';
       } else if(delta < (45*60)) {
-	r = (parseInt(delta / 60, 10)).toString() + ' minutes ago';
+        r = (parseInt(delta / 60, 10)).toString() + ' minutes ago';
       } else if(delta < (2*60*60)) {
-	r = 'an hour ago';
+        r = 'an hour ago';
       } else if(delta < (24*60*60)) {
-	r = '' + (parseInt(delta / 3600, 10)).toString() + ' hours ago';
+        r = '' + (parseInt(delta / 3600, 10)).toString() + ' hours ago';
       } else if(delta < (48*60*60)) {
-	r = 'a day ago';
+        r = 'a day ago';
       } else {
-	r = (parseInt(delta / 86400, 10)).toString() + ' days ago';
+        r = (parseInt(delta / 86400, 10)).toString() + ' days ago';
       }
       return 'about ' + r;
     }

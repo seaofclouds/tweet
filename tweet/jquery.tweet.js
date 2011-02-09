@@ -19,7 +19,10 @@
       refresh_interval: null ,                  // [integer]  optional number of seconds after which to reload tweets
       twitter_url: "twitter.com",               // [string]   custom twitter url, if any (apigee, etc.)
       twitter_api_url: "api.twitter.com",       // [string]   custom twitter api url, if any (apigee, etc.)
-      twitter_search_url: "search.twitter.com"  // [string]   custom twitter search url, if any (apigee, etc.)
+      twitter_search_url: "search.twitter.com", // [string]   custom twitter search url, if any (apigee, etc.)
+      template: function(info) {                // [function] template used to construct each tweet <li>
+        return info["avatar"] + info["time"] + info["join"] + info["text"];
+      }
     };
     
     if(o) $.extend(s, o);
@@ -152,19 +155,44 @@
             } else {
               var join_text = s.join_text;
             };
-   
+
+            // Basic building blocks for constructing tweet <li> using a template
             var from_user = item.from_user || item.user.screen_name;
-            var profile_image_url = item.profile_image_url || item.user.profile_image_url;
-            var join_template = '<span class="tweet_join"> '+join_text+' </span>';
-            var join = ((s.join_text) ? join_template : ' ');
-            var avatar_template = '<a class="tweet_avatar" href="http://'+s.twitter_url+'/'+from_user+'"><img src="'+profile_image_url+'" height="'+s.avatar_size+'" width="'+s.avatar_size+'" alt="'+from_user+'\'s avatar" title="'+from_user+'\'s avatar" border="0"/></a>';
-            var avatar = (s.avatar_size ? avatar_template : '');
-            var date = '<span class="tweet_time"><a href="http://'+s.twitter_url+'/'+from_user+'/statuses/'+item.id_str+'" title="view tweet on twitter">'+relative_time(item.created_at)+'</a></span>';
-            var text = '<span class="tweet_text">' +$([item.text]).linkUrl().linkUser().linkHash().makeHeart().capAwesome().capEpic()[0]+ '</span>';
-   
-            // until we create a template option, arrange the items below to alter a tweet's display.
-            list.append('<li>' + avatar + date + join + text + '</li>');
-   
+            var user_url = "http://"+s.twitter_url+"/"+from_user;
+            var avatar_size = s.avatar_size;
+            var avatar_url = item.profile_image_url || item.user.profile_image_url;
+            var tweet_url = "http://"+s.twitter_url+"/"+from_user+"/statuses/"+item.id_str;
+            var tweet_time = item.created_at;
+            var tweet_relative_time = relative_time(tweet_time);
+            var tweet_raw_text = $([item.text]);
+            var tweet_text = tweet_raw_text.linkUrl().linkUser().linkHash();
+
+            // Default spans
+            var join = ((s.join_text) ? ('<span class="tweet_join"> '+join_text+' </span>') : ' ');
+            var avatar = (avatar_size ?
+                          ('<a class="tweet_avatar" href="'+user_url+'"><img src="'+avatar_url+
+                           '" height="'+avatar_size+'" width="'+avatar_size+
+                           '" alt="'+from_user+'\'s avatar" title="'+from_user+'\'s avatar" border="0"/></a>') : '');
+            var time = '<span class="tweet_time"><a href="'+tweet_url+'" title="view tweet on twitter">'+tweet_relative_time+'</a></span>';
+            var text = '<span class="tweet_text">'+tweet_text.makeHeart().capAwesome().capEpic()[0]+ '</span>';
+
+            list.append("<li>"+
+                        s.template({
+                          from_user: from_user,
+                          user_url: user_url,
+                          avatar_size: avatar_size,
+                          avatar_url: avatar_url,
+                          tweet_url: tweet_url,
+                          tweet_time: tweet_time,
+                          tweet_relative_time: tweet_relative_time,
+                          tweet_raw_text: tweet_raw_text,
+                          tweet_text: tweet_text,
+                          join: join,
+                          avatar: avatar,
+                          time: time,
+                          text: text
+                       })+ "</li>");
+
             list.children('li:first').addClass('tweet_first');
             list.children('li:odd').addClass('tweet_even');
             list.children('li:even').addClass('tweet_odd');

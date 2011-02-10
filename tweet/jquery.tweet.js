@@ -180,6 +180,7 @@
 
             list.append("<li>"+
                         s.template({
+                          item: item, // For advanced users who want to dig out other info
                           screen_name: screen_name,
                           user_url: user_url,
                           avatar_size: avatar_size,

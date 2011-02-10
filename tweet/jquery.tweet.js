@@ -135,24 +135,24 @@
           if (s.loading_text) loading.remove();
           if (s.intro_text) list.before(intro);
           list.empty();
-          var tweets = (data.results || data);
-          $.each(tweets, function(i,item){
+          
+          var tweets = $.map(data.results || data, function(item){
+            var join_text = s.join_text;
+
             // auto join text based on verb tense and content
             if (s.join_text == "auto") {
               if (item.text.match(/^(@([A-Za-z0-9-_]+)) .*/i)) {
-                var join_text = s.auto_join_text_reply;
+                join_text = s.auto_join_text_reply;
               } else if (item.text.match(/(^\w+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&\?\/.=]+) .*/i)) {
-                var join_text = s.auto_join_text_url;
+                join_text = s.auto_join_text_url;
               } else if (item.text.match(/^((\w+ed)|just) .*/im)) {
-                var join_text = s.auto_join_text_ed;
+                join_text = s.auto_join_text_ed;
               } else if (item.text.match(/^(\w*ing) .*/i)) {
-                var join_text = s.auto_join_text_ing;
+                join_text = s.auto_join_text_ing;
               } else {
-                var join_text = s.auto_join_text_default;
+                join_text = s.auto_join_text_default;
               }
-            } else {
-              var join_text = s.join_text;
-            };
+            }
 
             // Basic building blocks for constructing tweet <li> using a template
             var screen_name = item.from_user || item.user.screen_name;
@@ -176,7 +176,7 @@
             var time = '<span class="tweet_time"><a href="'+tweet_url+'" title="view tweet on twitter">'+tweet_relative_time+'</a></span>';
             var text = '<span class="tweet_text">'+$([tweet_text]).makeHeart().capAwesome().capEpic()[0]+ '</span>';
 
-            list.append("<li>"+
+            return "<li>" +
                         s.template({
                           item: item, // For advanced users who want to dig out other info
                           screen_name: screen_name,
@@ -194,12 +194,15 @@
                           avatar: avatar,
                           time: time,
                           text: text
-                       })+ "</li>");
-
-            list.children('li:first').addClass('tweet_first');
-            list.children('li:odd').addClass('tweet_even');
-            list.children('li:even').addClass('tweet_odd');
+                       }) +
+                    "</li>";
           });
+
+          list.append(tweets.join(''))
+              .children('li:first').addClass('tweet_first').end()
+              .children('li:odd').addClass('tweet_even').end()
+              .children('li:even').addClass('tweet_odd');
+
           if (s.outro_text) list.after(outro);
           $(widget).trigger("loaded").trigger((tweets.length == 0 ? "empty" : "full"));
           if (s.refresh_interval) {

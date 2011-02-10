@@ -157,36 +157,40 @@
             };
 
             // Basic building blocks for constructing tweet <li> using a template
-            var from_user = item.from_user || item.user.screen_name;
-            var user_url = "http://"+s.twitter_url+"/"+from_user;
+            var screen_name = item.from_user || item.user.screen_name;
+            var source = item.source;
+            var user_url = "http://"+s.twitter_url+"/"+screen_name;
             var avatar_size = s.avatar_size;
             var avatar_url = item.profile_image_url || item.user.profile_image_url;
-            var tweet_url = "http://"+s.twitter_url+"/"+from_user+"/statuses/"+item.id_str;
+            var tweet_url = "http://"+s.twitter_url+"/"+screen_name+"/statuses/"+item.id_str;
             var tweet_time = item.created_at;
             var tweet_relative_time = relative_time(tweet_time);
             var tweet_raw_text = item.text;
             var tweet_text = $([tweet_raw_text]).linkUrl().linkUser().linkHash()[0];
 
-            // Default spans
+            // Default spans, and pre-formatted blocks for common layouts
+            var user = '<a class="tweet_user" href='+user_url+'">'+screen_name+'</a>'
             var join = ((s.join_text) ? ('<span class="tweet_join"> '+join_text+' </span>') : ' ');
             var avatar = (avatar_size ?
                           ('<a class="tweet_avatar" href="'+user_url+'"><img src="'+avatar_url+
                            '" height="'+avatar_size+'" width="'+avatar_size+
-                           '" alt="'+from_user+'\'s avatar" title="'+from_user+'\'s avatar" border="0"/></a>') : '');
+                           '" alt="'+screen_name+'\'s avatar" title="'+screen_name+'\'s avatar" border="0"/></a>') : '');
             var time = '<span class="tweet_time"><a href="'+tweet_url+'" title="view tweet on twitter">'+tweet_relative_time+'</a></span>';
             var text = '<span class="tweet_text">'+$([tweet_text]).makeHeart().capAwesome().capEpic()[0]+ '</span>';
 
             list.append("<li>"+
                         s.template({
-                          from_user: from_user,
+                          screen_name: screen_name,
                           user_url: user_url,
                           avatar_size: avatar_size,
                           avatar_url: avatar_url,
+                          source: source,
                           tweet_url: tweet_url,
                           tweet_time: tweet_time,
                           tweet_relative_time: tweet_relative_time,
                           tweet_raw_text: tweet_raw_text,
                           tweet_text: tweet_text,
+                          user: user,
                           join: join,
                           avatar: avatar,
                           time: time,

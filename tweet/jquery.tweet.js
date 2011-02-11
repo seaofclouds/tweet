@@ -87,7 +87,7 @@
     function relative_time(time_value) {
       var parsed_date = parse_date(time_value);
       var relative_to = (arguments.length > 1) ? arguments[1] : new Date();
-      var delta = parseInt((relative_to.getTime() - parsed_date) / 1000);
+      var delta = parseInt((relative_to.getTime() - parsed_date) / 1000, 10);
       var r = '';
       if (delta < 60) {
         r = delta + ' seconds ago';
@@ -111,7 +111,7 @@
       var proto = ('https:' == document.location.protocol ? 'https:' : 'http:');
       if (s.list) {
         return proto+"//"+s.twitter_api_url+"/1/"+s.username[0]+"/lists/"+s.list+"/statuses.json?per_page="+s.count+"&callback=?";
-      } else if (s.query == null && s.username.length == 1) {
+      } else if (s.query === null && s.username.length == 1) {
         return proto+'//'+s.twitter_api_url+'/1/statuses/user_timeline.json?screen_name='+s.username[0]+'&count='+s.count+'&include_rts=1&callback=?';
       } else {
         var query = (s.query || 'from:'+s.username.join(' OR from:'));
@@ -198,16 +198,16 @@
                     "</li>";
           });
 
-          list.append(tweets.join(''))
-              .children('li:first').addClass('tweet_first').end()
-              .children('li:odd').addClass('tweet_even').end()
-              .children('li:even').addClass('tweet_odd');
+          list.append(tweets.join('')).
+              children('li:first').addClass('tweet_first').end().
+              children('li:odd').addClass('tweet_even').end().
+              children('li:even').addClass('tweet_odd');
 
           if (s.outro_text) list.after(outro);
-          $(widget).trigger("loaded").trigger((tweets.length == 0 ? "empty" : "full"));
+          $(widget).trigger("loaded").trigger((tweets.length === 0 ? "empty" : "full"));
           if (s.refresh_interval) {
             window.setTimeout(function() { $(widget).trigger("load"); }, 1000 * s.refresh_interval);
-          };
+          }
         });
       }).trigger("load");
     });

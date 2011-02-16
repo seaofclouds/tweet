@@ -167,7 +167,7 @@
             var tweet_text = $([tweet_raw_text]).linkUrl().linkUser().linkHash()[0];
 
             // Default spans, and pre-formatted blocks for common layouts
-            var user = '<a class="tweet_user" href='+user_url+'">'+screen_name+'</a>';
+            var user = '<a class="tweet_user" href="'+user_url+'">'+screen_name+'</a>';
             var join = ((s.join_text) ? ('<span class="tweet_join"> '+join_text+' </span>') : ' ');
             var avatar = (avatar_size ?
                           ('<a class="tweet_avatar" href="'+user_url+'"><img src="'+avatar_url+

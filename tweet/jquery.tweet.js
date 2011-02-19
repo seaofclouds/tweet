@@ -24,7 +24,7 @@
         return info["avatar"] + info["time"] + info["join"] + info["text"];
       },
       comparator: function(tweet1, tweet2) {    // [function] comparator used to sort tweets (see Array.sort)
-        return (tweet1["tweet_time"] < tweet2["tweet_time"]) ? 1 : -1;
+        return (tweet1["tweet_time"] > tweet2["tweet_time"]) ? 1 : -1;
       }
     }, o);
 

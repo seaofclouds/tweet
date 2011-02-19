@@ -6,6 +6,7 @@
       list: null,                               // [string]   optional name of list belonging to username
       avatar_size: null,                        // [integer]  height and width of avatar if displayed (48px max)
       count: 3,                                 // [integer]  how many tweets to display?
+      fetch: null,                              // [integer]  how many tweets to fetch via the API (set this higher than 'count' if using the 'filter' option)
       intro_text: null,                         // [string]   do you want text BEFORE your your tweets?
       outro_text: null,                         // [string]   do you want text AFTER your tweets?
       join_text:  null,                         // [string]   optional text in between date and tweet, try setting to "auto"
@@ -25,6 +26,9 @@
       },
       comparator: function(tweet1, tweet2) {    // [function] comparator used to sort tweets (see Array.sort)
         return tweet1["tweet_time"] - tweet2["tweet_time"];
+      },
+      filter: function(tweet) {                 // [function] whether or not to include a particular tweet (be sure to also set 'fetch')
+        return true;
       }
     }, o);
 
@@ -112,13 +116,14 @@
 
     function build_url() {
       var proto = ('https:' == document.location.protocol ? 'https:' : 'http:');
+      var count = (s.fetch === null) ? s.count : s.fetch;
       if (s.list) {
-        return proto+"//"+s.twitter_api_url+"/1/"+s.username[0]+"/lists/"+s.list+"/statuses.json?per_page="+s.count+"&callback=?";
+        return proto+"//"+s.twitter_api_url+"/1/"+s.username[0]+"/lists/"+s.list+"/statuses.json?per_page="+count+"&callback=?";
       } else if (s.query === null && s.username.length == 1) {
-        return proto+'//'+s.twitter_api_url+'/1/statuses/user_timeline.json?screen_name='+s.username[0]+'&count='+s.count+'&include_rts=1&callback=?';
+        return proto+'//'+s.twitter_api_url+'/1/statuses/user_timeline.json?screen_name='+s.username[0]+'&count='+count+'&include_rts=1&callback=?';
       } else {
         var query = (s.query || 'from:'+s.username.join(' OR from:'));
-        return proto+'//'+s.twitter_search_url+'/search.json?&q='+encodeURIComponent(query)+'&rpp='+s.count+'&callback=?';
+        return proto+'//'+s.twitter_search_url+'/search.json?&q='+encodeURIComponent(query)+'&rpp='+count+'&callback=?';
       }
     }
 
@@ -198,6 +203,7 @@
                    };
           });
 
+          tweets = $.grep(tweets, s.filter).slice(0, s.count);
           list.append($.map(tweets.sort(s.comparator),
                             function(t) { return "<li>" + s.template(t) + "</li>"; }).join('')).
               children('li:first').addClass('tweet_first').end().

@@ -22,6 +22,9 @@
       twitter_search_url: "search.twitter.com", // [string]   custom twitter search url, if any (apigee, etc.)
       template: function(info) {                // [function] template used to construct each tweet <li>
         return info["avatar"] + info["time"] + info["join"] + info["text"];
+      },
+      comparator: function(tweet1, tweet2) {    // [function] comparator used to sort tweets (see Array.sort)
+        return (tweet1["tweet_time"] > tweet2["tweet_time"]) ? 1 : -1;
       }
     }, o);
 
@@ -176,29 +179,27 @@
             var time = '<span class="tweet_time"><a href="'+tweet_url+'" title="view tweet on twitter">'+tweet_relative_time+'</a></span>';
             var text = '<span class="tweet_text">'+$([tweet_text]).makeHeart().capAwesome().capEpic()[0]+ '</span>';
 
-            return "<li>" +
-                        s.template({
-                          item: item, // For advanced users who want to dig out other info
-                          screen_name: screen_name,
-                          user_url: user_url,
-                          avatar_size: avatar_size,
-                          avatar_url: avatar_url,
-                          source: source,
-                          tweet_url: tweet_url,
-                          tweet_time: tweet_time,
-                          tweet_relative_time: tweet_relative_time,
-                          tweet_raw_text: tweet_raw_text,
-                          tweet_text: tweet_text,
-                          user: user,
-                          join: join,
-                          avatar: avatar,
-                          time: time,
-                          text: text
-                       }) +
-                    "</li>";
+            return { item: item, // For advanced users who want to dig out other info
+                     screen_name: screen_name,
+                     user_url: user_url,
+                     avatar_size: avatar_size,
+                     avatar_url: avatar_url,
+                     source: source,
+                     tweet_url: tweet_url,
+                     tweet_time: tweet_time,
+                     tweet_relative_time: tweet_relative_time,
+                     tweet_raw_text: tweet_raw_text,
+                     tweet_text: tweet_text,
+                     user: user,
+                     join: join,
+                     avatar: avatar,
+                     time: time,
+                     text: text
+                   };
           });
 
-          list.append(tweets.join('')).
+          list.append($.map(tweets.sort(s.comparator),
+                            function(t) { return "<li>" + s.template(t) + "</li>"; }).join('')).
               children('li:first').addClass('tweet_first').end().
               children('li:odd').addClass('tweet_even').end().
               children('li:even').addClass('tweet_odd');

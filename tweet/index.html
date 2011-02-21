@@ -37,8 +37,11 @@
   <h1>Tweet!</h1>
   <h2>put <a href="http://twitter.com">twitter</a> on your website with <em>tweet!</em>, an unobtrusive javascript plugin for jquery.</h2>
 
-  <h3>Demo</h3>
-  <p>displaying three tweets from the <a href="http://twitter.com/seaofclouds">seaofclouds twitter feed</a>. check the script in action at <a href="http://seaofclouds.com">seaofclouds.com</a></p>
+  <p>Check out the script in action at <a href="http://seaofclouds.com">seaofclouds.com</a>, and see the following demos.</p>
+
+  <h3>Examples</h3>
+
+  <p>Displaying three tweets from the <a href="http://twitter.com/seaofclouds">seaofclouds twitter feed</a>:</p>
   <pre class="example">
     $(function(){
       $(".tweet").tweet({
@@ -55,12 +58,12 @@
       });
     });
   </pre>
-  <div class='tweet'></div>
+  <div class='tweet query'></div>
   <script type="text/javascript">
     $(function(){ $(".example").each(function(i, e){ eval($(e).text()); }); });
   </script>
 
-  <p>displaying four tweets from the query "<a href="http://search.twitter.com/search?q=tweet.seaofclouds.com">tweet.seaofclouds.com</a>".</p>
+  <p>Displaying four tweets from the query "<a href="http://search.twitter.com/search?q=tweet.seaofclouds.com">tweet.seaofclouds.com</a>":</p>
   <pre class="example">
     $(function(){
       $("#query").tweet({
@@ -73,7 +76,7 @@
   </pre>
   <div id="query" class='query'></div>
 
-  <p>displaying up to three links with the search query "<a href="http://search.twitter.com/search?q=from%3Aseaofclouds%20http">from:seaofclouds http</a>".</p>
+  <p>Displaying up to three links with the search query "<a href="http://search.twitter.com/search?q=from%3Aseaofclouds%20http">from:seaofclouds http</a>":</p>
   <pre class="example">
     $(function(){
       $("#userandquery").tweet({
@@ -85,7 +88,7 @@
   </pre>
   <div id='userandquery' class="query"></div>
 
-  <p>displaying four tweets from the two users "seaofclouds" and "laughingsquid", refreshing every 10 seconds.</p>
+  <p>Displaying four tweets from the two users "seaofclouds" and "laughingsquid", refreshing every 10 seconds:</p>
   <pre class="example">
     $(function(){
       $("#fromtwo").tweet({
@@ -99,7 +102,7 @@
   </pre>
   <div id='fromtwo' class="query"></div>
 
-  <p>displaying tweets from users on the 'team' list of 'twitter'.</p>
+  <p>Displaying tweets from users on the 'team' list of 'twitter':</p>
   <pre class="example">
     $(function(){
       $("#list").tweet({
@@ -113,7 +116,7 @@
   </pre>
   <div id='list' class="query"></div>
 
-  <p>fetch 20 tweets, but filter out @replies, and display only 3.</p>
+  <p>Fetch 20 tweets, but filter out @replies, and display only 3:</p>
   <pre class="example">
     $(function(){
       $("#filter").tweet({
@@ -127,7 +130,7 @@
   </pre>
   <div id='filter' class="query"></div>
 
-  <p>customize the layout to eliminate the date stamps and avatars.</p>
+  <p>Customize the layout to eliminate the date stamps and avatars:</p>
   <pre class="example">
     $(function(){
       $("#custom").tweet({
@@ -140,7 +143,7 @@
   </pre>
   <div id='custom' class="query"></div>
 
-  <p>adding a message when no tweets matching '<span class="rnd">somerandomstring</span>' are found.</p>
+  <p>Adding a message when no tweets matching '<span class="rnd">somerandomstring</span>' are found:</p>
   <pre class="example">
     $(function(){
       $("#empty").tweet({

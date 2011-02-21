@@ -3,8 +3,8 @@
   $.fn.tweet = function(o){
     var s = $.extend({
       username: ["seaofclouds"],                // [string]   required, unless you want to display our tweets. :) it can be an array, just do ["username1","username2","etc"]
-      fav: false,                               // [boolean]  optional. Set true to get the favorites from the user.
       list: null,                               // [string]   optional name of list belonging to username
+      favorites: false,                         // [boolean]  display the user's favorites instead of his tweets
       avatar_size: null,                        // [integer]  height and width of avatar if displayed (48px max)
       count: 3,                                 // [integer]  how many tweets to display?
       fetch: null,                              // [integer]  how many tweets to fetch via the API (set this higher than 'count' if using the 'filter' option)
@@ -120,7 +120,7 @@
       var count = (s.fetch === null) ? s.count : s.fetch;
       if (s.list) {
         return proto+"//"+s.twitter_api_url+"/1/"+s.username[0]+"/lists/"+s.list+"/statuses.json?per_page="+count+"&callback=?";
-      } else if (s.fav) {
+      } else if (s.favorites) {
         return proto+"//"+s.twitter_api_url+"/favorites/"+s.username[0]+".json?count="+s.count+"&callback=?";
       } else if (s.query === null && s.username.length == 1) {
         return proto+'//'+s.twitter_api_url+'/1/statuses/user_timeline.json?screen_name='+s.username[0]+'&count='+count+'&include_rts=1&callback=?';

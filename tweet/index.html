@@ -116,6 +116,20 @@
   </pre>
   <div id='list' class="query"></div>
 
+  <p>Displaying the user seaofclouds' favorite tweets:</p>
+  <pre class="example">
+    $(function(){
+      $("#favorites").tweet({
+        avatar_size: 32,
+        count: 3,
+        username: "seaofclouds",
+        favorites: true,
+        loading_text: "loading list..."
+      });
+    });
+  </pre>
+  <div id="favorites" class="query"></div>
+
   <p>Fetch 20 tweets, but filter out @replies, and display only 3:</p>
   <pre class="example">
     $(function(){
@@ -165,6 +179,7 @@
     <li>optional verb tense matching, for human readable tweets</li>
     <li>optionally display your avatar</li>
     <li>optionally display tweets from multiple accounts!</li>
+    <li>display tweets from a list, or display a user's favorites</li>
     <li>optional reloading after a specified delay</li>
     <li>automatic linking of  @replies to users&#8217; twitter page</li>
     <li>automatic linking of URLs</li>

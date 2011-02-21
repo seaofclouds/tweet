@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8" />
+        <meta charset="UTF-8" />
   <title>Tweet! Put Twitter on your site with this simple, unobtrusive jQuery widget</title>
   <link href="index.css" rel="stylesheet"/>
   <link href="jquery.tweet.css" rel="stylesheet">
@@ -19,29 +19,75 @@
     var rnd = randomString(8);
 
     jQuery(document).ready(function($) {
+      $(".rnd").replaceWith(rnd);
+
+
+      $(".example").hide().each(function(i,e){
+        $(e).before($('<a class="show-code" href="#">Show code &raquo;</a>').
+                      click(function(ev) {
+                        $(e).slideToggle();
+                        $(this).hide();
+                        ev.preventDefault();
+                      }));
+      });
+    })
+  </script>
+</head>
+<body>
+  <h1>Tweet!</h1>
+  <h2>put <a href="http://twitter.com">twitter</a> on your website with <em>tweet!</em>, an unobtrusive javascript plugin for jquery.</h2>
+
+  <h3>Demo</h3>
+  <p>displaying three tweets from the <a href="http://twitter.com/seaofclouds">seaofclouds twitter feed</a>. check the script in action at <a href="http://seaofclouds.com">seaofclouds.com</a></p>
+  <pre class="example">
+    $(function(){
       $(".tweet").tweet({
         join_text: "auto",
         username: "seaofclouds",
         avatar_size: 48,
         count: 3,
-        auto_join_text_default: "we said,", 
+        auto_join_text_default: "we said,",
         auto_join_text_ed: "we",
         auto_join_text_ing: "we were",
         auto_join_text_reply: "we replied",
         auto_join_text_url: "we were checking out",
         loading_text: "loading tweets..."
       });
+    });
+  </pre>
+  <div class='tweet'></div>
+  <script type="text/javascript">
+    $(function(){ $(".example").each(function(i, e){ eval($(e).text()); }); });
+  </script>
+
+  <p>displaying four tweets from the query "<a href="http://search.twitter.com/search?q=tweet.seaofclouds.com">tweet.seaofclouds.com</a>".</p>
+  <pre class="example">
+    $(function(){
       $("#query").tweet({
         avatar_size: 32,
         count: 4,
         query: "tweet.seaofclouds.com",
         loading_text: "searching twitter..."
       });
+    });
+  </pre>
+  <div id="query" class='query'></div>
+
+  <p>displaying up to three links with the search query "<a href="http://search.twitter.com/search?q=from%3Aseaofclouds%20http">from:seaofclouds http</a>".</p>
+  <pre class="example">
+    $(function(){
       $("#userandquery").tweet({
         count: 3,
         query: "from:seaofclouds http",
         loading_text: "searching twitter..."
       });
+    });
+  </pre>
+  <div id='userandquery' class="query"></div>
+
+  <p>displaying four tweets from the two users "seaofclouds" and "laughingsquid", refreshing every 10 seconds.</p>
+  <pre class="example">
+    $(function(){
       $("#fromtwo").tweet({
         avatar_size: 32,
         count: 4,
@@ -49,6 +95,13 @@
         loading_text: "searching twitter...",
         refresh_interval: 10
       });
+    });
+  </pre>
+  <div id='fromtwo' class="query"></div>
+
+  <p>displaying tweets from users on the 'team' list of 'twitter'.</p>
+  <pre class="example">
+    $(function(){
       $("#list").tweet({
         avatar_size: 32,
         count: 4,
@@ -56,6 +109,13 @@
         list: "team",
         loading_text: "loading list..."
       });
+    });
+  </pre>
+  <div id='list' class="query"></div>
+
+  <p>fetch 20 tweets, but filter out @replies, and display only 3.</p>
+  <pre class="example">
+    $(function(){
       $("#filter").tweet({
         avatar_size: 32,
         count: 3,
@@ -63,51 +123,36 @@
         filter: function(t){ return ! /^@\w+/.test(t["tweet_raw_text"]); },
         username: "seaofclouds",
       });
+    });
+  </pre>
+  <div id='filter' class="query"></div>
+
+  <p>customize the layout to eliminate the date stamps and avatars.</p>
+  <pre class="example">
+    $(function(){
       $("#custom").tweet({
         avatar_size: 32,
         count: 4,
         username: "seaofclouds",
         template: function(i){return i["text"]}
       });
+    });
+  </pre>
+  <div id='custom' class="query"></div>
+
+  <p>adding a message when no tweets matching '<span class="rnd">somerandomstring</span>' are found.</p>
+  <pre class="example">
+    $(function(){
       $("#empty").tweet({
         avatar_size: 32,
         count: 4,
         query: rnd,
         loading_text: "searching twitter..."
       }).bind("empty", function() { $(this).append("No matching tweets found"); });
-      $(".rnd").replaceWith(rnd);
-    })
-  </script>
-</head>
-<body>
-  <h1>Tweet!</h1>
-  <h2>put <a href="http://twitter.com">twitter</a> on your website with <em>tweet!</em>, an unobtrusive javascript plugin for jquery.</h2>
-  
-  <h3>Demo</h3>
-  <p>displaying three tweets from the <a href="http://twitter.com/seaofclouds">seaofclouds twitter feed</a>. check the script in action at <a href="http://seaofclouds.com">seaofclouds.com</a></p>
-  <div class='tweet'></div>
-  
-  <p>displaying four tweets from the query "<a href="http://search.twitter.com/search?q=tweet.seaofclouds.com">tweet.seaofclouds.com</a>".</p>
-  <div id="query" class='query'></div>
-  
-  <p>displaying up to three links with the search query "<a href="http://search.twitter.com/search?q=from%3Aseaofclouds%20http">from:seaofclouds http</a>".</p>
-  <div id='userandquery' class="query"></div>
-  
-  <p>displaying four tweets from the two users "seaofclouds" and "laughingsquid", refreshing every 10 seconds.</p>
-  <div id='fromtwo' class="query"></div>
-  
-  <p>displaying tweets from users on the 'team' list of 'twitter'.</p>
-  <div id='list' class="query"></div>
-  
-  <p>fetch 20 tweets, but filter out @replies, and display only 3.</p>
-  <div id='filter' class="query"></div>
-  
-  <p>customize the layout to eliminate the date stamps and avatars.</p>
-  <div id='custom' class="query"></div>
-  
-  <p>adding a message when no tweets matching '<span class="rnd">somerandomstring</span>' are found.</p>
+    });
+  </pre>
   <div id='empty' class="query"></div>
-  
+
   <h3>Features</h3>
   <ul>
     <li>small size and fast download time</li>
@@ -131,9 +176,9 @@
     <li>customize the style with your own stylesheet or with other jquery plugins</li>
     <li>compatible with most jquery versions, including jquery 1.2.6, 1.3.x, 1.4.x, and the latest 1.5</li>
   </ul>
-  
+
   <p><strong>NOTE:</strong> Some users have reported that they <a href="http://help.twitter.com/forums/10713/entries/42646">do not show up in Twitter's search results</a>.</p>
-  
+
   <div class='download'>
     <h3>Download</h3>
     <p>
@@ -143,7 +188,7 @@
         <img width="90" src="http://github.com/images/modules/download/tar.png"></a>
     </p>
   </div>
-  
+
   <h3>Usage</h3>
   <p><strong>1.</strong> <a href="http://jquery.com/">Get JQuery</a>. In these examples, we use <a href="http://code.google.com/apis/ajaxlibs/">Google's AJAX Libraries API</a>.
   <p><strong>2.</strong> include jQuery and jquery.tweet.js files in your template's <span class="code">&lt;head&gt;</span>.</p>
@@ -178,7 +223,7 @@
   <code>
     &lt;link href=&quot;jquery.tweet.css&quot; media=&quot;all&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot;/&gt;
   </code>
-  
+
   <h3>Contribute</h3>
   <p>Bring your code slinging skills to <a href="http://github.com/seaofclouds/tweet/">Github</a> and help us develop new features for tweet!</p>
   <code>

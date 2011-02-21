@@ -24,18 +24,23 @@ ul {
     margin-left: 0;}
 a {
   color: #8ADEE2; }
-code {
-  margin-left: 1em;
+code, .example {
   padding: .5em;
   display: block;
-}
-code, .code {
+  overflow-x: auto;}
+code {
+  margin-left: 1em;}
+code, .code, .example {
   background-color: #0C717A;
   color: #fff;
   font-size: 85%;
   font-family: courier, monospace; }
   code a, .code a {
     color: #fff; }
+.show-code {
+  display: block;
+  font-size: 75%;
+  margin: 1em 0;}
 .copyright {
   font-family: verdana, sans-serif;
   font-size: 75%;

@@ -26,7 +26,7 @@
         return info["avatar"] + info["time"] + info["join"] + info["text"];
       },
       comparator: function(tweet1, tweet2) {    // [function] comparator used to sort tweets (see Array.sort)
-        return tweet1["tweet_time"] - tweet2["tweet_time"];
+        return tweet2["tweet_time"] - tweet1["tweet_time"];
       },
       filter: function(tweet) {                 // [function] whether or not to include a particular tweet (be sure to also set 'fetch')
         return true;
@@ -92,10 +92,9 @@
       return Date.parse(date_str.replace(/^([a-z]{3})( [a-z]{3} \d\d?)(.*)( \d{4})$/i, '$1,$2$4$3'));
     }
 
-    function relative_time(time_value) {
-      var parsed_date = parse_date(time_value);
+    function relative_time(date) {
       var relative_to = (arguments.length > 1) ? arguments[1] : new Date();
-      var delta = parseInt((relative_to.getTime() - parsed_date) / 1000, 10);
+      var delta = parseInt((relative_to.getTime() - date) / 1000, 10);
       var r = '';
       if (delta < 60) {
         r = delta + ' seconds ago';
@@ -172,7 +171,7 @@
             var avatar_size = s.avatar_size;
             var avatar_url = item.profile_image_url || item.user.profile_image_url;
             var tweet_url = "http://"+s.twitter_url+"/"+screen_name+"/statuses/"+item.id_str;
-            var tweet_time = item.created_at;
+            var tweet_time = parse_date(item.created_at);
             var tweet_relative_time = relative_time(tweet_time);
             var tweet_raw_text = item.text;
             var tweet_text = $([tweet_raw_text]).linkUrl().linkUser().linkHash()[0];

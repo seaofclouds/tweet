@@ -22,9 +22,7 @@
       twitter_url: "twitter.com",               // [string]   custom twitter url, if any (apigee, etc.)
       twitter_api_url: "api.twitter.com",       // [string]   custom twitter api url, if any (apigee, etc.)
       twitter_search_url: "search.twitter.com", // [string]   custom twitter search url, if any (apigee, etc.)
-      template: function(info) {                // [function] template used to construct each tweet <li>
-        return info["avatar"] + info["time"] + info["join"] + info["text"];
-      },
+      template: "{avatar}{time}{join}{text}",   // [string or function] template used to construct each tweet <li> - see code for available vars
       comparator: function(tweet1, tweet2) {    // [function] comparator used to sort tweets (see Array.sort)
         return tweet2["tweet_time"] - tweet1["tweet_time"];
       },
@@ -139,6 +137,15 @@
         s.username = [s.username];
       }
 
+      var expand_template = function(info) {
+        if (typeof s.template === "string") {
+          var result = s.template;
+          for(var key in info)
+            result = result.replace(new RegExp('{'+key+'}','g'), info[key]);
+          return result;
+        } else return s.template(info);
+      };
+
       if (s.loading_text) $(widget).append(loading);
       $(widget).bind("load", function(){
         $.getJSON(build_url(), function(data){
@@ -207,7 +214,7 @@
 
           tweets = $.grep(tweets, s.filter).slice(0, s.count);
           list.append($.map(tweets.sort(s.comparator),
-                            function(t) { return "<li>" + s.template(t) + "</li>"; }).join('')).
+                            function(t) { return "<li>" + expand_template(t) + "</li>"; }).join('')).
               children('li:first').addClass('tweet_first').end().
               children('li:odd').addClass('tweet_even').end().
               children('li:even').addClass('tweet_odd');

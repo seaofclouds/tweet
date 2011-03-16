@@ -8,6 +8,7 @@
       avatar_size: null,                        // [integer]  height and width of avatar if displayed (48px max)
       count: 3,                                 // [integer]  how many tweets to display?
       fetch: null,                              // [integer]  how many tweets to fetch via the API (set this higher than 'count' if using the 'filter' option)
+      retweets: true,                           // [boolean]  whether to show retweets (not supported in all display modes)
       intro_text: null,                         // [string]   do you want text BEFORE your your tweets?
       outro_text: null,                         // [string]   do you want text AFTER your tweets?
       join_text:  null,                         // [string]   optional text in between date and tweet, try setting to "auto"
@@ -120,7 +121,7 @@
       } else if (s.favorites) {
         return proto+"//"+s.twitter_api_url+"/favorites/"+s.username[0]+".json?count="+s.count+"&callback=?";
       } else if (s.query === null && s.username.length == 1) {
-        return proto+'//'+s.twitter_api_url+'/1/statuses/user_timeline.json?screen_name='+s.username[0]+'&count='+count+'&include_rts=1&callback=?';
+        return proto+'//'+s.twitter_api_url+'/1/statuses/user_timeline.json?screen_name='+s.username[0]+'&count='+count+(s.retweets ? '&include_rts=1' : '')+'&callback=?';
       } else {
         var query = (s.query || 'from:'+s.username.join(' OR from:'));
         return proto+'//'+s.twitter_search_url+'/search.json?&q='+encodeURIComponent(query)+'&rpp='+count+'&callback=?';

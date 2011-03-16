@@ -2,9 +2,10 @@
 
   $.fn.tweet = function(o){
     var s = $.extend({
-      username: ["seaofclouds"],                // [string]   required, unless you want to display our tweets. :) it can be an array, just do ["username1","username2","etc"]
+      username: null,                           // [string or array] required unless using the 'query' option; one or more twitter screen names
       list: null,                               // [string]   optional name of list belonging to username
       favorites: false,                         // [boolean]  display the user's favorites instead of his tweets
+      query: null,                              // [string]   optional search query
       avatar_size: null,                        // [integer]  height and width of avatar if displayed (48px max)
       count: 3,                                 // [integer]  how many tweets to display?
       fetch: null,                              // [integer]  how many tweets to fetch via the API (set this higher than 'count' if using the 'filter' option)
@@ -18,7 +19,6 @@
       auto_join_text_reply: "i replied to",     // [string]   auto tense for replies: "i replied to" @someone "with"
       auto_join_text_url: "i was looking at",   // [string]   auto tense for urls: "i was looking at" http:...
       loading_text: null,                       // [string]   optional loading text, displayed while tweets load
-      query: null,                              // [string]   optional search query
       refresh_interval: null ,                  // [integer]  optional number of seconds after which to reload tweets
       twitter_url: "twitter.com",               // [string]   custom twitter url, if any (apigee, etc.)
       twitter_api_url: "api.twitter.com",       // [string]   custom twitter api url, if any (apigee, etc.)
@@ -56,8 +56,9 @@
       linkHash: function() {
         var returning = [];
         var regexp = /(?:^| )[\#]+([A-Za-z0-9-_]+)/gi;
+        var usercond = s.username ? '&from='+s.username.join("%2BOR%2B") : '';
         this.each(function() {
-          returning.push(this.replace(regexp, ' <a href="http://'+s.twitter_search_url+'/search?q=&tag=$1&lang=all&from='+s.username.join("%2BOR%2B")+'">#$1</a>'));
+          returning.push(this.replace(regexp, ' <a href="http://'+s.twitter_search_url+'/search?q=&tag=$1&lang=all'+usercond+'">#$1</a>'));
         });
         return $(returning);
       },
@@ -134,7 +135,7 @@
       var outro = '<p class="tweet_outro">'+s.outro_text+'</p>';
       var loading = $('<p class="loading">'+s.loading_text+'</p>');
 
-      if(typeof(s.username) == "string"){
+      if(s.username && typeof(s.username) == "string"){
         s.username = [s.username];
       }
 

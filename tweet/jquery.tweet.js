@@ -9,7 +9,7 @@
       avatar_size: null,                        // [integer]  height and width of avatar if displayed (48px max)
       count: 3,                                 // [integer]  how many tweets to display?
       fetch: null,                              // [integer]  how many tweets to fetch via the API (set this higher than 'count' if using the 'filter' option)
-      retweets: true,                           // [boolean]  whether to show retweets (not supported in all display modes)
+      retweets: true,                           // [boolean]  whether to fetch (official) retweets (not supported in all display modes)
       intro_text: null,                         // [string]   do you want text BEFORE your your tweets?
       outro_text: null,                         // [string]   do you want text AFTER your tweets?
       join_text:  null,                         // [string]   optional text in between date and tweet, try setting to "auto"

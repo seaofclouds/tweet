@@ -180,9 +180,11 @@
             var avatar_size = s.avatar_size;
             var avatar_url = item.profile_image_url || item.user.profile_image_url;
             var tweet_url = "http://"+s.twitter_url+"/"+screen_name+"/statuses/"+item.id_str;
+            var retweet = (typeof(item.retweeted_status) != 'undefined');
+            var retweeted_screen_name = retweet ? item.retweeted_status.user.screen_name : null;
             var tweet_time = parse_date(item.created_at);
             var tweet_relative_time = relative_time(tweet_time);
-            var tweet_raw_text = item.text;
+            var tweet_raw_text = retweet ? ('RT @'+retweeted_screen_name+' '+item.retweeted_status.text) : item.text; // avoid '...' in long retweets
             var tweet_text = $([tweet_raw_text]).linkUrl().linkUser().linkHash()[0];
 
             // Default spans, and pre-formatted blocks for common layouts
@@ -206,6 +208,8 @@
                      tweet_relative_time: tweet_relative_time,
                      tweet_raw_text: tweet_raw_text,
                      tweet_text: tweet_text,
+                     retweet: retweet,
+                     retweeted_screen_name: retweeted_screen_name,
                      user: user,
                      join: join,
                      avatar: avatar,

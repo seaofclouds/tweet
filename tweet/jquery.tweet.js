@@ -142,8 +142,10 @@
       var expand_template = function(info) {
         if (typeof s.template === "string") {
           var result = s.template;
-          for(var key in info)
-            result = result.replace(new RegExp('{'+key+'}','g'), info[key]);
+          for(var key in info) {
+            var val = info[key];
+            result = result.replace(new RegExp('{'+key+'}','g'), val === null ? '' : val);
+          }
           return result;
         } else return s.template(info);
       };

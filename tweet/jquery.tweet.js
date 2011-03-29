@@ -58,7 +58,7 @@
         var returning = [];
         // Support various latin1 (\u00**) and arabic (\u06**) alphanumeric chars
         var regexp = /(?:^| )[\#]+([\w\u00c0-\u00d6\u00d8-\u00f6\u00f8-\u00ff\u0600-\u06ff]+)/gi;
-        var usercond = s.username ? '&from='+s.username.join("%2BOR%2B") : '';
+        var usercond = (s.username && s.username.length == 1) ? '&from='+s.username.join("%2BOR%2B") : '';
         this.each(function() {
           returning.push(this.replace(regexp, ' <a href="http://'+s.twitter_search_url+'/search?q=&tag=$1&lang=all'+usercond+'">#$1</a>'));
         });

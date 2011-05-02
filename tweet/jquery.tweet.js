@@ -222,8 +222,8 @@
                    };
           });
 
-          tweets = $.grep(tweets, s.filter).slice(0, s.count);
-          list.append($.map(tweets.sort(s.comparator),
+          tweets = $.grep(tweets, s.filter).sort(s.comparator).slice(0, s.count);
+          list.append($.map(tweets,
                             function(t) { return "<li>" + expand_template(t) + "</li>"; }).join('')).
               children('li:first').addClass('tweet_first').end().
               children('li:odd').addClass('tweet_even').end().

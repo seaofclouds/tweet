@@ -9,6 +9,7 @@
       avatar_size: null,                        // [integer]  height and width of avatar if displayed (48px max)
       count: 3,                                 // [integer]  how many tweets to display?
       fetch: null,                              // [integer]  how many tweets to fetch via the API (set this higher than 'count' if using the 'filter' option)
+      page: 1,                                  // [integer]  which page of results to fetch (if count != fetch, you'll get unexpected results)
       retweets: true,                           // [boolean]  whether to fetch (official) retweets (not supported in all display modes)
       intro_text: null,                         // [string]   do you want text BEFORE your your tweets?
       outro_text: null,                         // [string]   do you want text AFTER your tweets?
@@ -120,14 +121,14 @@
       var proto = ('https:' == document.location.protocol ? 'https:' : 'http:');
       var count = (s.fetch === null) ? s.count : s.fetch;
       if (s.list) {
-        return proto+"//"+s.twitter_api_url+"/1/"+s.username[0]+"/lists/"+s.list+"/statuses.json?per_page="+count+"&callback=?";
+        return proto+"//"+s.twitter_api_url+"/1/"+s.username[0]+"/lists/"+s.list+"/statuses.json?page="+s.page+"&per_page="+count+"&callback=?";
       } else if (s.favorites) {
-        return proto+"//"+s.twitter_api_url+"/favorites/"+s.username[0]+".json?count="+s.count+"&callback=?";
+        return proto+"//"+s.twitter_api_url+"/favorites/"+s.username[0]+".json?page="+s.page+"&count="+s.count+"&callback=?";
       } else if (s.query === null && s.username.length == 1) {
-        return proto+'//'+s.twitter_api_url+'/1/statuses/user_timeline.json?screen_name='+s.username[0]+'&count='+count+(s.retweets ? '&include_rts=1' : '')+'&callback=?';
+        return proto+'//'+s.twitter_api_url+'/1/statuses/user_timeline.json?screen_name='+s.username[0]+'&count='+count+(s.retweets ? '&include_rts=1' : '')+'&page='+s.page+'&callback=?';
       } else {
         var query = (s.query || 'from:'+s.username.join(' OR from:'));
-        return proto+'//'+s.twitter_search_url+'/search.json?&q='+encodeURIComponent(query)+'&rpp='+count+'&callback=?';
+        return proto+'//'+s.twitter_search_url+'/search.json?&q='+encodeURIComponent(query)+'&rpp='+count+'&page='+s.page+'&callback=?';
       }
     }
 

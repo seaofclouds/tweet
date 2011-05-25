@@ -116,7 +116,7 @@
   </pre>
   <div id='list' class="query"></div>
 
-  <p>Displaying the user seaofclouds' favorite tweets:</p>
+  <p>Displaying the user seaofclouds' favorite tweets, and opening links in a new window:</p>
   <pre class="example">
     $(function(){
       $("#favorites").tweet({
@@ -125,7 +125,7 @@
         username: "seaofclouds",
         favorites: true,
         loading_text: "loading list..."
-      });
+      }).bind("loaded",function(){$(this).find("a").attr("target","_blank");});
     });
   </pre>
   <div id="favorites" class="query"></div>

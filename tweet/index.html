@@ -144,14 +144,14 @@
   </pre>
   <div id='filter' class="query"></div>
 
-  <p>Customize the layout to eliminate the date stamps and avatars:</p>
+  <p>Customize the layout to eliminate the date stamps and avatars, and add an action link:</p>
   <pre class="example">
     $(function(){
       $("#custom").tweet({
         avatar_size: 32,
         count: 4,
         username: "seaofclouds",
-        template: function(i){return i["text"]}
+        template: "{text} &raquo; {retweet_action}"
       });
     });
   </pre>

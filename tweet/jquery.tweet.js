@@ -201,6 +201,12 @@
                            '" alt="'+screen_name+'\'s avatar" title="'+screen_name+'\'s avatar" border="0"/></a>') : '');
             var time = '<span class="tweet_time"><a href="'+tweet_url+'" title="view tweet on twitter">'+tweet_relative_time+'</a></span>';
             var text = '<span class="tweet_text">'+$([tweet_text]).makeHeart().capAwesome().capEpic()[0]+ '</span>';
+            var reply_url = "http://"+s.twitter_url+"/intent/tweet?in_reply_to="+item.id_str;
+            var retweet_url = "http://"+s.twitter_url+"/intent/retweet?tweet_id="+item.id_str;
+            var favorite_url = "http://"+s.twitter_url+"/intent/favorite?tweet_id="+item.id_str;
+            var reply_action = '<a class="tweet_action tweet_reply" href="'+reply_url+'">reply</a>';
+            var retweet_action = '<a class="tweet_action tweet_retweet" href="'+retweet_url+'">retweet</a>';
+            var favorite_action = '<a class="tweet_action tweet_favorite" href="'+favorite_url+'">favorite</a>';
 
             return { item: item, // For advanced users who want to dig out other info
                      screen_name: screen_name,
@@ -219,7 +225,13 @@
                      join: join,
                      avatar: avatar,
                      time: time,
-                     text: text
+                     text: text,
+                     reply_url: reply_url,
+                     favorite_url: favorite_url,
+                     retweet_url: retweet_url,
+                     reply_action: reply_action,
+                     favorite_action: favorite_action,
+                     retweet_action: retweet_action
                    };
           });
 

@@ -1,5 +1,4 @@
 (function($) {
-
   $.fn.tweet = function(o){
     var s = $.extend({
       username: null,                           // [string or array] required unless using the 'query' option; one or more twitter screen names
@@ -36,15 +35,27 @@
     // See http://daringfireball.net/2010/07/improved_regex_for_matching_urls
     var url_regexp = /\b((?:[a-z][\w-]+:(?:\/{1,3}|[a-z0-9%])|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))/gi;
 
-    var replacer = function (regex, replacement) {
+    // Expand values inside simple string templates with {placeholders}
+    function t(template, info) {
+      if (typeof template === "string") {
+        var result = template;
+        for(var key in info) {
+          var val = info[key];
+          result = result.replace(new RegExp('{'+key+'}','g'), val === null ? '' : val);
+        }
+        return result;
+      } else return template(info);
+    }
+
+    function replacer (regex, replacement) {
       return function() {
         var returning = [];
         this.each(function() {
           returning.push(this.replace(regex, replacement));
         });
         return $(returning);
-      }
-    };
+      };
+    }
 
     $.fn.extend({
       linkUrl: replacer(url_regexp, function(match) {
@@ -89,7 +100,21 @@
       return 'about ' + r;
     }
 
-    function build_url() {
+    function build_auto_join_text(text) {
+      if (text.match(/^(@([A-Za-z0-9-_]+)) .*/i)) {
+        return s.auto_join_text_reply;
+      } else if (text.match(url_regexp)) {
+        return s.auto_join_text_url;
+      } else if (text.match(/^((\w+ed)|just) .*/im)) {
+        return s.auto_join_text_ed;
+      } else if (text.match(/^(\w*ing) .*/i)) {
+        return s.auto_join_text_ing;
+      } else {
+        return s.auto_join_text_default;
+      }
+    }
+
+    function build_api_url() {
       var proto = ('https:' == document.location.protocol ? 'https:' : 'http:');
       var count = (s.fetch === null) ? s.count : s.fetch;
       if (s.list) {
@@ -104,6 +129,44 @@
       }
     }
 
+    // Convert twitter API objects into data available for
+    // constructing each tweet <li> using a template
+    function extract_template_data(item){
+      var o = {};
+      o.item = item;
+      o.source = item.source;
+      o.screen_name = item.from_user || item.user.screen_name;
+      o.avatar_size = s.avatar_size;
+      o.avatar_url = item.profile_image_url || item.user.profile_image_url;
+      o.retweet = typeof(item.retweeted_status) != 'undefined';
+      o.tweet_time = parse_date(item.created_at);
+      o.join_text = s.join_text == "auto" ? build_auto_join_text(item.text) : s.join_text;
+      o.tweet_id = item.id_str;
+      o.twitter_base = "http://"+s.twitter_url+"/";
+      o.user_url = o.twitter_base+o.screen_name;
+      o.tweet_url = o.user_url+"/status/"+o.tweet_id;
+      o.reply_url = o.twitter_base+"intent/tweet?in_reply_to="+o.tweet_id;
+      o.retweet_url = o.twitter_base+"intent/retweet?tweet_id="+o.tweet_id;
+      o.favorite_url = o.twitter_base+"intent/favorite?tweet_id="+o.tweet_id;
+      o.retweeted_screen_name = o.retweet && item.retweeted_status.user.screen_name;
+      o.tweet_relative_time = relative_time(o.tweet_time);
+      o.tweet_raw_text = o.retweet ? ('RT @'+o.retweeted_screen_name+' '+item.retweeted_status.text) : item.text; // avoid '...' in long retweets
+      o.tweet_text = $([o.tweet_raw_text]).linkUrl().linkUser().linkHash()[0];
+      o.tweet_text_fancy = $([o.tweet_text]).makeHeart().capAwesome().capEpic()[0];
+
+      // Default spans, and pre-formatted blocks for common layouts
+      o.user = t('<a class="tweet_user" href="{user_url}">{screen_name}</a>', o);
+      o.join = s.join_text ? t(' <span class="tweet_join">{join_text}</span> ', o) : ' ';
+      o.avatar = o.avatar_size ?
+        t('<a class="tweet_avatar" href="{user_url}"><img src="{avatar_url}" height="{avatar_size}" width="{avatar_size}" alt="{screen_name}\'s avatar" title="{screen_name}\'s avatar" border="0"/></a>', o) : '';
+      o.time = t('<span class="tweet_time"><a href="{tweet_url}" title="view tweet on twitter">{tweet_relative_time}</a></span>', o);
+      o.text = t('<span class="tweet_text">{tweet_text_fancy}</span>', o);
+      o.reply_action = t('<a class="tweet_action tweet_reply" href="{reply_url}">reply</a>', o);
+      o.retweet_action = t('<a class="tweet_action tweet_retweet" href="{retweet_url}">retweet</a>', o);
+      o.favorite_action = t('<a class="tweet_action tweet_favorite" href="{favorite_url}">favorite</a>', o);
+      return o;
+    }
+
     return this.each(function(i, widget){
       var list = $('<ul class="tweet_list">').appendTo(widget);
       var intro = '<p class="tweet_intro">'+s.intro_text+'</p>';
@@ -114,100 +177,16 @@
         s.username = [s.username];
       }
 
-      var expand_template = function(info) {
-        if (typeof s.template === "string") {
-          var result = s.template;
-          for(var key in info) {
-            var val = info[key];
-            result = result.replace(new RegExp('{'+key+'}','g'), val === null ? '' : val);
-          }
-          return result;
-        } else return s.template(info);
-      };
-
-      var build_auto_join_text = function(text) {
-        if (text.match(/^(@([A-Za-z0-9-_]+)) .*/i)) {
-          return s.auto_join_text_reply;
-        } else if (text.match(url_regexp)) {
-          return s.auto_join_text_url;
-        } else if (text.match(/^((\w+ed)|just) .*/im)) {
-          return s.auto_join_text_ed;
-        } else if (text.match(/^(\w*ing) .*/i)) {
-          return s.auto_join_text_ing;
-        } else {
-          return s.auto_join_text_default;
-        }
-      }
-
       if (s.loading_text) $(widget).append(loading);
       $(widget).bind("tweet:load", function(){
-        $.getJSON(build_url(), function(data){
+        $.getJSON(build_api_url(), function(data){
           if (s.loading_text) loading.remove();
           if (s.intro_text) list.before(intro);
           list.empty();
 
-          var tweets = $.map(data.results || data, function(item){
-            // Basic building blocks for constructing tweet <li> using a template
-            var screen_name = item.from_user || item.user.screen_name;
-            var source = item.source;
-            var user_url = "http://"+s.twitter_url+"/"+screen_name;
-            var avatar_size = s.avatar_size;
-            var avatar_url = item.profile_image_url || item.user.profile_image_url;
-            var tweet_url = "http://"+s.twitter_url+"/"+screen_name+"/status/"+item.id_str;
-            var retweet = (typeof(item.retweeted_status) != 'undefined');
-            var retweeted_screen_name = retweet ? item.retweeted_status.user.screen_name : null;
-            var tweet_time = parse_date(item.created_at);
-            var tweet_relative_time = relative_time(tweet_time);
-            var tweet_raw_text = retweet ? ('RT @'+retweeted_screen_name+' '+item.retweeted_status.text) : item.text; // avoid '...' in long retweets
-            var tweet_text = $([tweet_raw_text]).linkUrl().linkUser().linkHash()[0];
-            var join_text = s.join_text == "auto" ? build_auto_join_text(item.text) : s.join_text;
-
-            // Default spans, and pre-formatted blocks for common layouts
-            var user = '<a class="tweet_user" href="'+user_url+'">'+screen_name+'</a>';
-            var join = ((s.join_text) ? ('<span class="tweet_join"> '+join_text+' </span>') : ' ');
-            var avatar = (avatar_size ?
-                          ('<a class="tweet_avatar" href="'+user_url+'"><img src="'+avatar_url+
-                           '" height="'+avatar_size+'" width="'+avatar_size+
-                           '" alt="'+screen_name+'\'s avatar" title="'+screen_name+'\'s avatar" border="0"/></a>') : '');
-            var time = '<span class="tweet_time"><a href="'+tweet_url+'" title="view tweet on twitter">'+tweet_relative_time+'</a></span>';
-            var text = '<span class="tweet_text">'+$([tweet_text]).makeHeart().capAwesome().capEpic()[0]+ '</span>';
-            var reply_url = "http://"+s.twitter_url+"/intent/tweet?in_reply_to="+item.id_str;
-            var retweet_url = "http://"+s.twitter_url+"/intent/retweet?tweet_id="+item.id_str;
-            var favorite_url = "http://"+s.twitter_url+"/intent/favorite?tweet_id="+item.id_str;
-            var reply_action = '<a class="tweet_action tweet_reply" href="'+reply_url+'">reply</a>';
-            var retweet_action = '<a class="tweet_action tweet_retweet" href="'+retweet_url+'">retweet</a>';
-            var favorite_action = '<a class="tweet_action tweet_favorite" href="'+favorite_url+'">favorite</a>';
-
-            return { item: item, // For advanced users who want to dig out other info
-                     screen_name: screen_name,
-                     user_url: user_url,
-                     avatar_size: avatar_size,
-                     avatar_url: avatar_url,
-                     source: source,
-                     tweet_url: tweet_url,
-                     tweet_time: tweet_time,
-                     tweet_relative_time: tweet_relative_time,
-                     tweet_raw_text: tweet_raw_text,
-                     tweet_text: tweet_text,
-                     retweet: retweet,
-                     retweeted_screen_name: retweeted_screen_name,
-                     user: user,
-                     join: join,
-                     avatar: avatar,
-                     time: time,
-                     text: text,
-                     reply_url: reply_url,
-                     favorite_url: favorite_url,
-                     retweet_url: retweet_url,
-                     reply_action: reply_action,
-                     favorite_action: favorite_action,
-                     retweet_action: retweet_action
-                   };
-          });
-
+          var tweets = $.map(data.results || data, extract_template_data);
           tweets = $.grep(tweets, s.filter).sort(s.comparator).slice(0, s.count);
-          list.append($.map(tweets,
-                            function(t) { return "<li>" + expand_template(t) + "</li>"; }).join('')).
+          list.append($.map(tweets, function(o) { return "<li>" + t(s.template, o) + "</li>"; }).join('')).
               children('li:first').addClass('tweet_first').end().
               children('li:odd').addClass('tweet_even').end().
               children('li:even').addClass('tweet_odd');

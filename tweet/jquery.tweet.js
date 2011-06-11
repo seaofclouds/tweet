@@ -36,57 +36,28 @@
     // See http://daringfireball.net/2010/07/improved_regex_for_matching_urls
     var url_regexp = /\b((?:[a-z][\w-]+:(?:\/{1,3}|[a-z0-9%])|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))/gi;
 
-    $.fn.extend({
-      linkUrl: function() {
+    var replacer = function (regex, replacement) {
+      return function() {
         var returning = [];
         this.each(function() {
-          returning.push(this.replace(url_regexp,
-                                      function(match) {
-                                        var url = (/^[a-z]+:/i).test(match) ? match : "http://"+match;
-                                        return "<a href=\""+url+"\">"+match+"</a>";
-                                      }));
-        });
-        return $(returning);
-      },
-      linkUser: function() {
-        var returning = [];
-        var regexp = /@(\w+)/gi;
-        this.each(function() {
-          returning.push(this.replace(regexp,"@<a href=\"http://"+s.twitter_url+"/$1\">$1</a>"));
-        });
-        return $(returning);
-      },
-      linkHash: function() {
-        var returning = [];
-        // Support various latin1 (\u00**) and arabic (\u06**) alphanumeric chars
-        var regexp = /(?:^| )[\#]+([\w\u00c0-\u00d6\u00d8-\u00f6\u00f8-\u00ff\u0600-\u06ff]+)/gi;
-        var usercond = (s.username && s.username.length == 1) ? '&from='+s.username.join("%2BOR%2B") : '';
-        this.each(function() {
-          returning.push(this.replace(regexp, ' <a href="http://'+s.twitter_search_url+'/search?q=&tag=$1&lang=all'+usercond+'">#$1</a>'));
-        });
-        return $(returning);
-      },
-      capAwesome: function() {
-        var returning = [];
-        this.each(function() {
-          returning.push(this.replace(/\b(awesome)\b/gi, '<span class="awesome">$1</span>'));
-        });
-        return $(returning);
-      },
-      capEpic: function() {
-        var returning = [];
-        this.each(function() {
-          returning.push(this.replace(/\b(epic)\b/gi, '<span class="epic">$1</span>'));
-        });
-        return $(returning);
-      },
-      makeHeart: function() {
-        var returning = [];
-        this.each(function() {
-          returning.push(this.replace(/(&lt;)+[3]/gi, "<tt class='heart'>&#x2665;</tt>"));
+          returning.push(this.replace(regex, replacement));
         });
         return $(returning);
       }
+    };
+
+    $.fn.extend({
+      linkUrl: replacer(url_regexp, function(match) {
+        var url = (/^[a-z]+:/i).test(match) ? match : "http://"+match;
+        return "<a href=\""+url+"\">"+match+"</a>";
+      }),
+      linkUser: replacer(/@(\w+)/gi, "@<a href=\"http://"+s.twitter_url+"/$1\">$1</a>"),
+      // Support various latin1 (\u00**) and arabic (\u06**) alphanumeric chars
+      linkHash: replacer(/(?:^| )[\#]+([\w\u00c0-\u00d6\u00d8-\u00f6\u00f8-\u00ff\u0600-\u06ff]+)/gi,
+                         ' <a href="http://'+s.twitter_search_url+'/search?q=&tag=$1&lang=all'+((s.username && s.username.length == 1) ? '&from='+s.username.join("%2BOR%2B") : '')+'">#$1</a>'),
+      capAwesome: replacer(/\b(awesome)\b/gi, '<span class="awesome">$1</span>'),
+      capEpic: replacer(/\b(epic)\b/gi, '<span class="epic">$1</span>'),
+      makeHeart: replacer(/(&lt;)+[3]/gi, "<tt class='heart'>&#x2665;</tt>")
     });
 
     function parse_date(date_str) {

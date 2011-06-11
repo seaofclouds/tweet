@@ -33,13 +33,14 @@
       }
     }, o);
 
+    // See http://daringfireball.net/2010/07/improved_regex_for_matching_urls
+    var url_regexp = /\b((?:[a-z][\w-]+:(?:\/{1,3}|[a-z0-9%])|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))/gi;
+
     $.fn.extend({
       linkUrl: function() {
         var returning = [];
-        // See http://daringfireball.net/2010/07/improved_regex_for_matching_urls
-        var regexp = /\b((?:[a-z][\w-]+:(?:\/{1,3}|[a-z0-9%])|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))/gi;
         this.each(function() {
-          returning.push(this.replace(regexp,
+          returning.push(this.replace(url_regexp,
                                       function(match) {
                                         var url = (/^[a-z]+:/i).test(match) ? match : "http://"+match;
                                         return "<a href=\""+url+"\">"+match+"</a>";
@@ -156,7 +157,7 @@
       var build_auto_join_text = function(text) {
         if (text.match(/^(@([A-Za-z0-9-_]+)) .*/i)) {
           return s.auto_join_text_reply;
-        } else if (text.match(/(^\w+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&\?\/.=]+) .*/i)) {
+        } else if (text.match(url_regexp)) {
           return s.auto_join_text_url;
         } else if (text.match(/^((\w+ed)|just) .*/im)) {
           return s.auto_join_text_ed;

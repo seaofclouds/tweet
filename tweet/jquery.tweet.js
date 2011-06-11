@@ -154,7 +154,7 @@
       };
 
       if (s.loading_text) $(widget).append(loading);
-      $(widget).bind("load", function(){
+      $(widget).bind("tweet:load", function(){
         $.getJSON(build_url(), function(data){
           if (s.loading_text) loading.remove();
           if (s.intro_text) list.before(intro);
@@ -245,10 +245,10 @@
           if (s.outro_text) list.after(outro);
           $(widget).trigger("loaded").trigger((tweets.length === 0 ? "empty" : "full"));
           if (s.refresh_interval) {
-            window.setTimeout(function() { $(widget).trigger("load"); }, 1000 * s.refresh_interval);
+            window.setTimeout(function() { $(widget).trigger("tweet:load"); }, 1000 * s.refresh_interval);
           }
         });
-      }).trigger("load");
+      }).trigger("tweet:load");
     });
   };
 })(jQuery);

@@ -23,7 +23,7 @@ See [tweet.seaofclouds.com](http://tweet.seaofclouds.com/), or the bundled `inde
   * automatic linking of #hashtags, to a twitter search of all your tags
   * converts <3 to a css styleable ♥ (we ♥ hearts)
   * customize the style with your own stylesheet or with other jquery plugins
-  * customize the layout with a user-defined temmplate function
+  * customize the layout with a user-defined template function
 
 ## Usage
 
@@ -32,7 +32,7 @@ See [tweet.seaofclouds.com](http://tweet.seaofclouds.com/), or the bundled `inde
 
 2. include jQuery and jquery.tweet.js files in your template's `<head>`.
 
-        &lt;script language="javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js" type="text/javascript"&gt;&lt;/script&gt;
+        &lt;script language="javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js" type="text/javascript"&gt;&lt;/script&gt;
         &lt;script language="javascript" src="/tweet/jquery.tweet.js" type="text/javascript"&gt;&lt;/script&gt;
 
 3. Also in &lt;head&gt;, Initialize tweet! on page load with your Username and other options
@@ -70,7 +70,7 @@ Bring your code slinging skills to Github and help us develop new features for t
 
     git clone git://github.com/seaofclouds/tweet.git
 
-Report bugs at http://seaofclouds.lighthouseapp.com/projects/14179-tweet/overview
+Report bugs at http://github.com/seaofclouds/tweet/issues
 
 ### Licensed under the MIT
 

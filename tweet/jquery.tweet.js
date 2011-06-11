@@ -153,6 +153,20 @@
         } else return s.template(info);
       };
 
+      var build_auto_join_text = function(text) {
+        if (text.match(/^(@([A-Za-z0-9-_]+)) .*/i)) {
+          return s.auto_join_text_reply;
+        } else if (text.match(/(^\w+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&\?\/.=]+) .*/i)) {
+          return s.auto_join_text_url;
+        } else if (text.match(/^((\w+ed)|just) .*/im)) {
+          return s.auto_join_text_ed;
+        } else if (text.match(/^(\w*ing) .*/i)) {
+          return s.auto_join_text_ing;
+        } else {
+          return s.auto_join_text_default;
+        }
+      }
+
       if (s.loading_text) $(widget).append(loading);
       $(widget).bind("tweet:load", function(){
         $.getJSON(build_url(), function(data){
@@ -161,23 +175,6 @@
           list.empty();
 
           var tweets = $.map(data.results || data, function(item){
-            var join_text = s.join_text;
-
-            // auto join text based on verb tense and content
-            if (s.join_text == "auto") {
-              if (item.text.match(/^(@([A-Za-z0-9-_]+)) .*/i)) {
-                join_text = s.auto_join_text_reply;
-              } else if (item.text.match(/(^\w+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&\?\/.=]+) .*/i)) {
-                join_text = s.auto_join_text_url;
-              } else if (item.text.match(/^((\w+ed)|just) .*/im)) {
-                join_text = s.auto_join_text_ed;
-              } else if (item.text.match(/^(\w*ing) .*/i)) {
-                join_text = s.auto_join_text_ing;
-              } else {
-                join_text = s.auto_join_text_default;
-              }
-            }
-
             // Basic building blocks for constructing tweet <li> using a template
             var screen_name = item.from_user || item.user.screen_name;
             var source = item.source;
@@ -191,6 +188,7 @@
             var tweet_relative_time = relative_time(tweet_time);
             var tweet_raw_text = retweet ? ('RT @'+retweeted_screen_name+' '+item.retweeted_status.text) : item.text; // avoid '...' in long retweets
             var tweet_text = $([tweet_raw_text]).linkUrl().linkUser().linkHash()[0];
+            var join_text = s.join_text == "auto" ? build_auto_join_text(item.text) : s.join_text;
 
             // Default spans, and pre-formatted blocks for common layouts
             var user = '<a class="tweet_user" href="'+user_url+'">'+screen_name+'</a>';

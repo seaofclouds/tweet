@@ -88,7 +88,7 @@
   </pre>
   <div id='userandquery' class="query"></div>
 
-  <p>Displaying four tweets from the two users "seaofclouds" and "laughingsquid", refreshing every 10 seconds:</p>
+  <p>Displaying four tweets from the two users "seaofclouds" and "laughingsquid", refreshing every 60 seconds:</p>
   <pre class="example">
     $(function(){
       $("#fromtwo").tweet({
@@ -96,7 +96,7 @@
         count: 4,
         username: ["seaofclouds", "laughingsquid"],
         loading_text: "searching twitter...",
-        refresh_interval: 10
+        refresh_interval: 60
       });
     });
   </pre>

@@ -49,7 +49,7 @@
       },
       linkUser: function() {
         var returning = [];
-        var regexp = /[\@]+(\w+)/gi;
+        var regexp = /@(\w+)/gi;
         this.each(function() {
           returning.push(this.replace(regexp,"@<a href=\"http://"+s.twitter_url+"/$1\">$1</a>"));
         });

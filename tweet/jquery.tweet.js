@@ -46,6 +46,8 @@
         return result;
       } else return template(info);
     }
+    // Export the t function for use when passing a function as the 'template' option
+    $.extend({tweet: {t: t}});
 
     function replacer (regex, replacement) {
       return function() {

@@ -1,26 +1,43 @@
-.tweet, .query {
-  font-family: Georgia, serif;
-  font-size: 120%;
-  color: #085258; }
-  .tweet .tweet_list, .query .tweet_list {
-    -webkit-border-radius: .5em;
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow-y: hidden;
-    background-color: #8ADEE2; }
-    .tweet .tweet_list .awesome, .tweet .tweet_list .epic, .query .tweet_list .awesome, .query .tweet_list .epic {
-      text-transform: uppercase; }
-    .tweet .tweet_list li, .query .tweet_list li {
-      overflow-y: auto;
-      overflow-x: hidden;
-      padding: .5em; }
-      .tweet .tweet_list li a, .query .tweet_list li a {
-        color: #0C717A; }
-    .tweet .tweet_list .tweet_even, .query .tweet_list .tweet_even {
-      background-color: #91E5E7; }
-    .tweet .tweet_list .tweet_avatar, .query .tweet_list .tweet_avatar {
-      padding-right: .5em;
-      float: left; }
-      .tweet .tweet_list .tweet_avatar img, .query .tweet_list .tweet_avatar img {
-        vertical-align: middle; }
+.tweet,
+.query {
+	font: 120% Georgia, serif;
+	color: #085258;
+}
+
+	.tweet_list {
+		-webkit-border-radius: 0.5em;
+		-moz-border-radius: 0.5em;
+		border-radius: 0.5em;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		overflow-y: hidden;
+		background-color: #8ADEE2;
+	}
+	
+		.tweet_list .awesome,
+		.tweet_list .epic {
+			text-transform: uppercase;
+		}
+		
+		.tweet_list li {
+			overflow-y: auto;
+			overflow-x: hidden;
+			padding: 0.5em;
+		}
+		
+			.tweet_list li a {
+				color: #0C717A;
+			}
+		
+		.tweet_list .tweet_even {
+			background-color: #91E5E7;
+		}
+		
+		.tweet_list .tweet_avatar {
+			padding-right: .5em; float: left;
+		}
+		
+			.tweet_list .tweet_avatar img {
+				vertical-align: middle;
+			}

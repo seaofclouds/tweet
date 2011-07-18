@@ -1,7 +1,7 @@
 (function($) {
   $.fn.tweet = function(o){
     var s = $.extend({
-      username: null,                           // [string or array] required unless using the 'query' option; one or more twitter screen names
+      username: null,                           // [string or array] required unless using the 'query' option; one or more twitter screen names (use 'list' option for multiple names, where possible)
       list: null,                               // [string]   optional name of list belonging to username
       favorites: false,                         // [boolean]  display the user's favorites instead of his tweets
       query: null,                              // [string]   optional search query

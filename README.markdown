@@ -38,7 +38,7 @@ See [tweet.seaofclouds.com](http://tweet.seaofclouds.com/), or the bundled `inde
 3. Also in &lt;head&gt;, Initialize tweet! on page load with your Username and other options
 
     &lt;script type='text/javascript'&gt;
-        $(document).ready(function(){
+        jQuery(function($){
             $(".tweet").tweet({
                 join_text: "auto",
                 avatar_size: 32,

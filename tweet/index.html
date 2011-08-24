@@ -18,7 +18,7 @@
     }
     var rnd = randomString(8);
 
-    jQuery(document).ready(function($) {
+    jQuery(function($) {
       $(".rnd").replaceWith(rnd);
 
 
@@ -43,7 +43,7 @@
 
   <p>Displaying three tweets from the <a href="http://twitter.com/seaofclouds">seaofclouds twitter feed</a>:</p>
   <pre class="example">
-    $(function(){
+    jQuery(function($){
       $(".tweet").tweet({
         join_text: "auto",
         username: "seaofclouds",
@@ -60,12 +60,12 @@
   </pre>
   <div class='tweet query'></div>
   <script type="text/javascript">
-    $(function(){ $(".example").each(function(i, e){ eval($(e).text()); }); });
+    jQuery(function($){ $(".example").each(function(i, e){ eval($(e).text()); }); });
   </script>
 
   <p>Displaying up to four tweets with the query "<a href="http://search.twitter.com/search?q=tweet.seaofclouds.com">tweet.seaofclouds.com</a>":</p>
   <pre class="example">
-    $(function(){
+    jQuery(function($){
       $("#query").tweet({
         avatar_size: 32,
         count: 4,
@@ -78,7 +78,7 @@
 
   <p>Displaying up to three links with the search query "<a href="http://search.twitter.com/search?q=from%3Aseaofclouds%20http">from:seaofclouds http</a>":</p>
   <pre class="example">
-    $(function(){
+    jQuery(function($){
       $("#userandquery").tweet({
         count: 3,
         query: "from:seaofclouds http",
@@ -91,7 +91,7 @@
   <p>Displaying four tweets from the two users "seaofclouds" and "laughingsquid", refreshing every 60 seconds:</p>
   <p><small><em>(Note that it's more reliable to display multiple users' tweets by using a list - see below)</em></small></p>
   <pre class="example">
-    $(function(){
+    jQuery(function($){
       $("#fromtwo").tweet({
         avatar_size: 32,
         count: 4,
@@ -105,7 +105,7 @@
 
   <p>Displaying tweets from users on the 'team' list of 'twitter':</p>
   <pre class="example">
-    $(function(){
+    jQuery(function($){
       $("#list").tweet({
         avatar_size: 32,
         count: 4,
@@ -119,7 +119,7 @@
 
   <p>Displaying the user seaofclouds' favorite tweets, and opening links in a new window:</p>
   <pre class="example">
-    $(function(){
+    jQuery(function($){
       $("#favorites").tweet({
         avatar_size: 32,
         count: 3,
@@ -133,7 +133,7 @@
 
   <p>Fetch 20 tweets, but filter out @replies, and display only 3:</p>
   <pre class="example">
-    $(function(){
+    jQuery(function($){
       $("#filter").tweet({
         avatar_size: 32,
         count: 3,
@@ -147,7 +147,7 @@
 
   <p>Customize the layout to eliminate the date stamps and avatars, and add an action link:</p>
   <pre class="example">
-    $(function(){
+    jQuery(function($){
       $("#custom").tweet({
         avatar_size: 32,
         count: 4,
@@ -160,7 +160,7 @@
 
   <p>Adding a message when no tweets matching '<span class="rnd">somerandomstring</span>' are found:</p>
   <pre class="example">
-    $(function(){
+    jQuery(function($){
       $("#empty").tweet({
         avatar_size: 32,
         count: 4,
@@ -218,7 +218,7 @@
   <p><strong>3.</strong> Also in <span class="code">&lt;head&gt;</span>, Initialize tweet! on page load with your Username and other options</p>
   <code>
     &lt;script type=&apos;text/javascript&apos;&gt;<br />
-    &nbsp; &nbsp; $(document).ready(function(){<br />
+    &nbsp; &nbsp; jQuery(function($){<br />
     &nbsp; &nbsp; &nbsp; &nbsp; $(".tweet").tweet({<br />
     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; username: "seaofclouds",<br />
     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; join_text: "auto",<br />

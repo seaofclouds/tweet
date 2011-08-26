@@ -117,14 +117,14 @@
   </pre>
   <div id='list' class="query"></div>
 
-  <p>Displaying the user seaofclouds' favorite tweets, and using a handler
+  <p>Displaying the user sanityinc's favorite tweets, and using a handler
    for tweet's "loaded" event to make links open in a new window:</p>
   <pre class="example">
     jQuery(function($){
       $("#favorites").tweet({
         avatar_size: 32,
         count: 3,
-        username: "seaofclouds",
+        username: "sanityinc",
         favorites: true,
         loading_text: "loading list..."
       }).bind("loaded",function(){$(this).find("a").attr("target","_blank");});
@@ -140,7 +140,7 @@
         count: 3,
         fetch: 20,
         filter: function(t){ return ! /^@\w+/.test(t["tweet_raw_text"]); },
-        username: "seaofclouds"
+        username: "sanityinc"
       });
     });
   </pre>

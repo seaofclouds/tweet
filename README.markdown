@@ -32,34 +32,29 @@ See [tweet.seaofclouds.com](http://tweet.seaofclouds.com/), or the bundled `inde
 
 2. include jQuery and jquery.tweet.js files in your template's `<head>`.
 
-        &lt;script language="javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js" type="text/javascript"&gt;&lt;/script&gt;
-        &lt;script language="javascript" src="/tweet/jquery.tweet.js" type="text/javascript"&gt;&lt;/script&gt;
+        <script language="javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js" type="text/javascript"></script>
+        <script language="javascript" src="/tweet/jquery.tweet.js" type="text/javascript"></script>
 
-3. Also in &lt;head&gt;, Initialize tweet! on page load with your Username and other options
+3. Also in `<head>`, Initialize tweet! on page load with your Username and other options
 
-    &lt;script type='text/javascript'&gt;
-        jQuery(function($){
-            $(".tweet").tweet({
-                join_text: "auto",
-                avatar_size: 32,
-                count: 3,
-                auto_join_text_default: "we said,",
-                auto_join_text_ed: "we",
-                auto_join_text_ing: "we were",
-                auto_join_text_reply: "we replied to",
-                auto_join_text_url: "we were checking out",
-                loading_text: "loading tweets..."
+        <script type='text/javascript'>
+            jQuery(function($){
+                $(".tweet").tweet({
+                    join_text: "auto",
+                    avatar_size: 32,
+                    count: 3,
+                    loading_text: "loading tweets..."
+                });
             });
-        });
-    &lt;/script&gt;
+        </script>
 
-4. In &lt;body&gt;, include a placeholder for your tweets. They'll get loaded in via JSON. How fancy!
+4. In `<body>`, include a placeholder for your tweets. They'll get loaded in via JSON. How fancy!
 
-    &lt;div class="tweet"&gt;&lt;/div&gt;
+        <div class="tweet"></div>
 
-5. Style with our stylesheet in &lt;head&gt;, or modify as you like!
+5. Style with our stylesheet in `<head>`, or modify as you like!
 
-    &lt;link href="jquery.tweet.css" media="all" rel="stylesheet" type="text/css"/&gt;
+        <link href="jquery.tweet.css" media="all" rel="stylesheet" type="text/css"/>
 
 
 ### Contribute

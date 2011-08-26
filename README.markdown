@@ -75,6 +75,3 @@ Report bugs at http://github.com/seaofclouds/tweet/issues
 ### Licensed under the MIT
 
 [License text](http://www.opensource.org/licenses/mit-license.php)
-
-If you like Tweet, check out Twoot!
-Twoot is a miniature Twitter client based on Tweet that allows you to post tweets and see what your friends are up to. Thanks, Peter Krantz!

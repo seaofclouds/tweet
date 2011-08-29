@@ -146,7 +146,7 @@
   </pre>
   <div id='filter' class="query"></div>
 
-  <p>Customize the layout to eliminate the date stamps and avatars, add an action link,
+  <p>Customize the layout to eliminate the date stamps and avatars, add an action (aka "web intent") link,
     and make it open in a popup window:</p>
   <pre class="example">
     jQuery(function($){
@@ -159,7 +159,7 @@
     }).bind("loaded", function(){
       $(this).find("a.tweet_action").click(function(ev) {
         window.open(this.href, "Retweet",
-                    'menubar=0,resizable=0,width=600,height=340,top=200,left=400');
+                    'menubar=0,resizable=0,width=550,height=420,top=200,left=400');
         ev.preventDefault();
       });
     });

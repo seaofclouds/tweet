@@ -118,10 +118,6 @@
       }
     }
 
-    function maybe_https(url) {
-      return ('https:' == document.location.protocol) ? url.replace(/^http:/, 'https:') : url;
-    }
-
     function build_api_url() {
       var proto = ('https:' == document.location.protocol ? 'https:' : 'http:');
       var count = (s.fetch === null) ? s.count : s.fetch;
@@ -137,6 +133,16 @@
       }
     }
 
+    function extract_avatar_url(item, secure) {
+      if (secure) {
+        return ('user' in item) ?
+          item.user.profile_image_url_https :
+          extract_avatar_url(item, false);
+      } else {
+        return item.profile_image_url || item.user.profile_image_url;
+      }
+    }
+
     // Convert twitter API objects into data available for
     // constructing each tweet <li> using a template
     function extract_template_data(item){
@@ -145,7 +151,7 @@
       o.source = item.source;
       o.screen_name = item.from_user || item.user.screen_name;
       o.avatar_size = s.avatar_size;
-      o.avatar_url = maybe_https(item.profile_image_url || item.user.profile_image_url);
+      o.avatar_url = extract_avatar_url(item, (document.location.protocol === 'https:'));
       o.retweet = typeof(item.retweeted_status) != 'undefined';
       o.tweet_time = parse_date(item.created_at);
       o.join_text = s.join_text == "auto" ? build_auto_join_text(item.text) : s.join_text;

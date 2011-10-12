@@ -182,7 +182,7 @@
     }
 
     return this.each(function(i, widget){
-      var list = $('<ul class="tweet_list">').appendTo(widget);
+      var list = $('<ul class="tweet_list">');
       var intro = '<p class="tweet_intro">'+s.intro_text+'</p>';
       var outro = '<p class="tweet_outro">'+s.outro_text+'</p>';
       var loading = $('<p class="loading">'+s.loading_text+'</p>');
@@ -191,10 +191,10 @@
         s.username = [s.username];
       }
 
-      if (s.loading_text) $(widget).append(loading);
       $(widget).bind("tweet:load", function(){
+        if (s.loading_text) $(widget).empty().append(loading);
         $.getJSON(build_api_url(), function(data){
-          if (s.loading_text) loading.remove();
+          $(widget).empty().append(list);
           if (s.intro_text) list.before(intro);
           list.empty();
 

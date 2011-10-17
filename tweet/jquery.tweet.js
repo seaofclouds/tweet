@@ -61,11 +61,11 @@
       };
     }
 
+    function escapeHTML(s) {
+      return s.replace(/</g,"&lt;").replace(/>/g,"^&gt;");
+    }
+
     $.fn.extend({
-      linkUrl: replacer(url_regexp, function(match) {
-        var url = (/^[a-z]+:/i).test(match) ? match : "http://"+match;
-        return "<a href=\""+url+"\">"+match+"</a>";
-      }),
       linkUser: replacer(/@(\w+)/gi, "@<a href=\"http://"+s.twitter_url+"/$1\">$1</a>"),
       // Support various latin1 (\u00**) and arabic (\u06**) alphanumeric chars
       linkHash: replacer(/(?:^| )[\#]+([\w\u00c0-\u00d6\u00d8-\u00f6\u00f8-\u00ff\u0600-\u06ff]+)/gi,
@@ -74,6 +74,22 @@
       capEpic: replacer(/\b(epic)\b/gi, '<span class="epic">$1</span>'),
       makeHeart: replacer(/(&lt;)+[3]/gi, "<tt class='heart'>&#x2665;</tt>")
     });
+
+    function linkURLs(text, entities) {
+      return text.replace(url_regexp, function(match) {
+        var url = (/^[a-z]+:/i).test(match) ? match : "http://"+match;
+        var text = match;
+        for(var i = 0; i < entities.length; --i) {
+          var entity = entities[i];
+          if (entity.url == url) {
+            url = entity.expanded_url;
+            text = entity.display_url;
+            break;
+          }
+        }
+        return "<a href=\""+escapeHTML(url)+"\">"+escapeHTML(text)+"</a>";
+      });
+    }
 
     function parse_date(date_str) {
       // The non-search twitter APIs return inconsistently-formatted dates, which Date.parse
@@ -121,15 +137,16 @@
     function build_api_url() {
       var proto = ('https:' == document.location.protocol ? 'https:' : 'http:');
       var count = (s.fetch === null) ? s.count : s.fetch;
+      var common_params = '&include_entities=1&callback=?';
       if (s.list) {
-        return proto+"//"+s.twitter_api_url+"/1/"+s.username[0]+"/lists/"+s.list+"/statuses.json?page="+s.page+"&per_page="+count+"&callback=?";
+        return proto+"//"+s.twitter_api_url+"/1/"+s.username[0]+"/lists/"+s.list+"/statuses.json?page="+s.page+"&per_page="+count+common_params;
       } else if (s.favorites) {
-        return proto+"//"+s.twitter_api_url+"/favorites/"+s.username[0]+".json?page="+s.page+"&count="+count+"&callback=?";
+        return proto+"//"+s.twitter_api_url+"/favorites/"+s.username[0]+".json?page="+s.page+"&count="+count+common_params;
       } else if (s.query === null && s.username.length == 1) {
-        return proto+'//'+s.twitter_api_url+'/1/statuses/user_timeline.json?screen_name='+s.username[0]+'&count='+count+(s.retweets ? '&include_rts=1' : '')+'&page='+s.page+'&callback=?';
+        return proto+'//'+s.twitter_api_url+'/1/statuses/user_timeline.json?screen_name='+s.username[0]+'&count='+count+(s.retweets ? '&include_rts=1' : '')+'&page='+s.page+common_params;
       } else {
         var query = (s.query || 'from:'+s.username.join(' OR from:'));
-        return proto+'//'+s.twitter_search_url+'/search.json?&q='+encodeURIComponent(query)+'&rpp='+count+'&page='+s.page+'&callback=?';
+        return proto+'//'+s.twitter_search_url+'/search.json?&q='+encodeURIComponent(query)+'&rpp='+count+'&page='+s.page+common_params;
       }
     }
 
@@ -164,8 +181,9 @@
       o.favorite_url = o.twitter_base+"intent/favorite?tweet_id="+o.tweet_id;
       o.retweeted_screen_name = o.retweet && item.retweeted_status.user.screen_name;
       o.tweet_relative_time = relative_time(o.tweet_time);
+      o.entities = item.entities ? (item.entities.urls || []).concat(item.entities.media || []) : [];
       o.tweet_raw_text = o.retweet ? ('RT @'+o.retweeted_screen_name+' '+item.retweeted_status.text) : item.text; // avoid '...' in long retweets
-      o.tweet_text = $([o.tweet_raw_text]).linkUrl().linkUser().linkHash()[0];
+      o.tweet_text = $([linkURLs(o.tweet_raw_text, o.entities)]).linkUser().linkHash()[0];
       o.tweet_text_fancy = $([o.tweet_text]).makeHeart().capAwesome().capEpic()[0];
 
       // Default spans, and pre-formatted blocks for common layouts

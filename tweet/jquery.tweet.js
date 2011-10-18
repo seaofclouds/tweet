@@ -79,7 +79,7 @@
       return text.replace(url_regexp, function(match) {
         var url = (/^[a-z]+:/i).test(match) ? match : "http://"+match;
         var text = match;
-        for(var i = 0; i < entities.length; --i) {
+        for(var i = 0; i < entities.length; ++i) {
           var entity = entities[i];
           if (entity.url == url) {
             url = entity.expanded_url;

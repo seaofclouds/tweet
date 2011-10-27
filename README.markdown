@@ -32,7 +32,7 @@ See [tweet.seaofclouds.com](http://tweet.seaofclouds.com/), or the bundled `inde
 
 2. include jQuery and jquery.tweet.js files in your template's `<head>`.
 
-        <script language="javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js" type="text/javascript"></script>
+        <script language="javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
         <script language="javascript" src="/tweet/jquery.tweet.js" type="text/javascript"></script>
 
 3. Also in `<head>`, Initialize tweet! on page load with your Username and other options

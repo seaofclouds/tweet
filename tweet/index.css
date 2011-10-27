@@ -24,6 +24,9 @@ ul {
     margin-left: 0;}
 a {
   color: #8ADEE2; }
+.demo a.num {
+  color: white;
+}
 code, .example {
   padding: .5em;
   display: block;

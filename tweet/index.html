@@ -22,14 +22,15 @@
       $(".rnd").replaceWith(rnd);
 
 
-      $(".example").hide().each(function(i,e){
+      $(".demo .code").hide().each(function(i,e){
         $(e).before($('<a class="show-code" href="#">Show code &raquo;</a>').
                       click(function(ev) {
                         $(e).slideToggle();
                         $(this).hide();
                         ev.preventDefault();
                       }));
-      });
+
+      }).each(function(i, e){ eval($(e).text()); });
     });
   </script>
 </head>
@@ -41,143 +42,158 @@
 
   <h3>Examples</h3>
 
-  <p>Displaying three tweets from the <a href="http://twitter.com/seaofclouds">seaofclouds twitter feed</a>:</p>
-  <pre class="example">
-    jQuery(function($){
-      $(".tweet").tweet({
-        join_text: "auto",
-        username: "seaofclouds",
-        avatar_size: 48,
-        count: 3,
-        auto_join_text_default: "we said,",
-        auto_join_text_ed: "we",
-        auto_join_text_ing: "we were",
-        auto_join_text_reply: "we replied",
-        auto_join_text_url: "we were checking out",
-        loading_text: "loading tweets..."
+  <div class="demo">
+    <p>Displaying three tweets from the <a href="http://twitter.com/seaofclouds">seaofclouds twitter feed</a>:</p>
+    <pre class="code">
+      jQuery(function($){
+        $(".tweet").tweet({
+          join_text: "auto",
+          username: "seaofclouds",
+          avatar_size: 48,
+          count: 3,
+          auto_join_text_default: "we said,",
+          auto_join_text_ed: "we",
+          auto_join_text_ing: "we were",
+          auto_join_text_reply: "we replied",
+          auto_join_text_url: "we were checking out",
+          loading_text: "loading tweets..."
+        });
       });
-    });
-  </pre>
-  <div class='tweet query'></div>
-  <script type="text/javascript">
-    jQuery(function($){ $(".example").each(function(i, e){ eval($(e).text()); }); });
-  </script>
+    </pre>
+    <div class='tweet query'></div>
+  </div>
 
-  <p>Displaying up to four tweets with the query "<a href="http://search.twitter.com/search?q=tweet.seaofclouds.com">tweet.seaofclouds.com</a>":</p>
-  <pre class="example">
-    jQuery(function($){
-      $("#query").tweet({
-        avatar_size: 32,
-        count: 4,
-        query: "tweet.seaofclouds.com",
-        loading_text: "searching twitter..."
+  <div class="demo">
+    <p>Displaying up to four tweets with the query "<a href="http://search.twitter.com/search?q=tweet.seaofclouds.com">tweet.seaofclouds.com</a>":</p>
+    <pre class="code">
+      jQuery(function($){
+        $("#query").tweet({
+          avatar_size: 32,
+          count: 4,
+          query: "tweet.seaofclouds.com",
+          loading_text: "searching twitter..."
+        });
       });
-    });
-  </pre>
-  <div id="query" class='query'></div>
+    </pre>
+    <div id="query" class='query'></div>
+  </div>
 
-  <p>Displaying up to three links with the search query "<a href="http://search.twitter.com/search?q=from%3Aseaofclouds%20http">from:seaofclouds http</a>":</p>
-  <pre class="example">
-    jQuery(function($){
-      $("#userandquery").tweet({
-        count: 3,
-        query: "from:seaofclouds http",
-        loading_text: "searching twitter..."
+  <div class="demo">
+    <p>Displaying up to three links with the search query "<a href="http://search.twitter.com/search?q=from%3Aseaofclouds%20http">from:seaofclouds http</a>":</p>
+    <pre class="code">
+      jQuery(function($){
+        $("#userandquery").tweet({
+          count: 3,
+          query: "from:seaofclouds http",
+          loading_text: "searching twitter..."
+        });
       });
-    });
-  </pre>
-  <div id='userandquery' class="query"></div>
+    </pre>
+    <div id='userandquery' class="query"></div>
+  </div>
 
-  <p>Displaying four tweets from the two users "seaofclouds" and "laughingsquid", refreshing every 60 seconds:</p>
-  <p><small><em>(Note that it's more reliable to display multiple users' tweets by using a list - see below)</em></small></p>
-  <pre class="example">
-    jQuery(function($){
-      $("#fromtwo").tweet({
-        avatar_size: 32,
-        count: 4,
-        username: ["seaofclouds", "laughingsquid"],
-        loading_text: "searching twitter...",
-        refresh_interval: 60
+  <div class="demo">
+    <p>Displaying four tweets from the two users "seaofclouds" and "laughingsquid", refreshing every 60 seconds:</p>
+    <p><small><em>(Note that it's more reliable to display multiple users' tweets by using a list - see below)</em></small></p>
+    <pre class="code">
+      jQuery(function($){
+        $("#fromtwo").tweet({
+          avatar_size: 32,
+          count: 4,
+          username: ["seaofclouds", "laughingsquid"],
+          loading_text: "searching twitter...",
+          refresh_interval: 60
+        });
       });
-    });
-  </pre>
-  <div id='fromtwo' class="query"></div>
+    </pre>
+    <div id='fromtwo' class="query"></div>
+  </div>
 
-  <p>Displaying tweets from users on the 'team' list of 'twitter':</p>
-  <pre class="example">
-    jQuery(function($){
-      $("#list").tweet({
-        avatar_size: 32,
-        count: 4,
-        username: "twitter",
-        list: "team",
-        loading_text: "loading list..."
+  <div class="demo">
+    <p>Displaying tweets from users on the 'team' list of 'twitter':</p>
+    <pre class="code">
+      jQuery(function($){
+        $("#list").tweet({
+          avatar_size: 32,
+          count: 4,
+          username: "twitter",
+          list: "team",
+          loading_text: "loading list..."
+        });
       });
-    });
-  </pre>
-  <div id='list' class="query"></div>
+    </pre>
+    <div id='list' class="query"></div>
+  </div>
 
-  <p>Displaying the user sanityinc's favorite tweets, and using a handler
-   for tweet's "loaded" event to make links open in a new window:</p>
-  <pre class="example">
-    jQuery(function($){
-      $("#favorites").tweet({
-        avatar_size: 32,
-        count: 3,
-        username: "sanityinc",
-        favorites: true,
-        loading_text: "loading list..."
-      }).bind("loaded",function(){$(this).find("a").attr("target","_blank");});
-    });
-  </pre>
-  <div id="favorites" class="query"></div>
-
-  <p>Fetch 20 tweets, but filter out @replies, and display only 3:</p>
-  <pre class="example">
-    jQuery(function($){
-      $("#filter").tweet({
-        avatar_size: 32,
-        count: 3,
-        fetch: 20,
-        filter: function(t){ return ! /^@\w+/.test(t["tweet_raw_text"]); },
-        username: "sanityinc"
+  <div class="demo">
+    <p>Displaying the user sanityinc's favorite tweets, and using a handler
+     for tweet's "loaded" event to make links open in a new window:</p>
+    <pre class="code">
+      jQuery(function($){
+        $("#favorites").tweet({
+          avatar_size: 32,
+          count: 3,
+          username: "sanityinc",
+          favorites: true,
+          loading_text: "loading list..."
+        }).bind("loaded",function(){$(this).find("a").attr("target","_blank");});
       });
-    });
-  </pre>
-  <div id='filter' class="query"></div>
+    </pre>
+    <div id="favorites" class="query"></div>
+  </div>
 
-  <p>Customize the layout to eliminate the date stamps and avatars, add an action (aka "web intent") link,
-    and make it open in a popup window:</p>
-  <pre class="example">
-    jQuery(function($){
-      $("#custom").tweet({
-        avatar_size: 32,
-        count: 4,
-        username: "seaofclouds",
-        template: "{text} &raquo; {retweet_action}"
+  <div class="demo">
+    <p>Fetch 20 tweets, but filter out @replies, and display only 3:</p>
+    <pre class="code">
+      jQuery(function($){
+        $("#filter").tweet({
+          avatar_size: 32,
+          count: 3,
+          fetch: 20,
+          filter: function(t){ return ! /^@\w+/.test(t["tweet_raw_text"]); },
+          username: "sanityinc"
+        });
       });
-    }).bind("loaded", function(){
-      $(this).find("a.tweet_action").click(function(ev) {
-        window.open(this.href, "Retweet",
-                    'menubar=0,resizable=0,width=550,height=420,top=200,left=400');
-        ev.preventDefault();
-      });
-    });
-  </pre>
-  <div id='custom' class="query"></div>
+    </pre>
+    <div id='filter' class="query"></div>
+  </div>
 
-  <p>Adding a message when no tweets matching '<span class="rnd">somerandomstring</span>' are found:</p>
-  <pre class="example">
-    jQuery(function($){
-      $("#empty").tweet({
-        avatar_size: 32,
-        count: 4,
-        query: rnd,
-        loading_text: "searching twitter..."
-      }).bind("empty", function() { $(this).append("No matching tweets found"); });
-    });
-  </pre>
-  <div id='empty' class="query"></div>
+  <div class="demo">
+    <p>Customize the layout to eliminate the date stamps and avatars, add an action (aka "web intent") link,
+      and make it open in a popup window:</p>
+    <pre class="code">
+      jQuery(function($){
+        $("#custom").tweet({
+          avatar_size: 32,
+          count: 4,
+          username: "seaofclouds",
+          template: "{text} &raquo; {retweet_action}"
+        });
+      }).bind("loaded", function(){
+        $(this).find("a.tweet_action").click(function(ev) {
+          window.open(this.href, "Retweet",
+                      'menubar=0,resizable=0,width=550,height=420,top=200,left=400');
+          ev.preventDefault();
+        });
+      });
+    </pre>
+    <div id='custom' class="query"></div>
+  </div>
+
+  <div class="demo">
+    <p>Adding a message when no tweets matching '<span class="rnd">somerandomstring</span>' are found:</p>
+    <pre class="code">
+      jQuery(function($){
+        $("#empty").tweet({
+          avatar_size: 32,
+          count: 4,
+          query: rnd,
+          loading_text: "searching twitter..."
+        }).bind("empty", function() { $(this).append("No matching tweets found"); });
+      });
+    </pre>
+    <div id='empty' class="query"></div>
+  </div>
 
   <h3>Features</h3>
   <ul>

@@ -24,6 +24,7 @@
 			overflow-y: auto;
 			overflow-x: hidden;
 			padding: 0.5em;
+			list-style-type: none;
 		}
 		
 			.tweet_list li a {

@@ -102,7 +102,9 @@
       var relative_to = (arguments.length > 1) ? arguments[1] : new Date();
       var delta = parseInt((relative_to.getTime() - date) / 1000, 10);
       var r = '';
-      if (delta < 60) {
+      if (delta < 1) {
+        r = 'just now';
+      } else if (delta < 60) {
         r = delta + ' seconds ago';
       } else if(delta < 120) {
         r = 'a minute ago';

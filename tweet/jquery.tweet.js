@@ -156,7 +156,8 @@
       if (secure) {
         return ('user' in item) ?
           item.user.profile_image_url_https :
-          extract_avatar_url(item, false);
+          extract_avatar_url(item, false).
+            replace(/^http:\/\/[a-z0-9]{1,3}\.twimg\.com\//, "https://s3.amazonaws.com/twitter_production/");
       } else {
         return item.profile_image_url || item.user.profile_image_url;
       }

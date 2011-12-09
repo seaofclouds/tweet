@@ -195,6 +195,57 @@
     <div id='empty' class="query"></div>
   </div>
 
+
+  <div class="demo">
+    <p><a name="10" class="num">#10</a> - use button to page forwards and backwards:</p>
+    <pre class="code">
+      jQuery(function($){
+        var options = {
+          username: "seaofclouds",
+          page: 1,
+          avatar_size: 32,
+          count: 4,
+          loading_text: "loading ..."
+        };
+
+        var widget = $("#paging .widget"),
+          next = $("#paging .next"),
+          prev = $("#paging .prev");
+
+        var enable = function(el, yes) {
+          yes ? $(el).removeAttr('disabled') :
+                $(el).attr('disabled', true);
+        };
+
+        var stepClick = function(incr) {
+          return function() {
+            options.page = options.page + incr;
+            enable(this, false);
+            widget.tweet(options);
+          };
+        };
+
+        next.bind("checkstate", function() {
+          enable(this, widget.find("li").length == options.count)
+        }).click(stepClick(1));
+
+        prev.bind("checkstate", function() {
+          enable(this, options.page > 1)
+        }).click(stepClick(-1));
+
+        widget.tweet(options).bind("loaded", function() { next.add(prev).trigger("checkstate"); });
+      });
+    </pre>
+    <div id="paging">
+      <div class="widget query"></div>
+      <div class="controls">
+        <button class="prev" type="button" disabled>&larr;</button>
+        <span class="pagenum"></span>
+        <button class="next" type="button" disabled>&rarr;</button>
+      </div>
+    </div>
+  </div>
+
   <h3>Features</h3>
   <ul>
     <li>small size and fast download time</li>

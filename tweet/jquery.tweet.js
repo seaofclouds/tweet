@@ -32,6 +32,8 @@
       filter: function(tweet) {                 // [function] whether or not to include a particular tweet (be sure to also set 'fetch')
         return true;
       }
+      // You can attach callbacks to the following events using jQuery's standard .bind() mechanism:
+      //   "loaded" -- triggered when tweets have been fetched and rendered
     }, o);
 
     // See http://daringfireball.net/2010/07/improved_regex_for_matching_urls

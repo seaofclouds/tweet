@@ -214,7 +214,7 @@
         s.username = [s.username];
       }
 
-      $(widget).bind("tweet:load", function(){
+      $(widget).unbind("tweet:load").bind("tweet:load", function(){
         if (s.loading_text) $(widget).empty().append(loading);
         $.getJSON(build_api_url(), function(data){
           $(widget).empty().append(list);

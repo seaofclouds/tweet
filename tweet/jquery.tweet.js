@@ -1,6 +1,11 @@
 // jquery.tweet.js - See http://tweet.seaofclouds.com/ or https://github.com/seaofclouds/tweet for more info
 // Copyright (c) 2008-2011 Todd Matthews & Steve Purcell
-(function($) {
+(function (factory) {
+  if (typeof define === 'function' && define.amd)
+    define(['jquery'], factory); // AMD support for RequireJS etc.
+  else
+    factory(jQuery);
+}(function ($) {
   $.fn.tweet = function(o){
     var s = $.extend({
       username: null,                           // [string or array] required unless using the 'query' option; one or more twitter screen names (use 'list' option for multiple names, where possible)
@@ -237,4 +242,4 @@
       }).trigger("tweet:load");
     });
   };
-})(jQuery);
+}));

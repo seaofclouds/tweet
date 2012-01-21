@@ -24,6 +24,7 @@ See [tweet.seaofclouds.com](http://tweet.seaofclouds.com/), or the bundled `inde
   * converts <3 to a css styleable ♥ (we ♥ hearts)
   * customize the style with your own stylesheet or with other jquery plugins
   * customize the layout with a user-defined template function
+  * supports RequireJS and other AMD-compatible javascript loaders
 
 ## Usage
 

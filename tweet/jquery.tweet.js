@@ -114,19 +114,19 @@
       } else if (delta < 60) {
         r = delta + ' seconds ago';
       } else if(delta < 120) {
-        r = 'a minute ago';
+        r = 'about a minute ago';
       } else if(delta < (45*60)) {
-        r = (parseInt(delta / 60, 10)).toString() + ' minutes ago';
+        r = 'about ' + (parseInt(delta / 60, 10)).toString() + ' minutes ago';
       } else if(delta < (2*60*60)) {
-        r = 'an hour ago';
+        r = 'about an hour ago';
       } else if(delta < (24*60*60)) {
-        r = '' + (parseInt(delta / 3600, 10)).toString() + ' hours ago';
+        r = 'about ' + (parseInt(delta / 3600, 10)).toString() + ' hours ago';
       } else if(delta < (48*60*60)) {
-        r = 'a day ago';
+        r = 'about a day ago';
       } else {
-        r = (parseInt(delta / 86400, 10)).toString() + ' days ago';
+        r = 'about ' + (parseInt(delta / 86400, 10)).toString() + ' days ago';
       }
-      return 'about ' + r;
+      return r;
     }
 
     function build_auto_join_text(text) {

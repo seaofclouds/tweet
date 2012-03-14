@@ -246,6 +246,42 @@
     </div>
   </div>
 
+  <div class="demo">
+    <p><a name="11" class="num">#11</a> - display one tweet at a time like a ticker:</p>
+    <pre class="code">
+      jQuery(function($){
+        $("#ticker").tweet({
+          username: "seaofclouds",
+          page: 1,
+          avatar_size: 32,
+          count: 20,
+          loading_text: "loading ..."
+        }).bind("loaded", function() {
+          var ul = $(this).find(".tweet_list");
+          var ticker = function() {
+            setTimeout(function() {
+              ul.find('li:first').animate( {marginTop: '-4em'}, 500, function() {
+                $(this).detach().appendTo(ul).removeAttr('style');
+              });
+              ticker();
+            }, 5000);
+          };
+          ticker();
+        });
+      });
+    </pre>
+    <style type="text/css">
+      #ticker ul.tweet_list {
+        height:4em;
+        overflow-y:hidden;
+      }
+      #ticker .tweet_list li {
+        height: 4em;
+      }
+    </style>
+    <div id="ticker" class="query"></div>
+  </div>
+
   <h3>Features</h3>
   <ul>
     <li>small size and fast download time</li>

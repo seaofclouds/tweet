@@ -77,8 +77,6 @@
       // Support various latin1 (\u00**) and arabic (\u06**) alphanumeric chars
       linkHash: replacer(/(?:^| )[\#]+([\w\u00c0-\u00d6\u00d8-\u00f6\u00f8-\u00ff\u0600-\u06ff]+)/gi,
                          ' <a href="http://'+s.twitter_search_url+'/search?q=&tag=$1&lang=all'+((s.username && s.username.length == 1 && !s.list) ? '&from='+s.username.join("%2BOR%2B") : '')+'">#$1</a>'),
-      capAwesome: replacer(/\b(awesome)\b/gi, '<span class="awesome">$1</span>'),
-      capEpic: replacer(/\b(epic)\b/gi, '<span class="epic">$1</span>'),
       makeHeart: replacer(/(&lt;)+[3]/gi, "<tt class='heart'>&#x2665;</tt>")
     });
 
@@ -194,7 +192,7 @@
       o.entities = item.entities ? (item.entities.urls || []).concat(item.entities.media || []) : [];
       o.tweet_raw_text = o.retweet ? ('RT @'+o.retweeted_screen_name+' '+item.retweeted_status.text) : item.text; // avoid '...' in long retweets
       o.tweet_text = $([linkURLs(o.tweet_raw_text, o.entities)]).linkUser().linkHash()[0];
-      o.tweet_text_fancy = $([o.tweet_text]).makeHeart().capAwesome().capEpic()[0];
+      o.tweet_text_fancy = $([o.tweet_text]).makeHeart()[0];
 
       // Default spans, and pre-formatted blocks for common layouts
       o.user = t('<a class="tweet_user" href="{user_url}">{screen_name}</a>', o);

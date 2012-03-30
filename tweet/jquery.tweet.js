@@ -20,11 +20,11 @@
       intro_text: null,                         // [string]   do you want text BEFORE your your tweets?
       outro_text: null,                         // [string]   do you want text AFTER your tweets?
       join_text:  null,                         // [string]   optional text in between date and tweet, try setting to "auto"
-      auto_join_text_default: "i said,",        // [string]   auto text for non verb: "i said" bullocks
-      auto_join_text_ed: "i",                   // [string]   auto text for past tense: "i" surfed
-      auto_join_text_ing: "i am",               // [string]   auto tense for present tense: "i was" surfing
-      auto_join_text_reply: "i replied to",     // [string]   auto tense for replies: "i replied to" @someone "with"
-      auto_join_text_url: "i was looking at",   // [string]   auto tense for urls: "i was looking at" http:...
+      auto_join_text_default: "I said,",        // [string]   auto text for non verb: "I said" bullocks
+      auto_join_text_ed: "I",                   // [string]   auto text for past tense: "I" surfed
+      auto_join_text_ing: "I am",               // [string]   auto tense for present tense: "I was" surfing
+      auto_join_text_reply: "I replied to",     // [string]   auto tense for replies: "I replied to" @someone "with"
+      auto_join_text_url: "I was looking at",   // [string]   auto tense for urls: "I was looking at" http:...
       loading_text: null,                       // [string]   optional loading text, displayed while tweets load
       refresh_interval: null ,                  // [integer]  optional number of seconds after which to reload tweets
       twitter_url: "twitter.com",               // [string]   custom twitter url, if any (apigee, etc.)

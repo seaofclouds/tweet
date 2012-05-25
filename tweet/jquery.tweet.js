@@ -26,7 +26,7 @@
       auto_join_text_reply: "I replied to",     // [string]   auto tense for replies: "I replied to" @someone "with"
       auto_join_text_url: "I was looking at",   // [string]   auto tense for urls: "I was looking at" http:...
       loading_text: null,                       // [string]   optional loading text, displayed while tweets load
-      refresh_interval: null ,                  // [integer]  optional number of seconds after which to reload tweets
+      refresh_interval: null,                   // [integer]  optional number of seconds after which to reload tweets
       twitter_url: "twitter.com",               // [string]   custom twitter url, if any (apigee, etc.)
       twitter_api_url: "api.twitter.com",       // [string]   custom twitter api url, if any (apigee, etc.)
       twitter_search_url: "search.twitter.com", // [string]   custom twitter search url, if any (apigee, etc.)
@@ -210,36 +210,38 @@
       return o;
     }
 
-    return this.each(function(i, widget){
-      var list = $('<ul class="tweet_list">');
+    function load(widget) {
       var intro = '<p class="tweet_intro">'+s.intro_text+'</p>';
       var outro = '<p class="tweet_outro">'+s.outro_text+'</p>';
       var loading = $('<p class="loading">'+s.loading_text+'</p>');
+      if (s.loading_text) $(widget).not(":has(.tweet_list)").empty().append(loading);
+      $.getJSON(build_api_url(), function(data){
+        var list = $('<ul class="tweet_list">');
+        var tweets = $.map(data.results || data, extract_template_data);
+        tweets = $.grep(tweets, s.filter).sort(s.comparator).slice(0, s.count);
+        list.append($.map(tweets, function(o) { return "<li>" + t(s.template, o) + "</li>"; }).join('')).
+          children('li:first').addClass('tweet_first').end().
+          children('li:odd').addClass('tweet_even').end().
+          children('li:even').addClass('tweet_odd');
 
+        $(widget).empty().append(list);
+        if (s.intro_text) list.before(intro);
+        if (s.outro_text) list.after(outro);
+
+        $(widget).trigger("loaded").trigger((tweets.length === 0 ? "empty" : "full"));
+        if (s.refresh_interval) {
+          window.setTimeout(function() { $(widget).trigger("tweet:load"); }, 1000 * s.refresh_interval);
+        }
+      });
+    }
+
+    return this.each(function(i, widget){
       if(s.username && typeof(s.username) == "string"){
         s.username = [s.username];
       }
 
       $(widget).unbind("tweet:load").bind("tweet:load", function(){
-        if (s.loading_text) $(widget).empty().append(loading);
-        $.getJSON(build_api_url(), function(data){
-          $(widget).empty().append(list);
-          if (s.intro_text) list.before(intro);
-          list.empty();
-
-          var tweets = $.map(data.results || data, extract_template_data);
-          tweets = $.grep(tweets, s.filter).sort(s.comparator).slice(0, s.count);
-          list.append($.map(tweets, function(o) { return "<li>" + t(s.template, o) + "</li>"; }).join('')).
-              children('li:first').addClass('tweet_first').end().
-              children('li:odd').addClass('tweet_even').end().
-              children('li:even').addClass('tweet_odd');
-
-          if (s.outro_text) list.after(outro);
-          $(widget).trigger("loaded").trigger((tweets.length === 0 ? "empty" : "full"));
-          if (s.refresh_interval) {
-            window.setTimeout(function() { $(widget).trigger("tweet:load"); }, 1000 * s.refresh_interval);
-          }
-        });
+        load(widget);
       }).trigger("tweet:load");
     });
   };

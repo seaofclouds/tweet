@@ -105,28 +105,27 @@
       return Date.parse(date_str.replace(/^([a-z]{3})( [a-z]{3} \d\d?)(.*)( \d{4})$/i, '$1,$2$4$3'));
     }
 
-    function relative_time(date) {
-      var relative_to = (arguments.length > 1) ? arguments[1] : new Date();
-      var delta = parseInt((relative_to.getTime() - date) / 1000, 10);
-      var r = '';
-      if (delta < 1) {
-        r = 'just now';
-      } else if (delta < 60) {
-        r = delta + ' seconds ago';
-      } else if(delta < 120) {
-        r = 'about a minute ago';
-      } else if(delta < (45*60)) {
-        r = 'about ' + (parseInt(delta / 60, 10)).toString() + ' minutes ago';
-      } else if(delta < (2*60*60)) {
-        r = 'about an hour ago';
-      } else if(delta < (24*60*60)) {
-        r = 'about ' + (parseInt(delta / 3600, 10)).toString() + ' hours ago';
-      } else if(delta < (48*60*60)) {
-        r = 'about a day ago';
-      } else {
-        r = 'about ' + (parseInt(delta / 86400, 10)).toString() + ' days ago';
-      }
-      return r;
+    function extract_relative_time(date) {
+      var toInt = function(val) { return parseInt(val, 10); };
+      var relative_to = new Date();
+      var delta = toInt((relative_to.getTime() - date) / 1000);
+      if (delta < 1) delta = 0;
+      return {
+        days:    toInt(delta / 86400),
+        hours:   toInt(delta / 3600),
+        minutes: toInt(delta / 60),
+        seconds: toInt(delta)
+      };
+    }
+
+    function format_relative_time(time_ago) {
+      if ( time_ago.days > 2 )     return 'about ' + time_ago.days + ' days ago';
+      if ( time_ago.hours > 24 )   return 'about a day ago';
+      if ( time_ago.hours > 2 )    return 'about ' + time_ago.hours + ' hours ago';
+      if ( time_ago.minutes > 45 ) return 'about an hour ago';
+      if ( time_ago.minutes > 2 )  return 'about ' + time_ago.minutes + ' minutes ago';
+      if ( time_ago.seconds > 1 )  return 'about ' + time_ago.seconds + ' seconds ago';
+      return 'just now';
     }
 
     function build_auto_join_text(text) {
@@ -193,7 +192,7 @@
       o.retweet_url = o.twitter_base+"intent/retweet?tweet_id="+o.tweet_id;
       o.favorite_url = o.twitter_base+"intent/favorite?tweet_id="+o.tweet_id;
       o.retweeted_screen_name = o.retweet && item.retweeted_status.user.screen_name;
-      o.tweet_relative_time = relative_time(o.tweet_time);
+      o.tweet_relative_time = format_relative_time(extract_relative_time(o.tweet_time));
       o.entities = item.entities ? (item.entities.urls || []).concat(item.entities.media || []) : [];
       o.tweet_raw_text = o.retweet ? ('RT @'+o.retweeted_screen_name+' '+item.retweeted_status.text) : item.text; // avoid '...' in long retweets
       o.tweet_text = $([linkURLs(o.tweet_raw_text, o.entities)]).linkUser().linkHash()[0];

@@ -50,7 +50,7 @@
         var result = template;
         for(var key in info) {
           var val = info[key];
-          result = result.replace(new RegExp('{'+key+'}','g'), val === null ? '' : val);
+          result = result.split('{'+key+'}').join(val === null ? '' : val);
         }
         return result;
       } else return template(info);

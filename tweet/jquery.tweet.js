@@ -199,7 +199,7 @@
 
       o.avatar_size = s.avatar_size;
       o.avatar_url = extract_avatar_url(o.retweet ? item.retweeted_status : item, (document.location.protocol === 'https:'));
-      o.avatar_screen_name = o.retweet ? item.retweeted_status.user.screen_name : o.name;
+      o.avatar_screen_name = o.retweet ? o.retweeted_screen_name : o.screen_name;
       o.avatar_profile_url = o.twitter_base+o.avatar_screen_name;
 
       // Default spans, and pre-formatted blocks for common layouts

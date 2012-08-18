@@ -210,6 +210,7 @@
         t('<a class="tweet_avatar" href="{avatar_profile_url}"><img src="{avatar_url}" height="{avatar_size}" width="{avatar_size}" alt="{avatar_screen_name}\'s avatar" title="{avatar_screen_name}\'s avatar" border="0"/></a>', o) : '';
       o.time = t('<span class="tweet_time"><a href="{tweet_url}" title="view tweet on twitter">{tweet_relative_time}</a></span>', o);
       o.text = t('<span class="tweet_text">{tweet_text_fancy}</span>', o);
+      o.retweeted_text = t('<span class="tweet_text">{retweeted_tweet_text}</span>', o);
       o.reply_action = t('<a class="tweet_action tweet_reply" href="{reply_url}">reply</a>', o);
       o.retweet_action = t('<a class="tweet_action tweet_retweet" href="{retweet_url}">retweet</a>', o);
       o.favorite_action = t('<a class="tweet_action tweet_favorite" href="{favorite_url}">favorite</a>', o);

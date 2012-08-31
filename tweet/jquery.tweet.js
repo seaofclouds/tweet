@@ -149,7 +149,7 @@
       if (s.list) {
         return proto+"//"+s.twitter_api_url+"/1/"+s.username[0]+"/lists/"+s.list+"/statuses.json?page="+s.page+"&per_page="+count+common_params;
       } else if (s.favorites) {
-        return proto+"//"+s.twitter_api_url+"/favorites/"+s.username[0]+".json?page="+s.page+"&count="+count+common_params;
+        return proto+"//"+s.twitter_api_url+"/1/favorites.json?screen_name="+s.username[0]+"&page="+s.page+"&count="+count+common_params;
       } else if (s.query === null && s.username.length == 1) {
         return proto+'//'+s.twitter_api_url+'/1/statuses/user_timeline.json?screen_name='+s.username[0]+'&count='+count+(s.retweets ? '&include_rts=1' : '')+'&page='+s.page+common_params;
       } else {
@@ -217,28 +217,30 @@
       return o;
     }
 
+    function render_tweets(widget, tweets) {
+      var list = $('<ul class="tweet_list">');
+      list.append($.map(tweets, function(o) { return "<li>" + t(s.template, o) + "</li>"; }).join('')).
+        children('li:first').addClass('tweet_first').end().
+        children('li:odd').addClass('tweet_even').end().
+        children('li:even').addClass('tweet_odd');
+
+      $(widget).empty().append(list);
+      if (s.intro_text) list.before('<p class="tweet_intro">'+s.intro_text+'</p>');
+      if (s.outro_text) list.after('<p class="tweet_outro">'+s.outro_text+'</p>');
+
+      $(widget).trigger("loaded").trigger((tweets.length === 0 ? "empty" : "full"));
+      if (s.refresh_interval) {
+        window.setTimeout(function() { $(widget).trigger("tweet:load"); }, 1000 * s.refresh_interval);
+      }
+    }
+
     function load(widget) {
-      var intro = '<p class="tweet_intro">'+s.intro_text+'</p>';
-      var outro = '<p class="tweet_outro">'+s.outro_text+'</p>';
       var loading = $('<p class="loading">'+s.loading_text+'</p>');
       if (s.loading_text) $(widget).not(":has(.tweet_list)").empty().append(loading);
       $.getJSON(build_api_url(), function(data){
-        var list = $('<ul class="tweet_list">');
         var tweets = $.map(data.results || data, extract_template_data);
         tweets = $.grep(tweets, s.filter).sort(s.comparator).slice(0, s.count);
-        list.append($.map(tweets, function(o) { return "<li>" + t(s.template, o) + "</li>"; }).join('')).
-          children('li:first').addClass('tweet_first').end().
-          children('li:odd').addClass('tweet_even').end().
-          children('li:even').addClass('tweet_odd');
-
-        $(widget).empty().append(list);
-        if (s.intro_text) list.before(intro);
-        if (s.outro_text) list.after(outro);
-
-        $(widget).trigger("loaded").trigger((tweets.length === 0 ? "empty" : "full"));
-        if (s.refresh_interval) {
-          window.setTimeout(function() { $(widget).trigger("tweet:load"); }, 1000 * s.refresh_interval);
-        }
+        $(widget).trigger("tweet:retrieved", [tweets]);
       });
     }
 
@@ -247,9 +249,16 @@
         s.username = [s.username];
       }
 
-      $(widget).unbind("tweet:load").bind("tweet:load", function(){
-        load(widget);
-      }).trigger("tweet:load");
+      $(widget).unbind("tweet:render").unbind("tweet:retrieved").unbind("tweet:load").
+        bind({
+          "tweet:load": function() { load(widget); },
+          "tweet:retrieved": function(ev, tweets) {
+            $(widget).trigger("tweet:render", [tweets])
+          },
+          "tweet:render": function(ev, tweets) {
+            render_tweets($(widget), tweets);
+          }
+        }).trigger("tweet:load");
     });
   };
 }));

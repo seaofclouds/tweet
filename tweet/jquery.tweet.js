@@ -1,5 +1,5 @@
 // jquery.tweet.js - See http://tweet.seaofclouds.com/ or https://github.com/seaofclouds/tweet for more info
-// Copyright (c) 2008-2011 Todd Matthews & Steve Purcell
+// Copyright (c) 2008-2012 Todd Matthews & Steve Purcell
 (function (factory) {
   if (typeof define === 'function' && define.amd)
     define(['jquery'], factory); // AMD support for RequireJS etc.

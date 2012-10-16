@@ -71,3 +71,7 @@ Report bugs at http://github.com/seaofclouds/tweet/issues
 ### Licensed under the MIT
 
 [License text](http://www.opensource.org/licenses/mit-license.php)
+
+<hr>
+
+[![](http://api.coderwall.com/purcell/endorsecount.png)](http://coderwall.com/purcell)

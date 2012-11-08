@@ -25,6 +25,7 @@ See [tweet.seaofclouds.com](http://tweet.seaofclouds.com/), or the bundled `inde
   * customize the style with your own stylesheet or with other jquery plugins
   * customize the layout with a user-defined template function
   * supports RequireJS and other AMD-compatible javascript loaders
+  * available on [cdnjs](http://cdnjs.com)
 
 ## Usage
 

@@ -260,9 +260,12 @@
           var ul = $(this).find(".tweet_list");
           var ticker = function() {
             setTimeout(function() {
-              ul.find('li:first').animate( {marginTop: '-4em'}, 500, function() {
-                $(this).detach().appendTo(ul).removeAttr('style');
-              });
+              var top = ul.position().top;
+              var h = ul.height();
+              var incr = (h / ul.children().length);
+              var newTop = top - incr;
+              if (h + newTop <= 0) newTop = 0;
+              ul.animate( {top: newTop}, 500 );
               ticker();
             }, 5000);
           };
@@ -271,11 +274,18 @@
       });
     </pre>
     <style type="text/css">
-      #ticker ul.tweet_list {
-        height:4em;
-        overflow-y:hidden;
+      #ticker {
+        height: 4em;
+        overflow-y: hidden;
+        position: relative;
       }
-      #ticker .tweet_list li {
+      #ticker ul.tweet_list {
+        position: absolute;
+        -webkit-border-radius: 0;
+        -moz-border-radius: 0;
+        border-radius: 0;
+      }
+      #ticker ul.tweet_list li {
         height: 4em;
       }
     </style>

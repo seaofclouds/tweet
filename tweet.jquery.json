@@ -1,0 +1,28 @@
+{
+  "name": "tweet",
+  "version": "2.2.0",
+  "title": "Unobtrusive and highly customizable twitter widget", 
+  "author": {
+    "name": "Todd Matthews",
+    "url": "http://seaofclouds.com"
+  },
+  "maintainers": [
+    {
+      "name": "Steve Purcell",
+      "url": "http://www.sanityinc.com/"
+    }
+  ],
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://raw.github.com/seaofclouds/tweet/2.2.0/LICENSE.txt"
+    }
+  ],
+  "dependencies": {
+    "jquery": ">=1.5"
+  },
+  "bugs": "https://github.com/seaofclouds/tweet/issues",
+  "homepage": "http://tweet.seaofclouds.com/",
+  "demo": "http://tweet.seaofclouds.com/",
+  "keywords": ["twitter", "widget", "tweet"]
+}

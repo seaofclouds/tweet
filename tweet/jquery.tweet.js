@@ -32,7 +32,7 @@
       twitter_search_url: "search.twitter.com", // [string]   custom twitter search url, if any (apigee, etc.)
       template: "{avatar}{time}{join} {text}",  // [string or function] template used to construct each tweet <li> - see code for available vars
       comparator: function(tweet1, tweet2) {    // [function] comparator used to sort tweets (see Array.sort)
-        return tweet2["tweet_time"] - tweet1["tweet_time"];
+        return tweet2.tweet_time - tweet1.tweet_time;
       },
       filter: function(tweet) {                 // [function] whether or not to include a particular tweet (be sure to also set 'fetch')
         return true;
@@ -77,7 +77,7 @@
       // Support various latin1 (\u00**) and arabic (\u06**) alphanumeric chars
       linkHash: replacer(/(?:^| )[\#]+([\w\u00c0-\u00d6\u00d8-\u00f6\u00f8-\u00ff\u0600-\u06ff]+)/gi,
                          ' <a href="http://'+s.twitter_search_url+'/search?q=&tag=$1&lang=all'+
-                         ((s.username && s.username.length == 1 && !s.list) ? '&from='+s.username.join("%2BOR%2B") : '')+
+                         ((s.username && s.username.length === 1 && !s.list) ? '&from='+s.username.join("%2BOR%2B") : '')+
                          '" class="tweet_hashtag">#$1</a>'),
       makeHeart: replacer(/(&lt;)+[3]/gi, "<tt class='heart'>&#x2665;</tt>")
     });
@@ -88,7 +88,7 @@
         var text = match;
         for(var i = 0; i < entities.length; ++i) {
           var entity = entities[i];
-          if (entity.url == url && entity.expanded_url) {
+          if (entity.url === url && entity.expanded_url) {
             url = entity.expanded_url;
             text = entity.display_url;
             break;
@@ -143,14 +143,14 @@
     }
 
     function build_api_url() {
-      var proto = ('https:' == document.location.protocol ? 'https:' : 'http:');
+      var proto = ('https:' === document.location.protocol ? 'https:' : 'http:');
       var count = (s.fetch === null) ? s.count : s.fetch;
       var common_params = '&include_entities=1&callback=?';
       if (s.list) {
         return proto+"//"+s.twitter_api_url+"/1/"+s.username[0]+"/lists/"+s.list+"/statuses.json?page="+s.page+"&per_page="+count+common_params;
       } else if (s.favorites) {
         return proto+"//"+s.twitter_api_url+"/1/favorites.json?screen_name="+s.username[0]+"&page="+s.page+"&count="+count+common_params;
-      } else if (s.query === null && s.username.length == 1) {
+      } else if (s.query === null && s.username.length === 1) {
         return proto+'//'+s.twitter_api_url+'/1/statuses/user_timeline.json?screen_name='+s.username[0]+'&count='+count+(s.retweets ? '&include_rts=1' : '')+'&page='+s.page+common_params;
       } else {
         var query = (s.query || 'from:'+s.username.join(' OR from:'));
@@ -182,7 +182,7 @@
       o.retweet = typeof(item.retweeted_status) != 'undefined';
 
       o.tweet_time = parse_date(item.created_at);
-      o.join_text = s.join_text == "auto" ? build_auto_join_text(item.text) : s.join_text;
+      o.join_text = s.join_text === "auto" ? build_auto_join_text(item.text) : s.join_text;
       o.tweet_id = item.id_str;
       o.twitter_base = "http://"+s.twitter_url+"/";
       o.user_url = o.twitter_base+o.screen_name;
@@ -245,7 +245,7 @@
     }
 
     return this.each(function(i, widget){
-      if(s.username && typeof(s.username) == "string"){
+      if(s.username && typeof(s.username) === "string"){
         s.username = [s.username];
       }
 
@@ -253,7 +253,7 @@
         bind({
           "tweet:load": function() { load(widget); },
           "tweet:retrieved": function(ev, tweets) {
-            $(widget).trigger("tweet:render", [tweets])
+            $(widget).trigger("tweet:render", [tweets]);
           },
           "tweet:render": function(ev, tweets) {
             render_tweets($(widget), tweets);

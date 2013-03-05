@@ -58,3 +58,12 @@ code, .code, .example {
   padding-top: 3em; }
 .query {
   margin-bottom: 2em; }
+.notice {
+  background-color: #8adee2;
+  color: #444;
+  border: solid 2px #fff;
+  padding: 0 1em;
+}
+.notice a {
+  color: #444;
+}

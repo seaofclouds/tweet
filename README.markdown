@@ -1,6 +1,18 @@
 # Tweet!
 #### Put twitter on your website with tweet!, an unobtrusive javascript plugin for jquery.
 
+## Important note about Twitter's API changes in 2013
+
+Twitter has <a href="https://dev.twitter.com/docs/api/1.1/overview">discontinued
+its unauthenticated v1.0 API</a>, so <b>this widget has stopped working as of 2013-06-11</b>.
+
+Twitter wants your only option for on-page widgets to be their
+own Embedded Timelines, but <b>there are workarounds which involve
+installing server-side code to support this widget</b>. Please see
+<a href="https://github.com/seaofclouds/tweet/issues/264">this
+discussion for more details</a>.
+
+
 ## Demos & examples
 
 See [tweet.seaofclouds.com](http://tweet.seaofclouds.com/), or the bundled `index.html` file.

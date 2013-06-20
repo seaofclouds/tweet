@@ -8,6 +8,7 @@
 }(function ($) {
   $.fn.tweet = function(o){
     var s = $.extend({
+      twitter_api_proxy_url: null,              // [string]   (required) URL which proxies (with authentication) to api.twitter.com
       username: null,                           // [string or array] required unless using the 'query' option; one or more twitter screen names (use 'list' option for multiple names, where possible)
       list: null,                               // [string]   optional name of list belonging to username
       favorites: false,                         // [boolean]  display the user's favorites instead of his tweets
@@ -28,8 +29,6 @@
       loading_text: null,                       // [string]   optional loading text, displayed while tweets load
       refresh_interval: null,                   // [integer]  optional number of seconds after which to reload tweets
       twitter_url: "twitter.com",               // [string]   custom twitter url, if any (apigee, etc.)
-      twitter_api_url: "api.twitter.com",       // [string]   custom twitter api url, if any (apigee, etc.)
-      twitter_search_url: "search.twitter.com", // [string]   custom twitter search url, if any (apigee, etc.)
       template: "{avatar}{time}{join} {text}",  // [string or function] template used to construct each tweet <li> - see code for available vars
       comparator: function(tweet1, tweet2) {    // [function] comparator used to sort tweets (see Array.sort)
         return tweet2.tweet_time - tweet1.tweet_time;
@@ -143,18 +142,17 @@
     }
 
     function build_api_url() {
-      var proto = ('https:' === document.location.protocol ? 'https:' : 'http:');
       var count = (s.fetch === null) ? s.count : s.fetch;
       var common_params = '&include_entities=1&callback=?';
       if (s.list) {
-        return proto+"//"+s.twitter_api_url+"/1/"+s.username[0]+"/lists/"+s.list+"/statuses.json?page="+s.page+"&per_page="+count+common_params;
+        return s.twitter_api_proxy_url + "/1.1/lists/statuses.json?slug=" + s.list + "&owner_screen_name=" + s.username + "&page=" + s.page + "&per_page=" + count + common_params;
       } else if (s.favorites) {
-        return proto+"//"+s.twitter_api_url+"/1/favorites.json?screen_name="+s.username[0]+"&page="+s.page+"&count="+count+common_params;
+        return s.twitter_api_proxy_url+"/1.1/favorites/list.json?screen_name="+s.username[0]+"&page="+s.page+"&count="+count+common_params;
       } else if (s.query === null && s.username.length === 1) {
-        return proto+'//'+s.twitter_api_url+'/1/statuses/user_timeline.json?screen_name='+s.username[0]+'&count='+count+(s.retweets ? '&include_rts=1' : '')+'&page='+s.page+common_params;
+        return s.twitter_api_proxy_url+'/1.1/statuses/user_timeline.json?screen_name='+s.username[0]+'&count='+count+(s.retweets ? '&include_rts=1' : '')+'&page='+s.page+common_params;
       } else {
         var query = (s.query || 'from:'+s.username.join(' OR from:'));
-        return proto+'//'+s.twitter_search_url+'/search.json?&q='+encodeURIComponent(query)+'&rpp='+count+'&page='+s.page+common_params;
+        return s.twitter_api_proxy_url + '/1.1/search/tweets.json?q=' + encodeURIComponent(query) + common_params;
       }
     }
 

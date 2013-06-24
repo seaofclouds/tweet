@@ -236,7 +236,7 @@
       var loading = $('<p class="loading">'+s.loading_text+'</p>');
       if (s.loading_text) $(widget).not(":has(.tweet_list)").empty().append(loading);
       $.getJSON(build_api_url(), function(data){
-        var tweets = $.map(data.results || data, extract_template_data);
+        var tweets = $.map(data.statuses || data, extract_template_data);
         tweets = $.grep(tweets, s.filter).sort(s.comparator).slice(0, s.count);
         $(widget).trigger("tweet:retrieved", [tweets]);
       });
